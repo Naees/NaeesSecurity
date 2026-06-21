@@ -6,8 +6,7 @@
   aria-label="Toggle dark mode"
   aria-pressed="false"
   style="background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--text); display: flex; align-items: center; justify-content: center; transition: color 0.15s ease;"
-  onmouseover="this.style.color='var(--blue)'"
-  onmouseout="this.style.color='var(--text)'"
+  class="dark-mode-toggle"
 >
   <svg
     class="sun-icon"
@@ -46,6 +45,12 @@
   </svg>
 </button>
 
+<style>
+  .dark-mode-toggle:hover {
+    color: var(--blue);
+  }
+</style>
+
 <script>
   const toggle = document.getElementById('dark-mode-toggle') as HTMLButtonElement
   const sunIcon = toggle?.querySelector('.sun-icon')
@@ -53,7 +58,8 @@
 
   function updateIcon() {
     const theme = localStorage.getItem('theme')
-    if (theme === 'dark') {
+    const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    if (isDark) {
       sunIcon!.style.display = 'none'
       moonIcon!.style.display = 'block'
     } else {
@@ -72,4 +78,7 @@
     toggle.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false')
     updateIcon()
   })
+
+  const isDark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  toggle?.setAttribute('aria-pressed', isDark ? 'true' : 'false')
 </script>

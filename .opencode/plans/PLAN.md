@@ -20,7 +20,6 @@ A clean, minimalist single-author blogsite built with Astro, deployed to GitHub 
 - Comments via giscus on each post
 - Detailed about page
 - Responsive design
-- Clean, minimalist aesthetic (inspired by [brutecat.com](https://brutecat.com))
 
 ## Content Structure
 ```
@@ -45,12 +44,8 @@ Each post includes frontmatter:
 4. **Tags** — Tag index page showing all posts grouped by tag
 
 ## Design Direction
-- Clean, minimalist layout
-- Typography-focused
-- Brutalist-inspired elements (inspired by brutecat.com)
-- Dark/light mode toggle
-- Mobile-first responsive
-- Tokyo Nights VSC IDE color scheme (dark as default, light variant)
+- Refer to DESIGN.md for all things related to the frontend design
+- Must use the frontend-design skill
 
 ## Project Structure
 ```
@@ -120,29 +115,33 @@ blogsite/
 - Add SEO metadata (meta tags, sitemap, Open Graph)
 
 ### Phase 5: Styling & Polish
-- Apply minimalist design system
-- Implement dark/light mode styles
-- Responsive design
-- Animations/transitions
-- Cross-browser testing
-- Redesign footer to match security researcher aesthetic (monospace fonts, terminal-inspired, minimal color palette)
-- Apply Tokyo Nights VSC IDE color scheme (dark default + light variant)
-- Re-evaluate all UI elements for consistency with new palette
+  - Apply brutalist terminal design system (DESIGN.md)
+  - Near-black background (#0a0a0a) with terminal blue accent (#4a9eff)
+  - Monospace headings/prompts, sans-serif body text
+  - Terminal prompts (`naees@writes:~$`) as section headers
+  - `~~~` dividers instead of `<hr>`
+  - No card containers, no rounded corners, no gradients
+  - Dark/light mode toggle with text labels
+  - Terminal-style footer navigation (`→ home`, `→ about`, etc.)
+  - Monospace tag links with `#` prefix
+  - Light mode support
+  - Responsive design (mobile tested)
+  - Cross-browser testing (Playwright visual testing complete)
 
 ### Phase 6: Testing & Deployment
-- Test all pages and features
-- Verify GitHub Pages deployment
-- Final polish and bug fixes
+  - Test all pages and features ~~✅~~
+  - Verify GitHub Pages deployment
+  - Final polish and bug fixes ~~✅~~
 
 ### Phase 7: Improvements & Polish
-- Add more sample posts (3+ posts across different topics)
-- Fix giscus integration (replace placeholder repo ID/category ID with real values)
-- Add RSS feed support
-- Improve the about page content (add more bio detail, photo placeholder)
-- Add reading time indicator on post pages
-- Improve the tags page layout (group by tag, show post counts)
-- Add a custom 404 page
-- Accessibility improvements (aria labels, semantic HTML, focus styles)
+  - Add more sample posts (3+ posts across different topics) ~~✅ 6 posts exist~~
+  - Fix giscus integration (replace placeholder repo ID/category ID with real values)
+  - Add RSS feed support ~~✅~~
+  - Improve the about page content (add more bio detail, photo placeholder)
+  - Add reading time indicator on post pages ~~✅~~
+  - Improve the tags page layout (group by tag, show post counts) ~~✅~~
+  - Add a custom 404 page ~~✅~~
+  - Accessibility improvements (aria labels, semantic HTML, focus styles) ~~✅~~
 
 ## Subagents
 

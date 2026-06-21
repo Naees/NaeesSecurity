@@ -1,8 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
 import Layout from '../components/Layout.astro'
-import PostCard from '../components/PostCard.astro'
-import DarkModeToggle from '../components/DarkModeToggle.astro'
 
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
@@ -14,60 +12,86 @@ const posts = (await getCollection('posts'))
   description="A collection of thoughts, ideas, and writing by Naees."
   pathname="/"
 >
-  <div slot="darkModeToggle"><DarkModeToggle /></div>
 
-  <div class="container">
-    <div style="margin-bottom: 3rem; position: relative;">
-      <div style="position: absolute; top: -2rem; right: -4rem; opacity: 0.04; pointer-events: none;">
-        <img src="/haku.svg" alt="" style="width: 280px; height: auto;" />
-      </div>
-      <h1 style="margin-top: 0; color: var(--text); font-size: 2.5rem; letter-spacing: -0.03em;">
-        NaeesWrites
-      </h1>
-      <p style="color: var(--text-secondary); font-size: 1.125rem; max-width: 540px; margin-top: 0.5rem;">
-        A collection of thoughts, ideas, and writing.
-      </p>
-    </div>
+<div class="container">
 
-    <div style="margin-bottom: 2rem;">
-      <label for="search-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">Search posts</label>
-      <input
-        type="text"
-        id="search-input"
-        aria-label="Search posts"
-        placeholder="Search posts..."
-        style="width: 100%; padding: 0.75rem 1rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; background-color: var(--bg-secondary); color: var(--text); font-family: var(--font-sans); outline: none; transition: border-color 0.15s ease, background-color 0.15s ease;"
-        onfocus="this.style.borderColor='var(--accent)'; this.style.backgroundColor='var(--bg)'"
-        onblur="this.style.borderColor='var(--border)'; this.style.backgroundColor='var(--bg-secondary)'"
-      />
-    </div>
-
-    <div id="posts-list" role="list" aria-label="Blog posts">
-      {posts.map(post => (
-        <PostCard
-          title={post.data.title}
-          date={post.data.date}
-          description={post.data.description}
-          tags={post.data.tags || []}
-          slug={post.id}
-        />
-      ))}
-    </div>
+  <!-- Hero -->
+  <div class="hero" style="margin-bottom: 3rem;">
+    <h1 style="margin-top: 0;">NaeesWrites</h1>
+    <p>A collection of thoughts, ideas, and writing.</p>
   </div>
 
-  <script>
-    const searchInput = document.getElementById('search-input')
-    const postsList = document.getElementById('posts-list')
-    const articles = postsList.querySelectorAll('article')
+  <div class="divider" aria-hidden="true">~~~</div>
 
-    searchInput?.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase()
-      articles.forEach(article => {
-        const title = article.querySelector('h2')?.textContent?.toLowerCase() || ''
-        const description = article.querySelector('p')?.textContent?.toLowerCase() || ''
-        const match = title.includes(query) || description.includes(query)
-        article.style.display = match || query === '' ? '' : 'none'
-      })
+  <!-- Terminal prompt: ls -->
+  <div class="prompt" style="margin-bottom: 1.5rem;">
+    <span class="dollar">$</span> naees@writes:~/blog$ ls -la posts/
+  </div>
+
+  <!-- Search -->
+  <div style="margin-bottom: 2rem;">
+    <label for="search-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">Search posts</label>
+    <input
+      type="text"
+      id="search-input"
+      aria-label="Search posts"
+      placeholder="grep -r 'search term' posts/"
+      class="search-input"
+    />
+  </div>
+
+  <!-- Post list — plain text, no cards -->
+  <div id="posts-list" role="list" aria-label="Blog posts">
+    {posts.map(post => (
+      <div class="post-item" role="listitem" data-title={post.data.title.toLowerCase()} data-desc={post.data.description.toLowerCase()}>
+        <a href={`/posts/${post.id}/`}>
+          <span class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+          <div class="post-title">{post.data.title}</div>
+          <p class="post-desc">{post.data.description}</p>
+          {post.data.tags && post.data.tags.length > 0 && (
+            <div class="post-tags">
+              {post.data.tags.map((tag, i) => (
+                <span>{tag}{i < post.data.tags!.length - 1 ? ' ' : ''}</span>
+              ))}
+            </div>
+          )}
+        </a>
+      </div>
+    ))}
+  </div>
+
+  <div class="divider" aria-hidden="true">~~~</div>
+
+  <!-- Terminal prompt: cat -->
+  <div class="prompt" style="margin-bottom: 1.5rem;">
+    <span class="dollar">$</span> naees@writes:~/blog$ cat README.md | head -20
+  </div>
+
+  <!-- About snippet -->
+  <div style="margin-bottom: 2rem;">
+    <p style="color: var(--text-dim); max-width: 540px;">
+      I'm Naees — a security researcher and writer. This blog is a space for thinking out loud,
+      sharing ideas, and documenting what I learn. Topics span security, technology, design,
+      and philosophy.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement
+  const postsList = document.getElementById('posts-list')
+  const items = postsList?.querySelectorAll('.post-item')
+
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value.toLowerCase()
+    items?.forEach(item => {
+      const title = (item as HTMLElement).dataset.title || ''
+      const desc = (item as HTMLElement).dataset.desc || ''
+      const match = title.includes(query) || desc.includes(query)
+      ;(item as HTMLElement).style.display = match || query === '' ? '' : 'none'
     })
-  </script>
+  })
+</script>
+
 </Layout>
