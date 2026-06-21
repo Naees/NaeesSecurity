@@ -17,20 +17,16 @@ const posts = (await getCollection('posts'))
   <div slot="darkModeToggle"><DarkModeToggle /></div>
 
   <div class="container">
-    <div style="margin-bottom: 3rem; position: relative; overflow: hidden; border-radius: 16px; background: var(--bg-secondary);">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; padding: 2rem;">
-        <div>
-          <h1 style="margin-top: 0; color: var(--text); font-size: 2.5rem; letter-spacing: -0.03em;">
-            NaeesWrites
-          </h1>
-          <p style="color: var(--text-secondary); font-size: 1.125rem; max-width: 540px; margin-top: 0.5rem;">
-            A collection of thoughts, ideas, and writing.
-          </p>
-        </div>
-        <div style="display: flex; justify-content: center; align-items: center;">
-          <img src="/haku-logo.png" alt="Haku logo" style="width: 100%; max-width: 320px; height: auto; opacity: 0.9;" />
-        </div>
+    <div style="margin-bottom: 3rem; position: relative;">
+      <div style="position: absolute; top: -2rem; right: -4rem; opacity: 0.04; pointer-events: none;">
+        <img src="/haku.svg" alt="" style="width: 280px; height: auto;" />
       </div>
+      <h1 style="margin-top: 0; color: var(--text); font-size: 2.5rem; letter-spacing: -0.03em;">
+        NaeesWrites
+      </h1>
+      <p style="color: var(--text-secondary); font-size: 1.125rem; max-width: 540px; margin-top: 0.5rem;">
+        A collection of thoughts, ideas, and writing.
+      </p>
     </div>
 
     <div style="margin-bottom: 2rem;">
