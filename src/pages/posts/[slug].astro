@@ -5,6 +5,8 @@ import Layout from '../../components/Layout.astro'
 import DarkModeToggle from '../../components/DarkModeToggle.astro'
 import GiscusComments from '../../components/GiscusComments.astro'
 
+const base = import.meta.env.BASE_URL
+
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
   return posts.map(post => ({
@@ -43,7 +45,7 @@ if (!post) {
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
             {post.tags.map(tag => (
               <a
-                href={'/tags/' + slugify(tag) + '/'}
+                href={`${base}/tags/${slugify(tag)}/`}
                 style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.8rem; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: var(--text-secondary); transition: all 0.15s ease;"
               >
                 {tag}

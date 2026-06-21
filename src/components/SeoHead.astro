@@ -17,8 +17,10 @@ const {
   type = 'website',
 } = Astro.props
 
+const base = import.meta.env.BASE_URL
 const siteUrl = 'https://naeeswrites.com'
 const url = `${siteUrl}${pathname}`
+const ogImage = `${siteUrl}${base}${image}`
 ---
 
 <title>{title}</title>
@@ -27,11 +29,11 @@ const url = `${siteUrl}${pathname}`
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />
 <meta property="og:url" content={url} />
-<meta property="og:image" content={image} />
+<meta property="og:image" content={ogImage} />
 <meta property="og:site_name" content="NaeesWrites" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={image} />
+<meta name="twitter:image" content={ogImage} />
 {publishedTime && <meta property="article:published_time" content={publishedTime} />}
 <link rel="canonical" href={url} />

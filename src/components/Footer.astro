@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear()
+const base = import.meta.env.BASE_URL
 ---
 
 <footer style="padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 4rem;">
@@ -8,9 +9,9 @@ const currentYear = new Date().getFullYear()
       <div>
         <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 1rem; font-family: var(--font-mono);">Navigate</h3>
         <ul style="list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.85rem;">
-          <li style="margin-bottom: 0.5rem;"><a href="/" style="text-decoration: none; color: var(--text-secondary);">Home</a></li>
-          <li style="margin-bottom: 0.5rem;"><a href="/about/" style="text-decoration: none; color: var(--text-secondary);">About</a></li>
-          <li style="margin-bottom: 0.5rem;"><a href="/tags/" style="text-decoration: none; color: var(--text-secondary);">Tags</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href={`${base}/`} style="text-decoration: none; color: var(--text-secondary);">Home</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href={`${base}/about/`} style="text-decoration: none; color: var(--text-secondary);">About</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href={`${base}/tags/`} style="text-decoration: none; color: var(--text-secondary);">Tags</a></li>
         </ul>
       </div>
       <div>
@@ -19,13 +20,8 @@ const currentYear = new Date().getFullYear()
           <li style="margin-bottom: 0.5rem;"><a href="https://github.com/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">GitHub</a></li>
           <li style="margin-bottom: 0.5rem;"><a href="https://linkedin.com/in/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">LinkedIn</a></li>
           <li style="margin-bottom: 0.5rem;"><a href="https://twitter.com/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">X</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 1rem; font-family: var(--font-mono);">Resources</h3>
-        <ul style="list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.85rem;">
-          <li style="margin-bottom: 0.5rem;"><a href="/rss" style="text-decoration: none; color: var(--text-secondary);">RSS Feed</a></li>
-          <li style="margin-bottom: 0.5rem;"><a href="https://github.com/Naees/NaeesWrites" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">Source Code</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="https://signal.me/#eu/pkPGfK8xQ3mJvR2wY1nL5tZ9cH4bE6dA0sU7iO3gW8k=" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">Signal</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="https://keybase.io/Naees/pgp_keys.asc" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">PGP Key</a></li>
         </ul>
       </div>
     </div>
