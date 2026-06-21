@@ -1,48 +1,73 @@
+/* Tokyo Nights VSC IDE color scheme */
+
+/* === Dark (default) === */
 :root {
-  --bg: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --text: #1a1a1a;
-  --text-secondary: #666666;
-  --accent: #000000;
-  --border: #e0e0e0;
-  --code-bg: #f0f0f0;
+  --bg: #1a1b26;
+  --bg-secondary: #24283b;
+  --bg-hover: #232433;
+  --text: #a9b1d6;
+  --text-secondary: #565f89;
+  --border: #292e42;
+  --code-bg: #16161e;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
   --font-serif: Georgia, 'Times New Roman', serif;
   --max-width: 720px;
   --max-width-wide: 960px;
+  /* Tokyo Nights accent palette */
+  --blue: #7aa2f7;
+  --cyan: #7dcfff;
+  --green: #9ece6a;
+  --red: #f7768e;
+  --purple: #bb9af7;
+  --yellow: #e0af68;
+  --orange: #ff9e64;
+  --teal: #73daca;
+  --accent: var(--blue);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0a0a0a;
-    --bg-secondary: #1a1a1a;
-    --text: #e0e0e0;
-    --text-secondary: #999999;
-    --accent: #ffffff;
-    --border: #333333;
-    --code-bg: #1a1a1a;
+    --bg: #1a1b26;
+    --bg-secondary: #24283b;
+    --bg-hover: #232433;
+    --text: #a9b1d6;
+    --text-secondary: #565f89;
+    --border: #292e42;
+    --code-bg: #16161e;
+    --accent: var(--blue);
   }
 }
 
 [data-theme='dark'] {
-  --bg: #0a0a0a;
-  --bg-secondary: #1a1a1a;
-  --text: #e0e0e0;
-  --text-secondary: #999999;
-  --accent: #ffffff;
-  --border: #333333;
-  --code-bg: #1a1a1a;
+  --bg: #1a1b26;
+  --bg-secondary: #24283b;
+  --bg-hover: #232433;
+  --text: #a9b1d6;
+  --text-secondary: #565f89;
+  --border: #292e42;
+  --code-bg: #16161e;
+  --accent: var(--blue);
 }
 
+/* === Light (Tokyo Nights Day) === */
 [data-theme='light'] {
-  --bg: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --text: #1a1a1a;
-  --text-secondary: #666666;
-  --accent: #000000;
-  --border: #e0e0e0;
-  --code-bg: #f0f0f0;
+  --bg: #d0d5e8;
+  --bg-secondary: #c6cbdf;
+  --bg-hover: #b6bcd4;
+  --text: #1a1b26;
+  --text-secondary: #565f89;
+  --border: #9aacbd;
+  --code-bg: #b6bcd4;
+  --accent: #2e7ce9;
+  --blue: #2e7ce9;
+  --cyan: #0a95ff;
+  --green: #44932e;
+  --red: #bb3e5b;
+  --purple: #7e55c2;
+  --yellow: #c4a0e7;
+  --orange: #ff9e64;
+  --teal: #2db5a5;
 }
 
 * {
@@ -155,6 +180,35 @@ hr {
   border-top: 1px solid var(--border);
   margin: 2rem 0;
 }
+
+/* Accent utilities for Tokyo Nights palette */
+.text-blue { color: var(--blue); }
+.text-cyan { color: var(--cyan); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-purple { color: var(--purple); }
+.text-yellow { color: var(--yellow); }
+.text-orange { color: var(--orange); }
+.text-teal { color: var(--teal); }
+
+.bg-blue { background-color: var(--blue); }
+.bg-cyan { background-color: var(--cyan); }
+.bg-green { background-color: var(--green); }
+.bg-red { background-color: var(--red); }
+.bg-purple { background-color: var(--purple); }
+.bg-yellow { background-color: var(--yellow); }
+.bg-orange { background-color: var(--orange); }
+.bg-teal { background-color: var(--teal); }
+
+/* Tag accent colors */
+.tag-blue { color: var(--blue); }
+.tag-cyan { color: var(--cyan); }
+.tag-green { color: var(--green); }
+.tag-red { color: var(--red); }
+.tag-purple { color: var(--purple); }
+.tag-yellow { color: var(--yellow); }
+.tag-orange { color: var(--orange); }
+.tag-teal { color: var(--teal); }
 
 @media (max-width: 640px) {
   h1 { font-size: 1.875rem; }

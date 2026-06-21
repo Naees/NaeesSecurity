@@ -50,6 +50,7 @@ Each post includes frontmatter:
 - Brutalist-inspired elements (inspired by brutecat.com)
 - Dark/light mode toggle
 - Mobile-first responsive
+- Tokyo Nights VSC IDE color scheme (dark as default, light variant)
 
 ## Project Structure
 ```
@@ -124,6 +125,9 @@ blogsite/
 - Responsive design
 - Animations/transitions
 - Cross-browser testing
+- Redesign footer to match security researcher aesthetic (monospace fonts, terminal-inspired, minimal color palette)
+- Apply Tokyo Nights VSC IDE color scheme (dark default + light variant)
+- Re-evaluate all UI elements for consistency with new palette
 
 ### Phase 6: Testing & Deployment
 - Test all pages and features
