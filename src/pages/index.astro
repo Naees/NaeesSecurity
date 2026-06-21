@@ -17,9 +17,12 @@ const posts = (await getCollection('posts'))
   <div slot="darkModeToggle"><DarkModeToggle /></div>
 
   <div class="container">
-    <div style="margin-bottom: 3rem;">
-      <h1 style="margin-top: 0; color: var(--blue); font-family: var(--font-mono);">
-        <span class="text-green">$</span> cat ~/welcome.txt
+    <div style="margin-bottom: 3rem; position: relative;">
+      <div style="position: absolute; top: -2rem; right: -4rem; opacity: 0.04; pointer-events: none;">
+        <img src="/haku-logo.png" alt="" style="width: 280px; height: auto;" />
+      </div>
+      <h1 style="margin-top: 0; color: var(--text); font-size: 2.5rem; letter-spacing: -0.03em;">
+        NaeesWrites
       </h1>
       <p style="color: var(--text-secondary); font-size: 1.125rem; max-width: 540px; margin-top: 0.5rem;">
         A collection of thoughts, ideas, and writing.
@@ -27,17 +30,19 @@ const posts = (await getCollection('posts'))
     </div>
 
     <div style="margin-bottom: 2rem;">
+      <label for="search-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">Search posts</label>
       <input
         type="text"
         id="search-input"
+        aria-label="Search posts"
         placeholder="Search posts..."
-        style="width: 100%; padding: 0.75rem 1rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; background-color: var(--bg-secondary); color: var(--text); font-family: var(--font-mono); outline: none; transition: border-color 0.15s ease, background-color 0.15s ease;"
-        onfocus="this.style.borderColor='var(--blue)'; this.style.backgroundColor='var(--bg)'"
+        style="width: 100%; padding: 0.75rem 1rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; background-color: var(--bg-secondary); color: var(--text); font-family: var(--font-sans); outline: none; transition: border-color 0.15s ease, background-color 0.15s ease;"
+        onfocus="this.style.borderColor='var(--accent)'; this.style.backgroundColor='var(--bg)'"
         onblur="this.style.borderColor='var(--border)'; this.style.backgroundColor='var(--bg-secondary)'"
       />
     </div>
 
-    <div id="posts-list">
+    <div id="posts-list" role="list" aria-label="Blog posts">
       {posts.map(post => (
         <PostCard
           title={post.data.title}

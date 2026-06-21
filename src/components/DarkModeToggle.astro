@@ -4,6 +4,7 @@
 <button
   id="dark-mode-toggle"
   aria-label="Toggle dark mode"
+  aria-pressed="false"
   style="background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--text); display: flex; align-items: center; justify-content: center; transition: color 0.15s ease;"
   onmouseover="this.style.color='var(--blue)'"
   onmouseout="this.style.color='var(--text)'"
@@ -68,6 +69,7 @@
     const next = current === 'dark' ? 'light' : 'dark'
     localStorage.setItem('theme', next)
     document.documentElement.setAttribute('data-theme', next)
+    toggle.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false')
     updateIcon()
   })
 </script>

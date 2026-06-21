@@ -134,6 +134,16 @@ blogsite/
 - Verify GitHub Pages deployment
 - Final polish and bug fixes
 
+### Phase 7: Improvements & Polish
+- Add more sample posts (3+ posts across different topics)
+- Fix giscus integration (replace placeholder repo ID/category ID with real values)
+- Add RSS feed support
+- Improve the about page content (add more bio detail, photo placeholder)
+- Add reading time indicator on post pages
+- Improve the tags page layout (group by tag, show post counts)
+- Add a custom 404 page
+- Accessibility improvements (aria labels, semantic HTML, focus styles)
+
 ## Subagents
 
 ### Subagent 1: Setup & Configuration

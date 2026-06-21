@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import { getAllTags, getTagCount } from '../lib/utils'
+import { getAllTags, getTagCount, slugify } from '../lib/utils'
 import Tag from '../components/Tag.astro'
 import Layout from '../components/Layout.astro'
 import DarkModeToggle from '../components/DarkModeToggle.astro'
@@ -22,16 +22,52 @@ const tagCounts = getTagCount(posts)
 
   <div class="container">
     <div style="margin-bottom: 3rem;">
-      <h1 style="margin-top: 0;">Tags</h1>
+      <h1 style="margin-top: 0; font-size: 2.5rem; letter-spacing: -0.03em;">Tags</h1>
       <p style="color: var(--text-secondary); max-width: 540px;">
         Browse posts by topic.
       </p>
     </div>
 
-    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3rem;">
       {allTags.map(tag => (
         <Tag label={tag} count={tagCounts.get(tag)} />
       ))}
     </div>
+
+    <div style="margin-bottom: 2rem;">
+      <h2 style="font-size: 1.125rem; margin-top: 0; font-family: var(--font-mono); color: var(--text-secondary);">
+        <span class="text-green">$</span> ls posts/
+      </h2>
+    </div>
+
+    {allTags.map(tag => {
+      const tagPosts = posts.filter(post =>
+        (post.data.tags || []).map(t => slugify(t)).includes(slugify(tag))
+      )
+      if (tagPosts.length === 0) return null
+      return (
+        <div style="margin-bottom: 2.5rem;" role="region" aria-labelledby={`tag-${slugify(tag)}`}>
+          <h2 id={`tag-${slugify(tag)}`} style="font-size: 1.25rem; margin-top: 0; margin-bottom: 1rem; color: var(--accent);">
+            {tag}
+            <span style="color: var(--text-secondary); font-size: 0.875rem; font-family: var(--font-mono); margin-left: 0.5rem;">{tagPosts.length}</span>
+          </h2>
+          <ul style="list-style: none; padding: 0;">
+            {tagPosts.map(post => (
+              <li style="margin-bottom: 0.75rem; padding-left: 1rem; border-left: 1px solid var(--border);">
+                <a
+                  href={`/posts/${post.id}/`}
+                  style="text-decoration: none; color: var(--text); transition: color 0.15s ease;"
+                  onmouseover="this.style.color='var(--accent)'"
+                  onmouseout="this.style.color='var(--text)'"
+                >
+                  <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); margin-right: 0.5rem;">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                  {post.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    })}
   </div>
 </Layout>

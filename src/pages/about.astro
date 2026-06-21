@@ -11,11 +11,41 @@ import DarkModeToggle from '../components/DarkModeToggle.astro'
   <div slot="darkModeToggle"><DarkModeToggle /></div>
 
   <div class="container">
-    <div style="margin-bottom: 2rem;">
-      <h1 style="margin-top: 0;">About</h1>
+    <div style="margin-bottom: 3rem;">
+      <h1 style="margin-top: 0; font-size: 2.5rem; letter-spacing: -0.03em;">About</h1>
     </div>
 
-    <div style="margin-bottom: 3rem; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.8; color: var(--text-secondary);">
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: start; margin-bottom: 3rem;">
+      <div>
+        <div style="width: 100%; aspect-ratio: 1; background-color: var(--bg-secondary); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          <img src="/haku-logo.png" alt="Author photo placeholder" style="width: 60%; height: auto; opacity: 0.3;" />
+        </div>
+      </div>
+
+      <div>
+        <p>
+          Hi, I'm Naees. I write about things I find interesting — technology, design,
+          philosophy, and everything in between.
+        </p>
+        <p>
+          This blog is a space for me to think out loud, share ideas, and document
+          what I learn along the way. I believe in the power of writing to clarify
+          thought and connect with others.
+        </p>
+        <p>
+          When I'm not writing, you can find me exploring new technologies,
+          reading, or working on side projects.
+        </p>
+
+        <h2 style="margin-top: 2rem;">Tech Stack</h2>
+        <p style="color: var(--text-secondary);">
+          This site is built with Astro, deployed on GitHub Pages, and uses
+          giscus for comments. Content is written in Markdown and stored in git.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 2rem; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.8; color: var(--text-secondary);">
       <div style="margin-bottom: 0.5rem;">
         <span style="color: var(--accent);">$</span> whoami
       </div>
@@ -44,40 +74,10 @@ When I'm not writing, I'm exploring new technologies, reading, or working on sid
         <a href="https://twitter.com/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">
           <span style="color: var(--accent);">→</span> x
         </a>
+        <a href="mailto:naees@protonmail.com" style="text-decoration: none; color: var(--text-secondary);">
+          <span style="color: var(--accent);">→</span> naees@protonmail.com
+        </a>
       </nav>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: start;">
-      <div>
-        <div style="width: 100%; aspect-ratio: 1; background-color: var(--bg-secondary); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-        </div>
-      </div>
-
-      <div>
-        <p>
-          Hi, I'm Naees. I write about things I find interesting — technology, design,
-          philosophy, and everything in between.
-        </p>
-        <p>
-          This blog is a space for me to think out loud, share ideas, and document
-          what I learn along the way. I believe in the power of writing to clarify
-          thought and connect with others.
-        </p>
-        <p>
-          When I'm not writing, you can find me exploring new technologies,
-          reading, or working on side projects.
-        </p>
-
-        <h2 style="margin-top: 2rem;">Tech Stack</h2>
-        <p style="color: var(--text-secondary);">
-          This site is built with Astro, deployed on GitHub Pages, and uses
-          giscus for comments. Content is written in Markdown and stored in git.
-        </p>
-      </div>
     </div>
   </div>
 </Layout>

@@ -7,30 +7,34 @@ const { currentPage = '' } = Astro.props
 const base = import.meta.env.BASE_URL
 ---
 
-<header style="padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem;">
+<header style="padding: 1.5rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem;">
   <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
     <a
       href={`${base}/`}
-      style="font-size: 1.25rem; font-weight: 700; text-decoration: none; color: var(--blue); letter-spacing: -0.02em; font-family: var(--font-mono);"
+      style="display: flex; align-items: center; text-decoration: none; gap: 0.75rem;"
     >
-      <span class="text-green">$</span> naeeswrites
+      <img
+        src={`${base}/typography-logo.png`}
+        alt="NaeesWrites"
+        style="height: 32px; width: auto; opacity: 0.95;"
+      />
     </a>
-    <nav style="display: flex; align-items: center; gap: 1.5rem;">
+    <nav aria-label="Main navigation" style="display: flex; align-items: center; gap: 1.5rem;">
       <a
         href={`${base}/`}
-        style={`text-decoration: none; color: ${currentPage === '/' ? 'var(--blue)' : 'var(--text-secondary)'}; font-weight: ${currentPage === '/' ? 600 : 400}; font-family: var(--font-mono); font-size: 0.875rem; transition: color 0.15s ease;`}
+        style={`text-decoration: none; color: ${currentPage === '/' ? 'var(--accent)' : 'var(--text-secondary)'}; font-weight: ${currentPage === '/' ? 600 : 400}; font-size: 0.9rem; transition: color 0.15s ease;`}
       >
         Home
       </a>
       <a
         href={`${base}/about/`}
-        style={`text-decoration: none; color: ${currentPage === '/about/' ? 'var(--blue)' : 'var(--text-secondary)'}; font-weight: ${currentPage === '/about/' ? 600 : 400}; font-family: var(--font-mono); font-size: 0.875rem; transition: color 0.15s ease;`}
+        style={`text-decoration: none; color: ${currentPage === '/about/' ? 'var(--accent)' : 'var(--text-secondary)'}; font-weight: ${currentPage === '/about/' ? 600 : 400}; font-size: 0.9rem; transition: color 0.15s ease;`}
       >
         About
       </a>
       <a
         href={`${base}/tags/`}
-        style={`text-decoration: none; color: ${currentPage === '/tags/' ? 'var(--blue)' : 'var(--text-secondary)'}; font-weight: ${currentPage === '/tags/' ? 600 : 400}; font-family: var(--font-mono); font-size: 0.875rem; transition: color 0.15s ease;`}
+        style={`text-decoration: none; color: ${currentPage === '/tags/' ? 'var(--accent)' : 'var(--text-secondary)'}; font-weight: ${currentPage === '/tags/' ? 600 : 400}; font-size: 0.9rem; transition: color 0.15s ease;`}
       >
         Tags
       </a>

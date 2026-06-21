@@ -1,73 +1,80 @@
-/* Tokyo Nights VSC IDE color scheme */
+/* Deep navy background with white text and complementary accents */
 
 /* === Dark (default) === */
 :root {
-  --bg: #1a1b26;
-  --bg-secondary: #24283b;
-  --bg-hover: #232433;
-  --text: #a9b1d6;
-  --text-secondary: #565f89;
-  --border: #292e42;
-  --code-bg: #16161e;
+  --bg: #1c1f33;
+  --bg-secondary: #242748;
+  --bg-hover: #2a2d52;
+  --text: #f2f2f7;
+  --text-secondary: #8a8db5;
+  --border: #2e315a;
+  --code-bg: #151830;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
   --font-serif: Georgia, 'Times New Roman', serif;
   --max-width: 720px;
   --max-width-wide: 960px;
-  /* Tokyo Nights accent palette */
-  --blue: #7aa2f7;
-  --cyan: #7dcfff;
-  --green: #9ece6a;
-  --red: #f7768e;
-  --purple: #bb9af7;
-  --yellow: #e0af68;
-  --orange: #ff9e64;
-  --teal: #73daca;
+  --blue: #6b8aed;
+  --cyan: #5cc4e0;
+  --green: #7ec964;
+  --red: #e85d6a;
+  --purple: #a07ed4;
+  --yellow: #e0a858;
+  --orange: #e89050;
+  --teal: #5bb8a8;
   --accent: var(--blue);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1a1b26;
-    --bg-secondary: #24283b;
-    --bg-hover: #232433;
-    --text: #a9b1d6;
-    --text-secondary: #565f89;
-    --border: #292e42;
-    --code-bg: #16161e;
+    --bg: #1c1f33;
+    --bg-secondary: #242748;
+    --bg-hover: #2a2d52;
+    --text: #f2f2f7;
+    --text-secondary: #8a8db5;
+    --border: #2e315a;
+    --code-bg: #151830;
     --accent: var(--blue);
   }
 }
 
 [data-theme='dark'] {
-  --bg: #1a1b26;
-  --bg-secondary: #24283b;
-  --bg-hover: #232433;
-  --text: #a9b1d6;
-  --text-secondary: #565f89;
-  --border: #292e42;
-  --code-bg: #16161e;
+  --bg: #1c1f33;
+  --bg-secondary: #242748;
+  --bg-hover: #2a2d52;
+  --text: #f2f2f7;
+  --text-secondary: #8a8db5;
+  --border: #2e315a;
+  --code-bg: #151830;
   --accent: var(--blue);
+  --blue: #6b8aed;
+  --cyan: #5cc4e0;
+  --green: #7ec964;
+  --red: #e85d6a;
+  --purple: #a07ed4;
+  --yellow: #e0a858;
+  --orange: #e89050;
+  --teal: #5bb8a8;
 }
 
-/* === Light (Tokyo Nights Day) === */
+/* === Light === */
 [data-theme='light'] {
-  --bg: #d0d5e8;
-  --bg-secondary: #c6cbdf;
-  --bg-hover: #b6bcd4;
-  --text: #1a1b26;
-  --text-secondary: #565f89;
-  --border: #9aacbd;
-  --code-bg: #b6bcd4;
-  --accent: #2e7ce9;
-  --blue: #2e7ce9;
-  --cyan: #0a95ff;
-  --green: #44932e;
-  --red: #bb3e5b;
-  --purple: #7e55c2;
-  --yellow: #c4a0e7;
-  --orange: #ff9e64;
-  --teal: #2db5a5;
+  --bg: #f4f4f8;
+  --bg-secondary: #eaeaf0;
+  --bg-hover: #dddde5;
+  --text: #1a1a2e;
+  --text-secondary: #6b6e90;
+  --border: #d0d0dc;
+  --code-bg: #e8e8f0;
+  --accent: #4a6ae5;
+  --blue: #4a6ae5;
+  --cyan: #2db5d0;
+  --green: #5aad3a;
+  --red: #d44a58;
+  --purple: #8a5ec4;
+  --yellow: #c49a40;
+  --orange: #d07a38;
+  --teal: #3aa090;
 }
 
 * {
@@ -181,7 +188,7 @@ hr {
   margin: 2rem 0;
 }
 
-/* Accent utilities for Tokyo Nights palette */
+/* Accent utilities */
 .text-blue { color: var(--blue); }
 .text-cyan { color: var(--cyan); }
 .text-green { color: var(--green); }
@@ -209,6 +216,14 @@ hr {
 .tag-yellow { color: var(--yellow); }
 .tag-orange { color: var(--orange); }
 .tag-teal { color: var(--teal); }
+
+/* Focus styles for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
 
 @media (max-width: 640px) {
   h1 { font-size: 1.875rem; }
