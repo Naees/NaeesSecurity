@@ -4,30 +4,33 @@ const currentYear = new Date().getFullYear()
 
 <footer style="padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 4rem;">
   <div class="container">
-    <div style="font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.8; color: var(--text-secondary);">
-      <div style="margin-bottom: 0.5rem;">
-        <span style="color: var(--accent);">$</span> whoami
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;">
+      <div>
+        <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 1rem; font-family: var(--font-mono);">Navigate</h3>
+        <ul style="list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.85rem;">
+          <li style="margin-bottom: 0.5rem;"><a href="/" style="text-decoration: none; color: var(--text-secondary);">Home</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="/about/" style="text-decoration: none; color: var(--text-secondary);">About</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="/tags/" style="text-decoration: none; color: var(--text-secondary);">Tags</a></li>
+        </ul>
       </div>
-      <div style="margin-bottom: 1rem; padding-left: 1rem; border-left: 1px solid var(--border);">
-        naees — security researcher &amp; writer
+      <div>
+        <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 1rem; font-family: var(--font-mono);">Connect</h3>
+        <ul style="list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.85rem;">
+          <li style="margin-bottom: 0.5rem;"><a href="https://github.com/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">GitHub</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="https://linkedin.com/in/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">LinkedIn</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="https://twitter.com/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">X</a></li>
+        </ul>
       </div>
-      <div style="margin-bottom: 1rem;">
-        <span style="color: var(--accent);">$</span> ls ~/projects/
+      <div>
+        <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 1rem; font-family: var(--font-mono);">Resources</h3>
+        <ul style="list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.85rem;">
+          <li style="margin-bottom: 0.5rem;"><a href="/rss" style="text-decoration: none; color: var(--text-secondary);">RSS Feed</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="https://github.com/Naees/NaeesWrites" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary);">Source Code</a></li>
+        </ul>
       </div>
-      <nav style="padding-left: 1rem; margin-bottom: 1.5rem; display: flex; gap: 1.25rem; flex-wrap: wrap;">
-        <a href="/about" style="text-decoration: none; color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.8rem;">
-          <span style="color: var(--accent);">→</span> about
-        </a>
-        <a href="https://github.com/Naees" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.8rem;">
-          <span style="color: var(--accent);">→</span> github
-        </a>
-        <a href="/tags" style="text-decoration: none; color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.8rem;">
-          <span style="color: var(--accent);">→</span> tags
-        </a>
-      </nav>
-      <div style="padding-left: 1rem; border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.5rem;">
-        <span style="color: var(--accent);">$</span> echo &copy; {currentYear} naees
-      </div>
+    </div>
+    <div style="padding-top: 1.5rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary);">
+      &copy; {currentYear} NaeesWrites. All rights reserved.
     </div>
   </div>
 </footer>
