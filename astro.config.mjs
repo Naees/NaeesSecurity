@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  base: '/NaeesWrites',
+  base: '/NaeesWrites/',
   site: 'https://naees.github.io/NaeesWrites',
   integrations: [
     sitemap(),
