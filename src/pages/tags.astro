@@ -86,7 +86,9 @@ const tagCounts = getTagCount(posts)
 
 </div>
 
-<script>
+<script define:vars={{
+  base: base
+}}>
   const filterBar = document.querySelector('.tag-filter-bar') as HTMLElement
   const postsList = document.getElementById('posts-list')
   const items = postsList?.querySelectorAll('.post-item--filtered')
@@ -124,7 +126,7 @@ const tagCounts = getTagCount(posts)
     e.preventDefault()
     const tag = pill.dataset.tag || 'all'
 
-    const url = tag === 'all' ? `${base}tags/` : `${base}tags/${tag}/`
+    const url = tag === 'all' ? base + 'tags/' : base + 'tags/' + tag + '/'
     history.pushState({ tag }, '', url)
 
     filterPosts(tag)
@@ -137,7 +139,6 @@ const tagCounts = getTagCount(posts)
   })
 
   const currentPath = window.location.pathname
-  const base = '${base}'
   if (currentPath !== base + 'tags/') {
     const tag = currentPath.split('/').filter(Boolean).pop() || 'all'
     filterPosts(tag)
