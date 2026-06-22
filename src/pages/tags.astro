@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content'
 import { getAllTags, getTagCount, slugify } from '../lib/utils'
 import Layout from '../components/Layout.astro'
 
+const base = import.meta.env.BASE_URL
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -33,7 +34,7 @@ const tagCounts = getTagCount(posts)
   <!-- Tag pills filter bar -->
   <div class="tag-filter-bar" style="margin-bottom: 3rem;">
     <a
-      href="/tags/"
+      href={`${base}/tags/`}
       class="tag-pill tag-pill--active"
       data-tag="all"
     >
@@ -41,7 +42,7 @@ const tagCounts = getTagCount(posts)
     </a>
     {allTags.map(tag => (
       <a
-        href={`/tags/${slugify(tag)}/`}
+        href={`${base}/tags/${slugify(tag)}/`}
         class="tag-pill"
         data-tag={slugify(tag)}
       >
@@ -67,7 +68,7 @@ const tagCounts = getTagCount(posts)
         role="listitem"
         data-tags={post.data.tags?.map(t => slugify(t)).join(' ')}
       >
-        <a href={`/posts/${post.id}/`}>
+        <a href={`${base}/posts/${post.id}/`}>
           <span class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
           <div class="post-title">{post.data.title}</div>
           <p class="post-desc">{post.data.description}</p>
@@ -123,7 +124,7 @@ const tagCounts = getTagCount(posts)
     e.preventDefault()
     const tag = pill.dataset.tag || 'all'
 
-    const url = tag === 'all' ? '/tags/' : `/tags/${tag}/`
+    const url = tag === 'all' ? `${base}tags/` : `${base}tags/${tag}/`
     history.pushState({ tag }, '', url)
 
     filterPosts(tag)
@@ -136,7 +137,8 @@ const tagCounts = getTagCount(posts)
   })
 
   const currentPath = window.location.pathname
-  if (currentPath !== '/tags/') {
+  const base = '${base}'
+  if (currentPath !== base + 'tags/') {
     const tag = currentPath.split('/').filter(Boolean).pop() || 'all'
     filterPosts(tag)
   }
