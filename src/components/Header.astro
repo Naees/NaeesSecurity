@@ -10,13 +10,13 @@ const base = import.meta.env.BASE_URL
 <header>
   <div class="container--wide" style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; padding-bottom: 1.5rem;">
     <a
-      href={`${base}/`}
+      href={`${base}`}
       class="nav-link"
       style="font-size: 0.9rem; text-decoration: none;"
       aria-label="NaeesWrites home"
     >
       <img
-        src={`${base}/naeesWriteTypographyLogoWithHaku.svg`}
+        src={`${base}naeesWriteTypographyLogoWithHaku.svg`}
         alt="NaeesWrites"
         style="height: 36px; width: auto; transition: filter 0.15s ease;"
         onmouseenter="this.style.filter='drop-shadow(0 0 12px #4a9eff33)'"
@@ -25,25 +25,25 @@ const base = import.meta.env.BASE_URL
     </a>
     <nav aria-label="Main navigation" style="display: flex; align-items: center; gap: 1.5rem;">
       <a
-        href={`${base}/`}
+        href={`${base}`}
         class={`nav-link ${currentPage === '/' ? 'nav-link--active' : ''}`}
       >
         home
       </a>
       <a
-        href={`${base}/about/`}
+        href={`${base}about/`}
         class={`nav-link ${currentPage === '/about/' ? 'nav-link--active' : ''}`}
       >
         about
       </a>
       <a
-        href={`${base}/tags/`}
+        href={`${base}tags/`}
         class={`nav-link ${currentPage === '/tags/' ? 'nav-link--active' : ''}`}
       >
         tags
       </a>
       <a
-        href={`${base}/rss.xml`}
+        href={`${base}rss.xml`}
         class="nav-link"
         aria-label="RSS feed"
         style="display: flex; align-items: center;"

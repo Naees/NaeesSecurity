@@ -34,7 +34,7 @@ const tagCounts = getTagCount(posts)
   <!-- Tag pills filter bar -->
   <div class="tag-filter-bar" style="margin-bottom: 3rem;">
     <a
-      href={`${base}/tags/`}
+      href={`${base}tags/`}
       class="tag-pill tag-pill--active"
       data-tag="all"
     >
@@ -42,7 +42,7 @@ const tagCounts = getTagCount(posts)
     </a>
     {allTags.map(tag => (
       <a
-        href={`${base}/tags/${slugify(tag)}/`}
+        href={`${base}tags/${slugify(tag)}/`}
         class="tag-pill"
         data-tag={slugify(tag)}
       >
@@ -68,7 +68,7 @@ const tagCounts = getTagCount(posts)
         role="listitem"
         data-tags={post.data.tags?.map(t => slugify(t)).join(' ')}
       >
-        <a href={`${base}/posts/${post.id}/`}>
+        <a href={`${base}posts/${post.id}/`}>
           <span class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
           <div class="post-title">{post.data.title}</div>
           <p class="post-desc">{post.data.description}</p>

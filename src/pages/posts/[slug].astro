@@ -64,7 +64,7 @@ if (!post) {
   {post.tags && post.tags.length > 0 && (
     <div class="post-tags-inline" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim);">
       {post.tags.map(tag => (
-        <a href={`${base}/tags/${slugify(tag)}/`} style="color: var(--text-dim); text-decoration-color: var(--text-muted); margin-right: 0.75rem;">
+        <a href={`${base}tags/${slugify(tag)}/`} style="color: var(--text-dim); text-decoration-color: var(--text-muted); margin-right: 0.75rem;">
           #{tag}
         </a>
       ))}

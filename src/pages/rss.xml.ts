@@ -14,7 +14,7 @@ export async function GET(context) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.date,
-      link: `/posts/${post.id}/`,
+      link: `${context.site || 'https://naees.github.io/NaeesWrites'}/posts/${post.id}/`,
     })),
   });
 }
