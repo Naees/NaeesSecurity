@@ -2,6 +2,7 @@
 import SeoHead from './SeoHead.astro'
 import Header from './Header.astro'
 import Footer from './Footer.astro'
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -25,7 +26,6 @@ const base = import.meta.env.BASE_URL
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="light dark" />
     <SeoHead title={title} description={description} pathname={pathname} publishedTime={publishedTime} type={type} />
-    <link rel="stylesheet" href={`${base}styles/global.css`} />
   </head>
   <body>
     <script is:inline>
