@@ -32,6 +32,12 @@ const base = import.meta.env.BASE_URL
         home
       </a>
       <a
+        href={`${base}posts/`}
+        class={`nav-link ${currentPage === '/posts/' ? 'nav-link--active' : ''}`}
+      >
+        posts
+      </a>
+      <a
         href={`${base}about/`}
         class={`nav-link ${currentPage === '/about/' ? 'nav-link--active' : ''}`}
       >
