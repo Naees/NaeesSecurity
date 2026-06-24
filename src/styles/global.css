@@ -380,6 +380,7 @@ pre code {
   padding: 3rem 0;
   margin-top: 4rem;
   border-top: 1px solid var(--text-muted);
+  background: var(--bg);
 }
 
 .footer-nav {
