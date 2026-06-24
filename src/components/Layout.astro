@@ -41,8 +41,8 @@ const base = import.meta.env.BASE_URL
       })();
 
       // Toggle background images based on theme
-      const lightBg = document.querySelector('.haku-watermark') as HTMLImageElement | null
-      const darkBg = document.querySelector('.haku-watermark--glow') as HTMLImageElement | null
+      const lightBg = document.querySelector('.haku-watermark')
+      const darkBg = document.querySelector('.haku-watermark--glow')
       if (lightBg && darkBg) {
         const observer = new MutationObserver(() => {
           const isDark = document.documentElement.getAttribute('data-theme') === 'dark'

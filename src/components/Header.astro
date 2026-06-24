@@ -174,7 +174,7 @@ const base = import.meta.env.BASE_URL
 
 <script>
   // Scroll-aware nav
-  const header = document.querySelector('header') as HTMLElement
+  const header = document.querySelector('header')
   let lastScrollY = 0
   let ticking = false
 
@@ -203,10 +203,10 @@ const base = import.meta.env.BASE_URL
 </script>
 
 <script>
-  const toggle = document.querySelector('.dark-mode-toggle') as HTMLElement
-  const sunIcon = toggle?.querySelector('.sun-icon') as SVGElement
-  const moonIcon = toggle?.querySelector('.moon-icon') as SVGElement
-  const label = toggle?.querySelector('.label') as HTMLSpanElement
+  const toggle = document.querySelector('.dark-mode-toggle')
+  const sunIcon = toggle?.querySelector('.sun-icon')
+  const moonIcon = toggle?.querySelector('.moon-icon')
+  const label = toggle?.querySelector('.label')
 
   function updateIcon() {
     const theme = localStorage.getItem('theme')
@@ -243,10 +243,10 @@ const base = import.meta.env.BASE_URL
 
 <script>
   // Toggle header logos based on data-theme
-  const lightLogo = document.querySelector('.site-logo--light') as HTMLImageElement | null
-  const darkLogo = document.querySelector('.site-logo--dark') as HTMLImageElement | null
-  const mobileLightLogo = document.querySelector('.site-logo--mobile-light') as HTMLImageElement | null
-  const mobileDarkLogo = document.querySelector('.site-logo--mobile-dark') as HTMLImageElement | null
+  const lightLogo = document.querySelector('.site-logo--light')
+  const darkLogo = document.querySelector('.site-logo--dark')
+  const mobileLightLogo = document.querySelector('.site-logo--mobile-light')
+  const mobileDarkLogo = document.querySelector('.site-logo--mobile-dark')
 
   function updateLogo() {
     const theme = localStorage.getItem('theme')
@@ -272,9 +272,9 @@ const base = import.meta.env.BASE_URL
 
 <script>
   // Hamburger menu toggle
-  const hamburger = document.querySelector('.hamburger') as HTMLElement | null
-  const mobileNav = document.querySelector('.mobile-nav') as HTMLElement | null
-  const mobileNavContent = mobileNav?.querySelector('.mobile-nav-content') as HTMLElement | null
+  const hamburger = document.querySelector('.hamburger')
+  const mobileNav = document.querySelector('.mobile-nav')
+  const mobileNavContent = mobileNav?.querySelector('.mobile-nav-content')
 
   function toggleMobileMenu() {
     if (!mobileNav || !mobileNavContent) return
@@ -295,7 +295,7 @@ const base = import.meta.env.BASE_URL
 
   // Close mobile menu when a link is clicked
   mobileNavContent?.addEventListener('click', (e) => {
-    const link = (e.target as HTMLElement).closest('a')
+    const link = e.target.closest('a')
     if (link) {
       setTimeout(() => {
         mobileNav!.style.transform = 'translateX(100%)'
@@ -308,7 +308,7 @@ const base = import.meta.env.BASE_URL
   // Close mobile menu when clicking outside
   document.addEventListener('click', (e) => {
     if (mobileNav?.getAttribute('aria-hidden') === 'false') {
-      const target = e.target as HTMLElement
+      const target = e.target
       if (!hamburger?.contains(target) && !mobileNav.contains(target)) {
         mobileNav.style.transform = 'translateX(100%)'
         mobileNav.setAttribute('aria-hidden', 'true')
