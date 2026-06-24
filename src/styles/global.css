@@ -59,11 +59,11 @@ body {
 .haku-watermark {
   position: fixed;
   top: 50%;
-  right: -10%;
+  right: -5%;
   transform: translateY(-50%);
-  width: 65vmin;
+  width: 85vmin;
   height: auto;
-  opacity: 0.025;
+  opacity: 0.035;
   pointer-events: none;
   z-index: 0;
 }
@@ -71,11 +71,11 @@ body {
 .haku-watermark--glow {
   position: fixed;
   top: 50%;
-  right: -10%;
+  right: -5%;
   transform: translateY(-50%);
-  width: 65vmin;
+  width: 85vmin;
   height: auto;
-  opacity: 0.015;
+  opacity: 0.025;
   pointer-events: none;
   z-index: 0;
   filter: blur(20px);
@@ -414,12 +414,16 @@ pre code {
   right: 0;
   bottom: 0;
   width: min(300px, 80vw);
-  background: var(--bg-card);
+  background: rgba(10, 10, 10, 0.98);
   z-index: 1000;
   transform: translateX(100%);
   transition: transform 0.3s ease;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
+}
+
+[data-theme="light"] .mobile-nav {
+  background: rgba(244, 244, 244, 0.98);
 }
 
 .mobile-nav-content {
