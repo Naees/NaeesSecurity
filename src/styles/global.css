@@ -165,6 +165,24 @@ pre code {
   padding: 0 1.5rem;
 }
 
+/* === Header === */
+.header-container {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 /* === Terminal prompt === */
 .prompt {
   font-family: var(--font-mono);
@@ -444,6 +462,15 @@ pre code {
   .site-logo--light,
   .site-logo--dark {
     display: none !important;
+  }
+
+  .header-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .header-right {
+    gap: 0;
   }
 
   .header-actions {
