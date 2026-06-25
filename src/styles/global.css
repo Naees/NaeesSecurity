@@ -446,7 +446,7 @@ pre code {
 
   .site-logo--mobile-light,
   .site-logo--mobile-dark {
-    display: none !important;
+    display: block !important;
   }
 
   .hamburger {
