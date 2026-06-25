@@ -450,6 +450,10 @@ pre code {
     display: flex;
   }
 
+  .desktop-nav {
+    display: none;
+  }
+
   .mobile-nav {
     display: block;
   }
