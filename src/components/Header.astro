@@ -255,23 +255,23 @@ const base = import.meta.env.BASE_URL
     if (isDark) {
       lightLogo!.style.display = 'none'
       darkLogo!.style.display = 'block'
-      if (isMobile) {
-        mobileLightLogo!.style.display = 'none'
-        mobileDarkLogo!.style.display = 'block'
-      }
     } else {
       lightLogo!.style.display = 'block'
       darkLogo!.style.display = 'none'
-      if (isMobile) {
-        mobileLightLogo!.style.display = 'block'
-        mobileDarkLogo!.style.display = 'none'
-      }
+    }
+    if (isMobile) {
+      mobileLightLogo!.style.display = isDark ? 'none' : 'block'
+      mobileDarkLogo!.style.display = isDark ? 'block' : 'none'
+    } else {
+      mobileLightLogo!.style.display = 'none'
+      mobileDarkLogo!.style.display = 'none'
     }
   }
 
   requestAnimationFrame(() => updateLogo())
 
-  window.addEventListener('resize', () => updateLogo())
+  const mql = window.matchMedia('(max-width: 768px)')
+  mql.addListener(() => updateLogo())
 
   const observer = new MutationObserver(() => updateLogo())
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
