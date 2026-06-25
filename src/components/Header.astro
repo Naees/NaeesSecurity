@@ -32,13 +32,7 @@ const base = import.meta.env.BASE_URL
       <img
         src={`${base}kittenwiz_logo_darkmode.svg`}
         alt="NaeesWrites"
-        class="site-logo site-logo--mobile-light"
-        style="height: auto; max-height: 40px; width: auto; display: none;"
-      />
-      <img
-        src={`${base}kittenwiz_logo_darkmode.svg`}
-        alt="NaeesWrites"
-        class="site-logo site-logo--mobile-dark"
+        class="site-logo site-logo--mobile"
         style="height: auto; max-height: 40px; width: auto; display: none;"
       />
     </a>
@@ -241,8 +235,7 @@ const base = import.meta.env.BASE_URL
   // Toggle header logos based on data-theme
   const lightLogo = document.querySelector('.site-logo--light')
   const darkLogo = document.querySelector('.site-logo--dark')
-  const mobileLightLogo = document.querySelector('.site-logo--mobile-light')
-  const mobileDarkLogo = document.querySelector('.site-logo--mobile-dark')
+  const mobileLogo = document.querySelector('.site-logo--mobile')
 
   function updateLogo() {
     const theme = localStorage.getItem('theme')
@@ -256,11 +249,9 @@ const base = import.meta.env.BASE_URL
       darkLogo!.style.display = 'none'
     }
     if (isMobile) {
-      mobileLightLogo!.style.display = 'block'
-      mobileDarkLogo!.style.display = 'none'
+      mobileLogo!.style.display = 'block'
     } else {
-      mobileLightLogo!.style.display = 'none'
-      mobileDarkLogo!.style.display = 'none'
+      mobileLogo!.style.display = 'none'
     }
   }
 
