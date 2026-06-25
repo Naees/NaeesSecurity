@@ -89,6 +89,9 @@ const base = import.meta.env.BASE_URL
 </style>
 
 <script>
+  let isScrolling = false
+  let scrollTimeout
+
   document.querySelectorAll('.footer-nav a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault()
@@ -107,11 +110,19 @@ const base = import.meta.env.BASE_URL
         // Same page — fast scroll to section
         const target = document.querySelector(hash)
         if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' })
+          const rect = target.getBoundingClientRect()
+          const top = window.scrollY + rect.top - 80
+          window.scrollTo({ top, behavior: 'smooth' })
+          isScrolling = true
+          clearTimeout(scrollTimeout)
+          scrollTimeout = setTimeout(() => { isScrolling = false }, 1500)
         }
       } else if (isSamePage) {
         // Same page, no hash — scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' })
+        isScrolling = true
+        clearTimeout(scrollTimeout)
+        scrollTimeout = setTimeout(() => { isScrolling = false }, 1500)
       } else {
         // Different page — navigate then scroll
         window.location.href = href

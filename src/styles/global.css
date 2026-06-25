@@ -420,6 +420,8 @@ pre code {
   transition: transform 0.3s ease;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 [data-theme="light"] .mobile-nav {

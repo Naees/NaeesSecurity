@@ -323,4 +323,16 @@ const base = import.meta.env.BASE_URL
       }
     }
   })
+
+  // Close mobile menu on touch outside (mobile fix)
+  document.addEventListener('touchstart', (e) => {
+    if (mobileNav?.getAttribute('aria-hidden') === 'false') {
+      const target = e.target
+      if (!hamburger?.contains(target) && !mobileNav.contains(target)) {
+        mobileNav.style.transform = 'translateX(100%)'
+        mobileNav.setAttribute('aria-hidden', 'true')
+        hamburger!.setAttribute('aria-expanded', 'false')
+      }
+    }
+  })
 </script>
