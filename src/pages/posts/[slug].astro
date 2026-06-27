@@ -32,10 +32,12 @@ if (!post) {
   type="article"
 >
 
-<div class="container">
+<!-- Reading progress bar -->
+<div class="reading-progress" aria-hidden="true">
+  <div class="reading-progress-bar" id="reading-progress-bar"></div>
+</div>
 
-  <!-- Eye-dot signature element -->
-  <span class="eye-dot" style="display: block; margin-bottom: 1.5rem;"></span>
+<div class="container">
 
   <!-- Terminal: cat post -->
   <div class="prompt typing-line">
@@ -49,12 +51,12 @@ if (!post) {
     &nbsp;&nbsp;·&nbsp;&nbsp;{getReadingTime(postEntry!.body)} min read
   </div>
 
-  <h1 style="font-size: 2rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">{post.title}</h1>
+  <h1 style="font-size: 2.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; font-family: Georgia, 'Times New Roman', Times, serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;">{post.title}</h1>
 
   <div class="divider" aria-hidden="true">~~~</div>
 
   <!-- Body -->
-  <div style="font-size: 1.05rem; line-height: 1.8;">
+  <div class="post-body">
     {body}
   </div>
 
@@ -62,10 +64,10 @@ if (!post) {
 
   <!-- Tags -->
   {post.tags && post.tags.length > 0 && (
-    <div class="post-tags-inline" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim);">
+    <div class="post-tags-pill">
       {post.tags.map(tag => (
-        <a href={`${base}tags/${slugify(tag)}/`} style="color: var(--text-dim); text-decoration-color: var(--text-muted); margin-right: 0.75rem;">
-          #{tag}
+        <a href={`${base}posts/?tag=${encodeURIComponent(tag)}`} class="tag-pill">
+          {tag}
         </a>
       ))}
     </div>
@@ -80,5 +82,19 @@ if (!post) {
   </div>
 
 </div>
+
+<script>
+  const progressBar = document.getElementById('reading-progress-bar')
+  if (progressBar) {
+    function updateProgress() {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
+      progressBar.style.width = progress + '%'
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true })
+    updateProgress()
+  }
+</script>
 
 </Layout>

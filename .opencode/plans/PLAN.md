@@ -573,6 +573,601 @@ After each phase of implementation:
 
 This ensures visual consistency and catches issues early. The **frontend-design skill** should be loaded during implementation for design guidance. Playwright MCP screenshots are used for iterative visual verification.
 
+### Phase 19: Tag Integration + Post Page Redesign + Cross-Page Standardization
+
+#### Phase 19.1: Posts Page — Add Tag Pill Filter Bar
+**File:** `src/pages/posts.astro`
+
+**Add imports (top of file, after existing imports):**
+```typescript
+import { getAllTags, getTagCount, slugify } from '../lib/utils'
+```
+
+**Add tag data computation (after posts array):**
+```typescript
+const allTags = getAllTags(posts)
+const tagCounts = getTagCount(posts)
+```
+
+**Add tag pill bar (after search input, before `#posts-list`):**
+```html
+<section id="tag-filter">
+  <div class="tag-filter-bar" id="tag-filter-bar">
+    <a href={`${base}posts/`} class="tag-pill tag-pill--active" data-tag="all">
+      show all
+    </a>
+    {allTags.map(tag => (
+      <a href={`${base}posts/?tag=${encodeURIComponent(tag)}`} class="tag-pill" data-tag={slugify(tag)}>
+        {tag}<span class="tag-count">[{tagCounts.get(tag)}]</span>
+      </a>
+    ))}
+  </div>
+</section>
+```
+
+**Add `data-tags` attribute to post items:**
+```html
+<div class="post-item" role="listitem"
+     data-title={post.data.title.toLowerCase()}
+     data-desc={post.data.description.toLowerCase()}
+     data-tags={post.data.tags?.map(t => slugify(t)).join(' ')}>
+```
+
+**Replace `<script>` block with combined tag + search filtering:**
+```html
+<script>
+  const searchInput = document.getElementById('search-input')
+  const tagFilterBar = document.getElementById('tag-filter-bar')
+  const postsList = document.getElementById('posts-list')
+  const items = postsList?.querySelectorAll('.post-item')
+  const pills = tagFilterBar?.querySelectorAll('.tag-pill')
+
+  let activeTag = 'all'
+
+  function filterPosts() {
+    const query = (searchInput?.value || '').toLowerCase()
+    items?.forEach(item => {
+      const title = (item as HTMLElement).dataset.title || ''
+      const desc = (item as HTMLElement).dataset.desc || ''
+      const tags = (item as HTMLElement).dataset.tags || ''
+
+      const tagMatch = activeTag === 'all' || tags.includes(activeTag)
+      const searchMatch = !query || title.includes(query) || desc.includes(query)
+      const visible = tagMatch && searchMatch
+
+      ;(item as HTMLElement).style.display = visible ? '' : 'none'
+    })
+  }
+
+  tagFilterBar?.addEventListener('click', (e) => {
+    const pill = (e.target as HTMLElement).closest('.tag-pill')
+    if (!pill) return
+
+    e.preventDefault()
+    const tag = pill.dataset.tag || 'all'
+    activeTag = tag
+
+    const url = tag === 'all'
+      ? base + 'posts/'
+      : base + 'posts/?tag=' + encodeURIComponent(tag)
+    history.pushState({ tag }, '', url)
+
+    pills?.forEach(p => p.classList.remove('tag-pill--active'))
+    pill.classList.add('tag-pill--active')
+
+    filterPosts()
+  })
+
+  searchInput?.addEventListener('input', () => filterPosts())
+
+  window.addEventListener('popstate', (e) => {
+    const state = e.state || null
+    activeTag = state?.tag || 'all'
+
+    pills?.forEach(pill => {
+      const pillTag = pill.dataset.tag || ''
+      pill.classList.toggle('tag-pill--active', pillTag === activeTag)
+    })
+
+    filterPosts()
+  })
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const tagParam = urlParams.get('tag')
+  if (tagParam) {
+    activeTag = tagParam
+    pills?.forEach(pill => {
+      const pillTag = pill.dataset.tag || ''
+      pill.classList.toggle('tag-pill--active', pillTag === tagParam)
+    })
+  }
+</script>
+```
+
+**Behavior:** Tag pills and search work together — clicking a tag narrows the set, then search filters within that set. Active pill gets `.tag-pill--active` class. URL syncs via `history.pushState` / `popstate`.
+
+**Review:** `npm run build` + Playwright screenshots of posts page (dark/light, all tag states).
+
+---
+
+#### Phase 19.2: Header — Remove Tags Nav Link
+**File:** `src/components/Header.astro`
+
+**Remove from desktop nav (around line 60):**
+```html
+<!-- DELETE: -->
+<a href={`${base}tags/`} class="nav-link ${currentPage === '/tags/' ? 'nav-link--active' : ''}">
+  tags
+</a>
+```
+
+**Remove from mobile nav (around line 133):**
+```html
+<!-- DELETE: -->
+<a href={`${base}tags/`} class="nav-link">
+  tags
+</a>
+```
+
+**Review:** Visual check on desktop and mobile nav.
+
+---
+
+#### Phase 19.3: Home Page — Update Tags Link
+**File:** `src/pages/index.astro`
+
+**Change card link (line ~81):**
+```html
+<!-- BEFORE: -->
+<a href={`${base}tags/`} class="page-card">
+
+<!-- AFTER: -->
+<a href={`${base}posts/`} class="page-card">
+```
+
+**Update card body text (line ~87):**
+```html
+<!-- BEFORE: -->
+<p class="page-card-body">
+  Explore posts organized by topic — filter by tags and categories.
+</p>
+
+<!-- AFTER: -->
+<p class="page-card-body">
+  Browse all posts — filter by tag or search by keyword.
+</p>
+```
+
+**Review:** Visual check of home page.
+
+---
+
+#### Phase 19.4: Redirects for Old Tags URLs
+**File:** `astro.config.mjs`
+
+**Add redirects to Astro config:**
+```javascript
+redirects: {
+  '/tags/': '/posts/',
+  '/tags/introduction/': '/posts/?tag=introduction',
+  '/tags/meta/': '/posts/?tag=meta',
+  '/tags/design/': '/posts/?tag=design',
+  '/tags/philosophy/': '/posts/?tag=philosophy',
+  '/tags/security/': '/posts/?tag=security',
+  '/tags/technology/': '/posts/?tag=technology',
+  '/tags/webdev/': '/posts/?tag=webdev',
+  '/tags/writing/': '/posts/?tag=writing',
+}
+```
+
+**Review:** `npm run build` + verify redirects work via Playwright.
+
+---
+
+#### Phase 19.5: Delete Tags Pages
+**Delete these files:**
+- `src/pages/tags.astro`
+- `src/pages/tags/[tag].astro`
+- `src/pages/tags/` directory
+
+**Review:** `npm run build` completes without errors.
+
+---
+
+#### Phase 19.6: Individual Post Page — Medium-Inspired Styling
+**File:** `src/pages/posts/[slug].astro`
+
+**Add reading progress bar (after `<Layout>` open tag, before `<div class="container">`):**
+```html
+<div class="reading-progress" aria-hidden="true">
+  <div class="reading-progress-bar" id="reading-progress-bar"></div>
+</div>
+```
+
+**Replace post meta + title block:**
+```html
+<!-- Meta -->
+<div class="post-meta">
+  {post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+  &nbsp;&nbsp;·&nbsp;&nbsp;{getReadingTime(postEntry!.body)} min read
+</div>
+
+<h1>{post.title}</h1>
+
+<div class="divider" aria-hidden="true">~~~</div>
+```
+
+**Replace post body container:**
+```html
+<div class="post-body">
+  {body}
+</div>
+```
+
+**Replace tags block:**
+```html
+{post.tags && post.tags.length > 0 && (
+  <div class="post-tags-pill">
+    {post.tags.map(tag => (
+      <a href={`${base}posts/?tag=${encodeURIComponent(tag)}`} class="tag-pill">
+        {tag}
+      </a>
+    ))}
+  </div>
+)}
+```
+
+**Add reading progress JS at bottom of file (before closing `</Layout>`):**
+```html
+<script>
+  const progressBar = document.getElementById('reading-progress-bar')
+  if (progressBar) {
+    function updateProgress() {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
+      progressBar.style.width = progress + '%'
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true })
+    updateProgress()
+  }
+</script>
+```
+
+**Review:** `npm run build` + Playwright screenshots of post page (dark/light).
+
+---
+
+#### Phase 19.7: Global CSS — Article Typography + Reading Styles
+**File:** `src/styles/global.css`
+
+**Add CSS variables for article styling (in dark section, after existing variables):**
+```css
+--article-max-width: 680px;
+--article-font-size: 18px;
+--article-line-height: 1.7;
+--heading-serif: Georgia, 'Times New Roman', Times, serif;
+```
+
+**Add CSS variables for article styling (in light section, after existing variables):**
+```css
+--article-max-width: 680px;
+--article-font-size: 18px;
+--article-line-height: 1.7;
+--heading-serif: Georgia, 'Times New Roman', Times, serif;
+```
+
+**Update `h1` styling (around line 115):**
+```css
+/* Keep monospace for terminal-style headings */
+h1 { font-size: 3.5rem; letter-spacing: -0.03em; font-family: var(--font-mono); }
+
+/* Article titles use Georgia serif */
+.post-body h1,
+.post-body h2,
+.post-body h3 {
+  font-family: var(--heading-serif);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-body h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
+.post-body h2 { font-size: 1.75rem; letter-spacing: -0.01em; }
+.post-body h3 { font-size: 1.35rem; }
+```
+
+**Add post body container styles (after `.post-tags-inline` rules):**
+```css
+.post-body {
+  font-size: var(--article-font-size);
+  line-height: var(--article-line-height);
+  max-width: var(--article-max-width);
+  margin: 0 auto;
+}
+
+.post-body p {
+  margin-bottom: 1.5rem;
+}
+
+.post-body h1,
+.post-body h2,
+.post-body h3,
+.post-body h4,
+.post-body h5,
+.post-body h6 {
+  font-family: var(--heading-serif);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-body h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
+.post-body h2 { font-size: 1.75rem; letter-spacing: -0.01em; }
+.post-body h3 { font-size: 1.35rem; }
+
+.post-body blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+.post-body pre {
+  background-color: var(--bg-hover);
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--text-muted);
+  border-radius: 0;
+}
+
+.post-body pre code {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.post-body hr {
+  border: none;
+  border-top: 1px solid var(--text-muted);
+  margin: 3rem 0;
+}
+
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+}
+
+.post-body ul,
+.post-body ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.post-body li {
+  margin-bottom: 0.5rem;
+}
+
+.post-body a {
+  color: var(--accent);
+  text-decoration-color: var(--accent-dim);
+}
+
+.post-body a:hover {
+  text-decoration-color: var(--accent);
+}
+```
+
+**Add reading progress bar styles (after `.nav-scrolled` rules):**
+```css
+/* === Reading Progress Bar === */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  z-index: 10000;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+```
+
+**Add pill tag styles for post tags (after existing tag pill styles):**
+```css
+.post-tags-pill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+```
+
+**Review:** Visual check of all post pages (dark/light).
+
+---
+
+#### Phase 19.8: Global CSS — Define `--bg-card` Variable
+**File:** `src/styles/global.css`
+
+**Add to dark section (around line 18):**
+```css
+--bg-card: #111111;
+```
+
+**Add to light section (around line 32):**
+```css
+--bg-card: #eaeaea;
+```
+
+**Review:** Home page `.open-source-box` and `.page-card` backgrounds render correctly.
+
+---
+
+#### Phase 19.9: Home Page — Move Inline Styles to Global CSS
+**File:** `src/pages/index.astro`
+
+**Remove the entire `<style>` block (lines 108-153).**
+
+**Add styles to `src/styles/global.css`:**
+```css
+/* === Home Page Cards === */
+.open-source-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.terminal-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+  display: inline-block;
+}
+
+.terminal-link:hover {
+  color: var(--accent-hover, var(--accent));
+  text-decoration: underline;
+}
+
+.page-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.page-card-header .prompt {
+  margin-bottom: 0.75rem;
+}
+
+.page-card-body {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 640px) {
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+**Review:** Home page visual check (dark/light).
+
+---
+
+#### Phase 19.10: About Page — Typography Alignment
+**File:** `src/pages/about.astro`
+
+**No structural changes.** The about page already follows the terminal aesthetic. Just ensure:
+- `h1` size matches global `h1` scale (already done via CSS)
+- Section spacing consistent with home page rhythm (already using `~~~` dividers)
+- `output-block` styling consistent with code blocks on post pages (already using `var(--text-dim)` border)
+
+**Review:** Visual comparison with home page and post pages.
+
+---
+
+#### Phase 19.11: 404 Page — Heading Alignment
+**File:** `src/pages/404.astro`
+
+**No structural changes.** The `h1` already uses the global `.error-404 h1` class with responsive sizing. Spacing already uses `~~~` dividers consistent with other pages.
+
+**Review:** Visual check on 404 page.
+
+---
+
+#### Phase 19.12: Global CSS — Standardize Heading Scale
+**File:** `src/styles/global.css`
+
+**Ensure consistent heading hierarchy across all pages:**
+```css
+/* Ensure heading scale is consistent */
+h1 { font-size: 3.5rem; letter-spacing: -0.03em; font-family: var(--font-mono); }
+h2 { font-size: 1.5rem; letter-spacing: -0.01em; font-family: var(--font-mono); }
+h3 { font-size: 1.25rem; font-family: var(--font-mono); }
+
+/* Article body headings override with serif */
+.post-body h1,
+.post-body h2,
+.post-body h3 {
+  font-family: var(--heading-serif);
+}
+```
+
+**Review:** Visual comparison of headings across all pages.
+
+---
+
+### Phase 19 Summary
+
+| # | File | Change |
+|---|------|--------|
+| 19.1 | `src/pages/posts.astro` | Add tag pill bar, combined tag+search filtering, `data-tags` attributes |
+| 19.2 | `src/components/Header.astro` | Remove "tags" nav link (desktop + mobile) |
+| 19.3 | `src/pages/index.astro` | Update tags card link → `/posts/`, update card description |
+| 19.4 | `astro.config.mjs` | Add 301 redirects for all `/tags/*` URLs |
+| 19.5 | Delete | `src/pages/tags.astro`, `src/pages/tags/[tag].astro`, `src/pages/tags/` |
+| 19.6 | `src/pages/posts/[slug].astro` | Reading progress bar, Georgia serif title, post-body wrapper, pill tags |
+| 19.7 | `src/styles/global.css` | Article typography (Georgia h1-h3, 18px body, 1.7 line-height), blockquote/code/hr/img styles, progress bar CSS, pill tag CSS |
+| 19.8 | `src/styles/global.css` | Define `--bg-card` in dark + light sections |
+| 19.9 | `src/pages/index.astro` + `src/styles/global.css` | Move inline `<style>` to global CSS, add page card styles |
+| 19.10 | `src/pages/about.astro` | No changes needed (already aligned) |
+| 19.11 | `src/pages/404.astro` | No changes needed (already aligned) |
+| 19.12 | `src/styles/global.css` | Standardize heading scale, ensure serif override for post body |
+
+---
+
+## Review Process
+
+After each phase of implementation:
+
+1. **Build**: `npm run build` to verify no errors
+2. **Screenshot**: Use Playwright MCP to capture visual test screenshots of all pages (dark and light modes)
+3. **Review**: Compare screenshots against DESIGN.md specifications
+4. **Fix**: Adjust any visual inconsistencies before moving to next phase
+5. **Document**: Update DESIGN.md and PLAN.md with any decisions made during implementation
+
+This ensures visual consistency and catches issues early. The **frontend-design skill** should be loaded during implementation for design guidance. Playwright MCP screenshots are used for iterative visual verification.
+
 ## Security Considerations
 - No server-side code — fully static
 - giscus uses GitHub token (stored as GitHub secret)

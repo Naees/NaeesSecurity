@@ -1,11 +1,15 @@
 ---
 import { getCollection } from 'astro:content'
+import { getAllTags, getTagCount, slugify } from '../lib/utils'
 import Layout from '../components/Layout.astro'
 
 const base = import.meta.env.BASE_URL
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+
+const allTags = getAllTags(posts)
+const tagCounts = getTagCount(posts)
 ---
 
 <Layout
@@ -45,11 +49,35 @@ const posts = (await getCollection('posts'))
     />
   </div>
 
+  <!-- Tag filter bar -->
+  <section id="tag-filter">
+  <div class="tag-filter-bar" id="tag-filter-bar">
+    <a
+      href={`${base}posts/`}
+      class="tag-pill tag-pill--active"
+      data-tag="all"
+    >
+      show all
+    </a>
+    {allTags.map(tag => (
+      <a
+        href={`${base}posts/?tag=${encodeURIComponent(tag)}`}
+        class="tag-pill"
+        data-tag={slugify(tag)}
+      >
+        {tag}<span class="tag-count">[{tagCounts.get(tag)}]</span>
+      </a>
+    ))}
+  </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">~~~</div>
+
   <!-- Post list — plain text, no cards -->
   <section id="posts">
   <div id="posts-list" role="list" aria-label="Blog posts">
     {posts.map(post => (
-      <div class="post-item" role="listitem" data-title={post.data.title.toLowerCase()} data-desc={post.data.description.toLowerCase()}>
+      <div class="post-item" role="listitem" data-title={post.data.title.toLowerCase()} data-desc={post.data.description.toLowerCase()} data-tags={post.data.tags?.map(t => slugify(t)).join(' ')}>
         <a href={`${base}posts/${post.id}/`}>
           <span class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
           <div class="post-title">{post.data.title}</div>
@@ -81,19 +109,71 @@ const posts = (await getCollection('posts'))
 </section>
 
 <script>
-  const searchInput = document.getElementById('search-input') as HTMLInputElement
+  const searchInput = document.getElementById('search-input')
+  const tagFilterBar = document.getElementById('tag-filter-bar')
   const postsList = document.getElementById('posts-list')
   const items = postsList?.querySelectorAll('.post-item')
+  const pills = tagFilterBar?.querySelectorAll('.tag-pill')
 
-  searchInput?.addEventListener('input', (e) => {
-    const query = (e.target as HTMLInputElement).value.toLowerCase()
+  let activeTag = 'all'
+
+  function filterPosts() {
+    const query = (searchInput?.value || '').toLowerCase()
     items?.forEach(item => {
       const title = (item as HTMLElement).dataset.title || ''
       const desc = (item as HTMLElement).dataset.desc || ''
-      const match = title.includes(query) || desc.includes(query)
-      ;(item as HTMLElement).style.display = match || query === '' ? '' : 'none'
+      const tags = (item as HTMLElement).dataset.tags || ''
+
+      const tagMatch = activeTag === 'all' || tags.includes(activeTag)
+      const searchMatch = !query || title.includes(query) || desc.includes(query)
+      const visible = tagMatch && searchMatch
+
+      ;(item as HTMLElement).style.display = visible ? '' : 'none'
     })
+  }
+
+  tagFilterBar?.addEventListener('click', (e) => {
+    const pill = (e.target as HTMLElement).closest('.tag-pill')
+    if (!pill) return
+
+    e.preventDefault()
+    const tag = pill.dataset.tag || 'all'
+    activeTag = tag
+
+    const url = tag === 'all'
+      ? base + 'posts/'
+      : base + 'posts/?tag=' + encodeURIComponent(tag)
+    history.pushState({ tag }, '', url)
+
+    pills?.forEach(p => p.classList.remove('tag-pill--active'))
+    pill.classList.add('tag-pill--active')
+
+    filterPosts()
   })
+
+  searchInput?.addEventListener('input', () => filterPosts())
+
+  window.addEventListener('popstate', (e) => {
+    const state = e.state || null
+    activeTag = state?.tag || 'all'
+
+    pills?.forEach(pill => {
+      const pillTag = pill.dataset.tag || ''
+      pill.classList.toggle('tag-pill--active', pillTag === activeTag)
+    })
+
+    filterPosts()
+  })
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const tagParam = urlParams.get('tag')
+  if (tagParam) {
+    activeTag = tagParam
+    pills?.forEach(pill => {
+      const pillTag = pill.dataset.tag || ''
+      pill.classList.toggle('tag-pill--active', pillTag === tagParam)
+    })
+  }
 </script>
 
 </Layout>
