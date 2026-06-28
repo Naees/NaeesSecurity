@@ -149,7 +149,11 @@ const tagCounts = getTagCount(posts)
     filterPosts()
   })
 
-  searchInput?.addEventListener('input', () => filterPosts())
+  let debounceTimer
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(filterPosts, 150)
+  })
 
   window.addEventListener('popstate', (e) => {
     const state = e.state || null
