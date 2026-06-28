@@ -100,9 +100,14 @@ async function main() {
     loadAllDiscussions(),
   ])
 
-  const discussionBySlug = new Map(
-    existingDiscussions.map(d => [d.slug, d])
-  )
+  const discussionBySlug = new Map<string, Discussion>()
+  for (const d of existingDiscussions) {
+    // Extract slug from discussion title: "https://naees.github.io/NaeesWrites/posts/<slug>/"
+    const titleMatch = d.title.match(/\/posts\/([^/]+)\//)
+    if (titleMatch) {
+      discussionBySlug.set(titleMatch[1], d)
+    }
+  }
 
   let created = 0
   let skipped = 0
@@ -115,12 +120,17 @@ async function main() {
         console.log(`  ✓ "${post.title}" — discussion exists with correct title`)
         skipped++
       } else {
-        await createDiscussion(post.slug, post.title)
-        created++
+        console.log(`  ⚠ "${post.title}" — discussion exists with different title, skipping`)
+        skipped++
       }
     } else {
-      await createDiscussion(post.slug, post.title)
-      created++
+      try {
+        await createDiscussion(post.slug, post.title)
+        created++
+      } catch (err) {
+        console.log(`  ✗ "${post.title}" — failed to create discussion, skipping`)
+        skipped++
+      }
     }
   }
 
