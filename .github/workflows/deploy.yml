@@ -35,18 +35,6 @@ jobs:
       - name: Auto-tag posts
         run: npm run auto-tag -- -y
 
-      - name: Commit auto-tag changes
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          if git diff --quiet; then
-            echo "No tag changes to commit"
-          else
-            git add .
-            git commit -m "ci: auto-update tags"
-            git push
-          fi
-
       - name: Build
         run: npm run build
 
