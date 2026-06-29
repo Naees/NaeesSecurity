@@ -32,9 +32,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Auto-tag posts
-        run: npm run auto-tag -- -y
-
       - name: Build
         run: npm run build
 
