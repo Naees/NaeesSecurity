@@ -779,6 +779,14 @@ pre code {
   margin-bottom: 0.5rem;
 }
 
+/* === Section subtitles on About page === */
+.section-subtitle {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+
 /* === Post tags inline === */
 .post-tags-inline {
   display: flex;
