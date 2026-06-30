@@ -21,9 +21,6 @@ const base = import.meta.env.BASE_URL
     <div class="about-bio">
       <!-- Terminal: whoami -->
       <div style="margin-bottom: 1.5rem;">
-        <div class="prompt typing-line">
-          <span class="dollar">$</span> naees@writes:~$ whoami<span class="cursor-blink">█</span>
-        </div>
       </div>
 
       <div class="about-bio-header">
@@ -107,18 +104,15 @@ When I'm not writing, I'm exploring new technologies, reading, or working on sid
   <!-- PGP Public Key -->
   <section id="pgp">
     <h2 class="section-title">PGP Public Key</h2>
-    <p class="section-subtitle">Want to reach out, have something important to share. Let's keep it secure.</p>
+    <p class="section-subtitle">For encrypted email correspondence, please use my key below.</p>
 
     <div class="output-block about-pgp-block" style="border-left-color: var(--accent);">
-pub   ed25519 2026-06-21 [SC]
-      EE03 DCB4 E594 D725 C528  83E0 4BCC B80F BFB5 EE54
-uid           naees@protonmail.com &lt;naees@protonmail.com&gt;
-sub   cv25519 2026-06-21 [E]
+      key fingerprint: EE03 DCB4 E594 D725 C528  83E0 4BCC B80F BFB5 EE54
     </div>
 
     <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
       <a href={`${base}keys/publickey.naees.asc`} class="btn" download>
-        → download .asc
+        download .asc
       </a>
     </div>
   </section>
@@ -127,11 +121,11 @@ sub   cv25519 2026-06-21 [E]
 
   <!-- Signal -->
   <section id="signal">
-    <h2 class="section-title">Signal</h2>
-    <p class="section-subtitle">End-to-end encrypted. No logs, no trackers, just you and whoever you trust.</p>
+    <h2 class="section-title">Message me on Signal</h2>
+    <p class="section-subtitle">Want to reach out, have something important to share. Let's keep it secure.</p>
     <div style="margin-top: 1rem;">
       <a href="https://signal.me/#eu/1Fkdlvu4vmAqdT-5QwGdGFH1b4uOrLlpyMlK8Fyr5aw_eu6XMJ1PEYOH18jG1nMY" class="btn" target="_blank" rel="noopener noreferrer">
-        → message on Signal
+      message me here
       </a>
     </div>
   </section>
