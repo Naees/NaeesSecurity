@@ -771,6 +771,14 @@ pre code {
   margin-bottom: 0.5rem;
 }
 
+/* === Section titles on About page === */
+.section-title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
 /* === Post tags inline === */
 .post-tags-inline {
   display: flex;
