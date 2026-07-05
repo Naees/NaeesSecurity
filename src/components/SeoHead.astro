@@ -10,9 +10,8 @@ interface Props {
 }
 
 const { title, description, pathname, type = 'website', publishedTime } = Astro.props;
-const base = import.meta.env.BASE_URL;
 const canonical = new URL(pathname.replace(/^\//, ''), site.url.endsWith('/') ? site.url : `${site.url}/`).toString();
-const image = `${site.url}${base}assets/kittenwiz_logo.webp`;
+const image = `${site.url}/assets/kittenwiz_logo.webp`;
 ---
 
 <title>{title}</title>
