@@ -20,5 +20,36 @@ export const navLinks = [
   // { href: '/research/', label: 'research' },
   { href: '/posts/', label: site.blogName },
   { href: '/about/', label: 'about' },
-  { href: '/keys/', label: 'keys' },
+  { href: '/keys/', label: 'contact' },
 ];
+
+export const tagTaxonomy = [
+  'security',
+  'web-security',
+  'identity',
+  'cloud-security',
+  'vulnerability-research',
+  'secure-contact',
+  'pgp',
+  'contact',
+  'field-notes',
+  'method',
+  'methodology',
+  'site',
+  'site-notes',
+  'design',
+  'writing',
+] as const;
+
+export const tagGuidelines = {
+  min: 3,
+  max: 5,
+  source: 'Use the controlled tagTaxonomy list unless a post clearly needs a new recurring category.',
+  rules: [
+    'Prefer specific technical tags over broad tags.',
+    'Use field-notes for short research/process notes.',
+    'Use site-notes only for posts about this website or publishing workflow.',
+    'Do not add one-off tags that are unlikely to be reused.',
+    'Keep tags lowercase kebab-case.',
+  ],
+};

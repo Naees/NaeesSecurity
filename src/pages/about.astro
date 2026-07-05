@@ -3,54 +3,57 @@ import Layout from '../components/Layout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="About Naees" description="About Naees, NaeesSecurity, secure contact, and Haku the co-author." pathname="/about/">
+<Layout title="Meet the team — NaeesSecurity" description="Meet the small team behind NaeesSecurity: Naees and Haku." pathname="/about/">
   <section class="page-hero shell page-hero--with-mark">
-    <p class="eyebrow">about</p>
-    <h1>Naees builds a public notebook for security work, writing, and useful edge cases.</h1>
-    <p class="lede">I write as Naees. NaeesSecurity is the public research desk: a place for security notes, technical essays, and the occasional personal artifact that keeps the site human.</p>
+    <p class="eyebrow">meet the team</p>
+    <h1>A small research desk with one operator and one very strict morale officer.</h1>
+    <p class="lede">NaeesSecurity is maintained by Naees as a public home for security notes, technical writing, and useful edge cases. Haku handles operational resilience, walk enforcement, and keyboard-adjacent supervision.</p>
     <img class="ghost-mark" src={`${base}assets/kittenwiz_logo.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
   </section>
 
-  <section class="shell dossier">
-    <div class="dossier__panel">
-      <h2>Focus areas</h2>
-      <ul class="check-list">
-        <li>Web application security and authorization failures</li>
-        <li>Identity, access, and account-boundary mistakes</li>
-        <li>Cloud exposure, misconfiguration, and practical attack paths</li>
-        <li>Security automation, scripts, notes, and reproducible methodology</li>
-        <li>Clear writing: turning confusing systems into readable explanations</li>
-      </ul>
-    </div>
-    <div class="dossier__panel dossier__panel--dark">
-      <h2>Working style</h2>
-      <p>I like small clues, boring logs, and the parts of systems that everyone assumes are already handled. The site is designed as a field desk: case files when there is research, essays when there is a lesson, and secure contact when the conversation should not be public.</p>
-    </div>
-  </section>
-
-  <section class="shell haku-card">
-    <div>
-      <p class="eyebrow">co-author / morale officer</p>
-      <h2>Haku keeps incident response grounded.</h2>
-      <p>Haku does not write the posts, but provides excellent review coverage by sleeping nearby, interrupting long debugging sessions, and reminding the operator to leave the terminal.</p>
-      <p class="muted">Status: on duty, probably asleep. Clearance: treats required.</p>
-    </div>
-    <div class="haku-card__images">
-      <img src={`${base}assets/haku.webp`} alt="Haku" loading="eager" decoding="async" />
-      <div class="mini-dossier">
-        <span>canine division</span>
-        <strong>review protocol</strong>
-        <p>Sniff anomalies. Interrupt tunnel vision. Enforce walks before overfitting the theory.</p>
+  <section class="shell team-grid" aria-label="Team members">
+    <article class="team-card team-card--lead">
+      <div class="team-card__meta">
+        <span>01 / operator</span>
+        <span>security research · writing</span>
       </div>
-    </div>
+      <h2>Naees</h2>
+      <p>I study how systems fail at the edges: web authorization, identity boundaries, cloud exposure, and the small assumptions that grow into practical attack paths.</p>
+      <div class="skill-list" aria-label="Naees skills">
+        <span>Web security</span>
+        <span>Identity & access control</span>
+        <span>Cloud exposure review</span>
+        <span>Security automation</span>
+        <span>Technical writing</span>
+      </div>
+    </article>
+
+    <article class="team-card team-card--haku">
+      <div class="team-card__meta">
+        <span>02 / canine division</span>
+        <span>morale · incident response</span>
+      </div>
+      <div class="team-card__image-wrap">
+        <img src={`${base}assets/haku.webp`} alt="Haku" loading="eager" decoding="async" />
+      </div>
+      <h2>Haku</h2>
+      <p>Haku keeps the desk grounded: interrupts tunnel vision, enforces breaks, and performs suspicious-package inspection with admirable seriousness.</p>
+      <div class="skill-list" aria-label="Haku skills">
+        <span>Morale operations</span>
+        <span>Walk scheduling</span>
+        <span>Snack-driven triage</span>
+        <span>Keyboard interruption</span>
+        <span>Threat sniffing</span>
+      </div>
+    </article>
   </section>
 
   <section class="shell contact-block">
     <div>
       <p class="eyebrow">secure contact</p>
       <h2>Open to collaboration and security engagement.</h2>
-      <p>For sensitive correspondence, use the PGP key. For quick contact, email is listed in the footer and the keys page includes the current fingerprint.</p>
+      <p>For sensitive correspondence, use the PGP key. For quick contact, email is listed in the footer and the contact page includes the current fingerprint.</p>
     </div>
-    <a class="button button--primary" href={`${base}keys/`}>View keys and contact</a>
+    <a class="button button--primary" href={`${base}keys/`}>View contact details</a>
   </section>
 </Layout>

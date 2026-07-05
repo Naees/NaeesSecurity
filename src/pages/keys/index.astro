@@ -4,9 +4,9 @@ import { site } from '../../data/site';
 const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="Keys and contact — Naees" description="PGP fingerprint, public key, Signal, and contact details for Naees." pathname="/keys/">
+<Layout title="Contact — Naees" description="PGP fingerprint, public key, Signal, and contact details for Naees." pathname="/keys/">
   <section class="page-hero shell">
-    <p class="eyebrow">keys / contact</p>
+    <p class="eyebrow">contact / keys</p>
     <h1>Verify before you trust the channel.</h1>
     <p class="lede">Use the public key for encrypted mail. If the context is sensitive, prefer a verified secure channel and check the fingerprint below.</p>
   </section>
@@ -20,26 +20,23 @@ const base = import.meta.env.BASE_URL;
     </div>
   </section>
 
-  <section class="shell contact-engage" aria-labelledby="contact-title">
-    <div class="contact-engage__panel">
-      <p class="contact-engage__eyebrow">new message</p>
-      <h2 id="contact-title">Name your <em>target</em>.</h2>
-      <p>Send a rough scope, question, or disclosure note. This drafts an email locally in your mail client; nothing is submitted to a third-party form backend.</p>
-
-      <form class="contact-form" data-mailto-form>
-        <label>
-          <span>Email subject</span>
-          <input name="subject" type="text" placeholder="Security collaboration / disclosure / question" required />
-        </label>
-        <label>
-          <span>Comment · scope in 3–5 lines</span>
-          <textarea name="body" rows="7" placeholder="e.g. Naees, I’m reaching out about an application security question.&#10;&#10;Context:&#10;Scope:&#10;Timeline:&#10;Preferred reply channel:" required></textarea>
-        </label>
-        <button class="contact-submit" type="submit">Send scope →</button>
-      </form>
-
-      <p class="contact-engage__note">For sensitive material, encrypt with the PGP key above or reach out over Signal.</p>
+  <section class="shell contact-form-section" aria-labelledby="contact-title">
+    <div>
+      <p class="eyebrow">contact</p>
+      <h2 id="contact-title">Send an email</h2>
+      <p>Share your work email and a short description. The form opens a pre-filled email draft addressed to Naees; it does not send anything until you review and send it from your mail client.</p>
     </div>
+    <form class="contact-form" data-mailto-form>
+      <label>
+        <span>Work email</span>
+        <input name="workEmail" type="email" placeholder="name@company.com" required />
+      </label>
+      <label>
+        <span>Description</span>
+        <textarea name="body" rows="8" placeholder="Hi Naees,&#10;&#10;I’m reaching out about...&#10;&#10;Context:&#10;Scope:&#10;Timeline:&#10;Preferred reply channel:" required></textarea>
+      </label>
+      <button class="button button--primary" type="submit">Open email draft</button>
+    </form>
   </section>
 
   <section class="shell contact-grid">
@@ -53,8 +50,10 @@ const base = import.meta.env.BASE_URL;
     form?.addEventListener('submit', (event) => {
       event.preventDefault();
       const data = new FormData(form);
-      const subject = String(data.get('subject') || 'Contact from NaeesSecurity');
-      const body = String(data.get('body') || '');
+      const workEmail = String(data.get('workEmail') || '');
+      const message = String(data.get('body') || '');
+      const subject = `Contact from ${workEmail}`;
+      const body = `Work email: ${workEmail}\n\n${message}`;
       window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
   </script>
