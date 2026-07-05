@@ -4,18 +4,83 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Re-check the dependency/security posture daily against newly published advisories.
+    - cron: '17 4 * * *'
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
+  security-events: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
+  security_review:
+    name: Security review
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check npm advisories
+        run: npm audit --audit-level=moderate
+
+      - name: Semgrep static security review
+        run: |
+          python3 -m pip install --upgrade pip semgrep
+          semgrep scan --config p/security-audit --config p/secrets --error
+
+      - name: Repository hygiene review
+        run: |
+          forbidden_paths='^(\.agents/|\.opencode/|\.vscode/|\.husky/|tests/|playwright\.config\.ts|skills-lock\.json)'
+          if git ls-files | grep -E "$forbidden_paths"; then
+            echo "Forbidden local/development files are tracked." >&2
+            exit 1
+          fi
+
+          non_webp_assets="$({ find public/assets -type f ! -name '*.webp' -print || true; } | sed '/^$/d')"
+          if [ -n "$non_webp_assets" ]; then
+            echo "Only .webp files are allowed in public/assets." >&2
+            echo "$non_webp_assets" >&2
+            exit 1
+          fi
+
+          echo "Reviewed commit range:"
+          git log --oneline -2
+          echo "Changed files:"
+          git diff --name-status HEAD~1..HEAD || true
+
+  osv_scan:
+    name: OSV vulnerability scan
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.3.8
+    with:
+      scan-args: |-
+        --lockfile=package-lock.json
+    permissions:
+      actions: read
+      security-events: write
+      contents: read
+
   build:
+    needs: [security_review, osv_scan]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +91,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
           cache: npm
 
       - name: Install dependencies
@@ -43,6 +108,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Scheduled runs audit the current site/dependencies but do not redeploy unchanged output.
+    if: github.event_name != 'schedule'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
