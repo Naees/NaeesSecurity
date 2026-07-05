@@ -13,9 +13,9 @@
     "new-post": "node --import tsx scripts/new-post.ts"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.14",
-    "@astrojs/sitemap": "^3.4.1",
-    "astro": "^6.4.7"
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.0.6"
   },
   "devDependencies": {
     "tsx": "^4.19.0"
