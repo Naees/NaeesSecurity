@@ -1,7 +1,8 @@
 export const site = {
   name: 'NaeesSecurity',
   author: 'Naees',
-  blogName: 'NaeesSecurity',
+  headerName: 'NaeesWrites',
+  blogName: 'NaeesWrites',
   tagline: 'Security research, writing, and notes from the edge cases.',
   description: 'Security research, field notes, and technical writing by Naees.',
   url: 'https://naees.github.io/NaeesSecurity',
@@ -15,7 +16,8 @@ export const site = {
 
 export const navLinks = [
   { href: '/', label: 'home' },
-  { href: '/research/', label: 'research' },
+  // Research is intentionally hidden from the header until the section has real case files.
+  // { href: '/research/', label: 'research' },
   { href: '/posts/', label: site.blogName },
   { href: '/about/', label: 'about' },
   { href: '/keys/', label: 'keys' },

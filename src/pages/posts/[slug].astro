@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../components/Layout.astro';
+import GiscusComments from '../../components/GiscusComments.astro';
+import { site } from '../../data/site';
 import { formatDate, getReadingTime } from '../../lib/utils';
 
 const base = import.meta.env.BASE_URL;
@@ -14,10 +16,10 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout title={`${post.data.title} — NaeesSecurity`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page">
+<Layout title={`${post.data.title} — ${site.blogName}`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page">
   <article class="article shell-narrow">
     <header class="article__header">
-      <a class="back-link" href={`${base}posts/`}>← NaeesSecurity</a>
+      <a class="back-link" href={`${base}posts/`}>← {site.blogName}</a>
       <p class="eyebrow">{formatDate(post.data.date)} · {getReadingTime(post.body)} min read</p>
       <h1>{post.data.title}</h1>
       <p>{post.data.description}</p>
@@ -28,5 +30,6 @@ const { Content } = await render(post);
     <div class="article__body">
       <Content />
     </div>
+    <GiscusComments />
   </article>
 </Layout>

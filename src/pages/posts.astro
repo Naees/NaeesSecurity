@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../components/Layout.astro';
+import { site } from '../data/site';
 import { formatDate } from '../lib/utils';
 
 const base = import.meta.env.BASE_URL;
@@ -9,9 +10,9 @@ const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<Layout title="NaeesSecurity — notes archive" description="NaeesSecurity: essays, security notes, and technical writing by Naees." pathname="/posts/">
+<Layout title={`${site.blogName} — notes archive`} description={`${site.blogName}: essays, security notes, and technical writing by Naees.`} pathname="/posts/">
   <section class="page-hero shell">
-    <p class="eyebrow">NaeesSecurity</p>
+    <p class="eyebrow">{site.blogName}</p>
     <h1>The blog layer: essays, notes, and research fragments.</h1>
     <p class="lede">A quieter archive for thoughts that need more room than a console line: security, technology, reading, systems, and field notes in progress.</p>
   </section>
