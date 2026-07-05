@@ -8,6 +8,7 @@ const base = import.meta.env.BASE_URL;
 const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort();
 ---
 
 <Layout title={`${site.blogName} — notes archive`} description={`${site.blogName}: essays, security notes, and technical writing by Naees.`} pathname="/posts/">
@@ -17,9 +18,30 @@ const posts = (await getCollection('posts'))
     <p class="lede">A quieter archive for thoughts that need more room than a console line: security, technology, reading, systems, and field notes in progress.</p>
   </section>
 
-  <section class="shell archive-list">
+  <section class="shell archive-controls" aria-label="Post search and filters">
+    <label class="archive-search">
+      <span>Search posts</span>
+      <input data-post-search type="search" placeholder="Search title, description, or tag…" autocomplete="off" />
+    </label>
+
+    <div class="tag-filter" aria-label="Filter by tags">
+      {tags.map((tag) => (
+        <button type="button" class="tag-filter__button" data-tag-filter={tag} aria-pressed="false">{tag}</button>
+      ))}
+    </div>
+
+    <p class="archive-count" data-post-count>{posts.length} posts</p>
+  </section>
+
+  <section class="shell archive-list" data-post-list>
     {posts.map((post) => (
-      <a class="archive-item" href={`${base}posts/${post.id}/`}>
+      <a
+        class="archive-item"
+        href={`${base}posts/${post.id}/`}
+        data-post-item
+        data-tags={post.data.tags.join(',')}
+        data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`.toLowerCase()}
+      >
         <time>{formatDate(post.data.date)}</time>
         <div>
           <h2>{post.data.title}</h2>
@@ -28,5 +50,76 @@ const posts = (await getCollection('posts'))
         </div>
       </a>
     ))}
+    <p class="archive-empty" data-post-empty hidden>No posts match the current search.</p>
   </section>
+
+  <script>
+    const searchInput = document.querySelector('[data-post-search]');
+    const postItems = Array.from(document.querySelectorAll('[data-post-item]'));
+    const tagButtons = Array.from(document.querySelectorAll('[data-tag-filter]'));
+    const count = document.querySelector('[data-post-count]');
+    const empty = document.querySelector('[data-post-empty]');
+    const selectedTags = new Set();
+    let frame = 0;
+
+    const posts = postItems.map((element) => ({
+      element,
+      search: element.getAttribute('data-search') || '',
+      tags: new Set((element.getAttribute('data-tags') || '').split(',').filter(Boolean)),
+    }));
+
+    function postMatches(post, query, tags = selectedTags) {
+      if (query && !post.search.includes(query)) return false;
+      for (const tag of tags) {
+        if (!post.tags.has(tag)) return false;
+      }
+      return true;
+    }
+
+    function scheduleFilter() {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(applyFilters);
+    }
+
+    function applyFilters() {
+      const query = (searchInput?.value || '').trim().toLowerCase();
+      let visible = 0;
+
+      for (const post of posts) {
+        const matches = postMatches(post, query);
+        post.element.hidden = !matches;
+        if (matches) visible++;
+      }
+
+      for (const button of tagButtons) {
+        const tag = button.getAttribute('data-tag-filter');
+        if (!tag) continue;
+
+        const tagsWithoutCurrent = new Set(selectedTags);
+        tagsWithoutCurrent.delete(tag);
+        const hasMatches = posts.some((post) => post.tags.has(tag) && postMatches(post, query, tagsWithoutCurrent));
+        const isSelected = selectedTags.has(tag);
+
+        button.hidden = !isSelected && !hasMatches;
+        button.setAttribute('aria-pressed', String(isSelected));
+        button.classList.toggle('is-selected', isSelected);
+      }
+
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'post' : 'posts'}`;
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    searchInput?.addEventListener('input', scheduleFilter, { passive: true });
+    for (const button of tagButtons) {
+      button.addEventListener('click', () => {
+        const tag = button.getAttribute('data-tag-filter');
+        if (!tag) return;
+        if (selectedTags.has(tag)) selectedTags.delete(tag);
+        else selectedTags.add(tag);
+        scheduleFilter();
+      });
+    }
+
+    applyFilters();
+  </script>
 </Layout>

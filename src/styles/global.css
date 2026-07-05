@@ -128,11 +128,21 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 .contact-grid a { border: 1px solid var(--line); border-radius: 16px; padding: 1.2rem; text-decoration: none; color: var(--paper-2); }
 .contact-grid span { display: block; color: var(--phosphor); font: 800 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .14em; margin-bottom: .7rem; }
 
+.archive-controls { border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.035); padding: clamp(1rem, 3vw, 1.5rem); margin-bottom: 2rem; }
+.archive-search { display: grid; gap: .55rem; }
+.archive-search span { color: var(--phosphor); font: 800 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .14em; }
+.archive-search input { width: 100%; border: 1px solid var(--line); border-radius: 14px; background: rgba(0,0,0,.26); color: var(--paper); padding: .95rem 1rem; font: 1rem/1.4 var(--sans); }
+.archive-search input:focus { outline: 2px solid rgba(215,255,115,.55); outline-offset: 2px; }
+.tag-filter { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1rem; }
+.tag-filter__button { border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.035); color: var(--paper-2); padding: .5rem .7rem; font: 800 .68rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; cursor: pointer; }
+.tag-filter__button:hover, .tag-filter__button.is-selected { border-color: var(--phosphor); color: var(--ink); background: var(--phosphor); }
+.archive-count { margin: 1rem 0 0; color: var(--muted); font: 700 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .12em; }
 .archive-list { padding-bottom: 5rem; }
 .archive-item { display: grid; grid-template-columns: 180px 1fr; gap: 2rem; padding: 1.6rem 0; border-top: 1px solid var(--line); text-decoration: none; }
 .archive-item h2 { font-size: clamp(1.7rem, 3vw, 3rem); margin-bottom: .5rem; }
 .archive-item p { color: var(--paper-2); max-width: 72ch; line-height: 1.6; }
 .archive-item span { color: var(--phosphor); font: 700 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .12em; }
+.archive-empty { border-top: 1px solid var(--line); color: var(--paper-2); padding: 2rem 0; }
 
 .article-page { background: radial-gradient(circle at 50% 0%, rgba(215,255,115,.08), transparent 24rem), var(--ink); color: var(--paper); }
 .article { padding: 4rem 0 6rem; }

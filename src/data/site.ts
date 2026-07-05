@@ -1,7 +1,7 @@
 export const site = {
   name: 'NaeesSecurity',
   author: 'Naees',
-  headerName: 'NaeesWrites',
+  headerName: 'NaeesSecurity',
   blogName: 'NaeesWrites',
   tagline: 'Security research, writing, and notes from the edge cases.',
   description: 'Security research, field notes, and technical writing by Naees.',
@@ -20,7 +20,7 @@ export const navLinks = [
   // { href: '/research/', label: 'research' },
   { href: '/posts/', label: site.blogName },
   { href: '/about/', label: 'about' },
-  { href: '/keys/', label: 'contact' },
+  { href: '/contact/', label: 'contact' },
 ];
 
 export const tagTaxonomy = [
