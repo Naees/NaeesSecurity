@@ -20,29 +20,32 @@ const base = import.meta.env.BASE_URL;
     </div>
   </section>
 
-  <section class="shell contact-form-section" aria-labelledby="contact-title">
-    <div>
-      <p class="eyebrow">contact</p>
-      <h2 id="contact-title">Send an email</h2>
-      <p>Use this form to draft an email in your mail client. Example: “I’m reaching out about a security collaboration, disclosure, or technical question. Here is the context, scope, timeline, and preferred reply channel.”</p>
+  <section class="shell contact-engage" aria-labelledby="contact-title">
+    <div class="contact-engage__panel">
+      <p class="contact-engage__eyebrow">new message</p>
+      <h2 id="contact-title">Name your <em>target</em>.</h2>
+      <p>Send a rough scope, question, or disclosure note. This drafts an email locally in your mail client; nothing is submitted to a third-party form backend.</p>
+
+      <form class="contact-form" data-mailto-form>
+        <label>
+          <span>Email subject</span>
+          <input name="subject" type="text" placeholder="Security collaboration / disclosure / question" required />
+        </label>
+        <label>
+          <span>Comment · scope in 3–5 lines</span>
+          <textarea name="body" rows="7" placeholder="e.g. Naees, I’m reaching out about an application security question.&#10;&#10;Context:&#10;Scope:&#10;Timeline:&#10;Preferred reply channel:" required></textarea>
+        </label>
+        <button class="contact-submit" type="submit">Send scope →</button>
+      </form>
+
+      <p class="contact-engage__note">For sensitive material, encrypt with the PGP key above or reach out over Signal.</p>
     </div>
-    <form class="contact-form" data-mailto-form>
-      <label>
-        <span>Subject</span>
-        <input name="subject" type="text" placeholder="Security collaboration / disclosure / question" required />
-      </label>
-      <label>
-        <span>Message</span>
-        <textarea name="body" rows="8" placeholder="Hi Naees,&#10;&#10;I’m reaching out about...&#10;&#10;Context:&#10;Scope:&#10;Preferred reply channel:" required></textarea>
-      </label>
-      <button class="button button--primary" type="submit">Open email draft</button>
-    </form>
   </section>
 
   <section class="shell contact-grid">
     <a href={`mailto:${site.email}`}><span>Email</span> {site.email}</a>
     <a href={site.github} target="_blank" rel="noopener noreferrer"><span>GitHub</span> github.com/Naees</a>
-    <a href={site.x} target="_blank" rel="noopener noreferrer"><span>X</span> twitter.com/Naees</a>
+    <a href={site.x} target="_blank" rel="noopener noreferrer"><span>X</span> x.com/NaeesSecurity</a>
   </section>
 
   <script define:vars={{ email: site.email }}>
