@@ -1,0 +1,28 @@
+---
+import Layout from '../../components/Layout.astro';
+import { site } from '../../data/site';
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="Keys and contact — Naees" description="PGP fingerprint, public key, Signal, and contact details for Naees." pathname="/keys/">
+  <section class="page-hero shell">
+    <p class="eyebrow">keys / contact</p>
+    <h1>Verify before you trust the channel.</h1>
+    <p class="lede">Use the public key for encrypted mail. If the context is sensitive, prefer a verified secure channel and check the fingerprint below.</p>
+  </section>
+
+  <section class="shell key-panel">
+    <p class="eyebrow">PGP fingerprint</p>
+    <code>{site.pgpFingerprint}</code>
+    <div class="actions">
+      <a class="button button--primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+      <a class="button" href={site.signal} target="_blank" rel="noopener noreferrer">Message on Signal</a>
+    </div>
+  </section>
+
+  <section class="shell contact-grid">
+    <a href={`mailto:${site.email}`}><span>Email</span> {site.email}</a>
+    <a href={site.github} target="_blank" rel="noopener noreferrer"><span>GitHub</span> github.com/Naees</a>
+    <a href={site.x} target="_blank" rel="noopener noreferrer"><span>X</span> twitter.com/Naees</a>
+  </section>
+</Layout>

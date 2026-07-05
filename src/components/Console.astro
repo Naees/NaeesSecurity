@@ -1,0 +1,20 @@
+---
+import { site } from '../data/site';
+
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+
+<aside class:list={['console', compact && 'console--compact']} aria-label="Research console">
+  <div class="console__bar">
+    <span></span><span></span><span></span>
+    <strong>operator.naees</strong>
+  </div>
+  <div class="console__screen">
+    <p><b>status</b> open to collaboration / engagement</p>
+    <p><b>focus</b> {site.focus.join(' · ')}</p>
+    <p><b>archive</b> {site.blogName} / field notes / case files</p>
+    <p><b>pgp</b> {site.pgpFingerprint}</p>
+    <p class="console__prompt">$ ./read-latest --signal-noise low<span aria-hidden="true">█</span></p>
+  </div>
+</aside>

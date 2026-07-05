@@ -1,58 +1,46 @@
 ---
-import SeoHead from './SeoHead.astro'
-import Header from './Header.astro'
-import Footer from './Footer.astro'
 import '../styles/global.css';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import SeoHead from './SeoHead.astro';
 
 interface Props {
   title: string;
   description: string;
   pathname: string;
-  publishedTime?: string;
   type?: 'website' | 'article';
+  publishedTime?: string;
+  pageClass?: string;
 }
 
-const { title, description, pathname, publishedTime, type = 'website' } = Astro.props
-const base = import.meta.env.BASE_URL
+const {
+  title,
+  description,
+  pathname,
+  type = 'website',
+  publishedTime,
+  pageClass = '',
+} = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href={`${base}assets/kittenwiz_logo_darkmode.svg`} />
-    <link rel="alternate" type="application/rss+xml" title="Naees Writes RSS" href={`${base}rss.xml`} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="color-scheme" content="light dark" />
-    <SeoHead title={title} description={description} pathname={pathname} publishedTime={publishedTime} type={type} />
+    <meta name="theme-color" content="#070808" />
+    <link rel="icon" href={`${base}assets/kittenwiz_logo.webp`} />
+    <link rel="alternate" type="application/rss+xml" title="NaeesWrites RSS" href={`${base}rss.xml`} />
+    <SeoHead title={title} description={description} pathname={pathname} type={type} publishedTime={publishedTime} />
   </head>
-  <body>
-    <script is:inline>
-      (function() {
-        try {
-          const theme = localStorage.getItem('theme');
-          if (theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-          }
-        } catch(e) {}
-      })();
-
-    </script>
-    <img src={`${base}assets/kittenwiz_logo_lightmode.svg`} alt="" class="haku-watermark" aria-hidden="true" />
-    <img src={`${base}assets/kittenwiz_logo_darkmode.svg`} alt="" class="haku-watermark--glow" aria-hidden="true" />
-    <Header currentPage={pathname}>
-      <slot name="darkModeToggle" slot="darkModeToggle" />
-    </Header>
-    <main style="min-height: 60vh; position: relative; z-index: 1;">
-      <div style="opacity: 0.92;">
-        <slot />
-      </div>
+  <body class={pageClass}>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <Header pathname={pathname} />
+    <main id="content">
+      <slot />
     </main>
     <Footer />
-    <div class="scanlines" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
   </body>
 </html>

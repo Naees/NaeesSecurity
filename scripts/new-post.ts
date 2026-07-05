@@ -9,10 +9,9 @@
  * If the generated slug already exists, appends -1, -2, etc.
  */
 
-import { writeFileSync, existsSync, readdirSync } from 'fs'
+import { writeFileSync, readdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { execSync } from 'child_process'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const postsDir = join(__dirname, '..', 'src', 'content', 'posts')
@@ -75,19 +74,6 @@ draft: true
   
   const filePath = join(postsDir, `${slug}.md`)
   writeFileSync(filePath, content, 'utf-8')
-  
-  // Capture git commit date for footer
-  const publicDir = join(__dirname, '..', 'public')
-  if (!existsSync(publicDir)) {
-    writeFileSync(join(publicDir, '.last-commit-date.json'), JSON.stringify({ date: today }), 'utf-8')
-  } else {
-    try {
-      const commitDate = execSync('git log -1 --format="%cd" --date=format:"%Y-%m-%d"', { encoding: 'utf-8' }).trim()
-      writeFileSync(join(publicDir, '.last-commit-date.json'), JSON.stringify({ date: commitDate }), 'utf-8')
-    } catch {
-      writeFileSync(join(publicDir, '.last-commit-date.json'), JSON.stringify({ date: today }), 'utf-8')
-    }
-  }
   
   console.log(`\n✅ Created draft post: ${filePath}`)
   console.log(`   Slug: ${slug}`)

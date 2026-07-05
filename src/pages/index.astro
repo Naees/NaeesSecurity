@@ -1,109 +1,61 @@
 ---
-import Layout from '../components/Layout.astro'
-import Divider from '../components/Divider.astro'
-const base = import.meta.env.BASE_URL
+import { getCollection } from 'astro:content';
+import Layout from '../components/Layout.astro';
+import Console from '../components/Console.astro';
+import { site } from '../data/site';
+import { formatDate } from '../lib/utils';
+
+const base = import.meta.env.BASE_URL;
+const posts = (await getCollection('posts'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
 
-<Layout
-  title="NaeesWrites — Welcome"
-  description="Welcome to NaeesWrites. An open blog about security, technology, design, and philosophy."
-  pathname="/"
->
-
-<div class="container">
-
-  <!-- Hero -->
-  <section id="welcome">
-  <div class="hero" style="margin-bottom: 3rem;">
-    <h1 style="margin-top: 0;">Welcome<span class="eye-dot"></span></h1>
-    <p>Thanks for stopping by. This is a space for thinking out loud.</p>
-  </div>
-
-  <Divider />
-
-  <!-- Terminal prompt -->
-  <div style="margin-bottom: 1.5rem;">
-    <div class="prompt typing-line" style="margin-bottom: 0.5rem;">
-      <span class="dollar">$</span> naees@writes:~/blog$ cat welcome.md
-      <span class="cursor-blink">█</span>
-    </div>
-  </div>
-
-  <!-- Welcome / disclaimer -->
-  <section id="open-source">
-  <div class="open-source-box" style="margin-bottom: 2.5rem;">
-    <div class="prompt" style="margin-bottom: 1rem;">
-      <span class="dollar">$</span> naees@writes:~/blog$ cat DISCLAIMER.md
-    </div>
-    <p style="color: var(--text-dim); margin-bottom: 1rem;">
-      This blog is <strong style="color: var(--text);">open source</strong> — you can find the source code, report bugs, or suggest improvements on GitHub. If you spot something broken or have an idea for a new feature, don't hesitate to open an issue or pull request.
-    </p>
-    <a href="https://github.com/Naees/NaeesWrites" class="terminal-link" style="display: inline-block;">
-      <span class="dollar">$</span> open https://github.com/Naees/NaeesWrites
-    </a>
-  </div>
-
-  <Divider />
-
-  <!-- Terminal prompt -->
-  <div style="margin-bottom: 1.5rem;">
-    <div class="prompt typing-line" style="margin-bottom: 0.5rem;">
-      <span class="dollar">$</span> naees@writes:~/blog$ ls -la /pages/
-      <span class="cursor-blink">█</span>
-    </div>
-  </div>
-
-  <!-- Page navigation boxes -->
-  <section id="pages">
-  <div class="page-grid" style="margin-bottom: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
-
-    <a href={`${base}posts/`} class="page-card" style="text-decoration: none; color: inherit;">
-      <div class="page-card-header">
-        <div class="prompt" style="margin: 0;">
-          <span class="dollar">$</span> ls posts/
-        </div>
+<Layout title={`${site.name} — security research and ${site.blogName}`} description={site.description} pathname="/" pageClass="home-page">
+  <section class="hero shell">
+    <div class="hero__copy">
+      <p class="eyebrow">security research · writing archive · field notes</p>
+      <h1>I study how systems fail at the edges.</h1>
+      <p class="lede">I’m Naees. This site collects my security research practice, technical writing, and notes on web systems, identity, cloud exposure, and the strange failure modes that hide between assumptions.</p>
+      <div class="actions">
+        <a class="button button--primary" href={`${base}research/`}>Open case files</a>
+        <a class="button" href={`${base}keys/`}>Contact securely</a>
       </div>
-      <p class="page-card-body">
-        Browse all blog posts — security, technology, design, and philosophy.
-      </p>
-    </a>
-
-    <a href={`${base}about/`} class="page-card" style="text-decoration: none; color: inherit;">
-      <div class="page-card-header">
-        <div class="prompt" style="margin: 0;">
-          <span class="dollar">$</span> cat about.md
-        </div>
-      </div>
-      <p class="page-card-body">
-        Learn more about me, my background, and what I write about.
-      </p>
-    </a>
-
-    <a href={`${base}posts/?tag=`} class="page-card" style="text-decoration: none; color: inherit;">
-      <div class="page-card-header">
-        <div class="prompt" style="margin: 0;">
-          <span class="dollar">$</span> ls posts/?tag=
-        </div>
-      </div>
-      <p class="page-card-body">
-        Browse all posts — filter by tag or search by keyword.
-      </p>
-    </a>
-
-  </div>
+    </div>
+    <Console />
   </section>
 
-  <Divider />
+  <section class="strip" aria-label="Site sections">
+    <a href={`${base}research/`}><span>01</span> Research placeholders and future writeups</a>
+    <a href={`${base}posts/`}><span>02</span> NaeesWrites essays and notes</a>
+    <a href={`${base}about/`}><span>03</span> About Naees and Haku</a>
+  </section>
 
-  <!-- Terminal prompt: cat -->
-  <div style="margin-bottom: 1.5rem;">
-    <div class="prompt" style="margin-bottom: 0.5rem;">
-      <span class="dollar">$</span> naees@writes:~/blog$ echo "Happy reading!"
+  <section class="shell split-section">
+    <div>
+      <p class="eyebrow">current posture</p>
+      <h2>Balanced between personal archive and professional signal.</h2>
     </div>
-  </div>
+    <div class="prose-card">
+      <p>I’m open to collaboration and security-focused engagement. The public archive is intentionally early: a place for clean notes, reproducible thinking, and future case files rather than inflated claims.</p>
+      <p>NaeesWrites is the blog layer of the site — slower writing, reading notes, technical essays, and research fragments worth keeping.</p>
+    </div>
+  </section>
 
-</div>
-
-</section>
-
+  <section class="shell">
+    <div class="section-heading">
+      <p class="eyebrow">latest from NaeesWrites</p>
+      <a href={`${base}posts/`}>View archive →</a>
+    </div>
+    <div class="card-grid">
+      {posts.map((post) => (
+        <a class="case-card" href={`${base}posts/${post.id}/`}>
+          <span>{formatDate(post.data.date)}</span>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
 </Layout>

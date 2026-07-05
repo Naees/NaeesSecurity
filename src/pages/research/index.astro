@@ -1,0 +1,56 @@
+---
+import Layout from '../../components/Layout.astro';
+const base = import.meta.env.BASE_URL;
+const cases = [
+  {
+    id: 'NF-001',
+    title: 'Authorization boundaries in ordinary web apps',
+    status: 'placeholder',
+    text: 'A future case file for broken object-level authorization, role drift, and places where product logic quietly becomes an access-control system.',
+  },
+  {
+    id: 'NF-002',
+    title: 'Cloud exposure as a chain, not a finding',
+    status: 'placeholder',
+    text: 'Notes for turning individual misconfigurations into end-to-end attack paths that operators can understand and fix.',
+  },
+  {
+    id: 'NF-003',
+    title: 'Identity systems and trust residue',
+    status: 'placeholder',
+    text: 'A research track for stale sessions, confused ownership, reset flows, and the long tail of account lifecycle mistakes.',
+  },
+];
+---
+
+<Layout title="Research — Naees" description="Security research case files and future writeups by Naees." pathname="/research/">
+  <section class="page-hero shell">
+    <p class="eyebrow">research</p>
+    <h1>Case files for the bugs between assumptions.</h1>
+    <p class="lede">This section is intentionally structured before it is fully populated: a clean home for future writeups, experiments, tooling notes, and responsible disclosures.</p>
+  </section>
+
+  <section class="shell case-ledger">
+    {cases.map((item) => (
+      <article class="case-file">
+        <div class="case-file__meta">
+          <span>{item.id}</span>
+          <span>{item.status}</span>
+        </div>
+        <h2>{item.title}</h2>
+        <p>{item.text}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="shell split-section">
+    <div>
+      <p class="eyebrow">method</p>
+      <h2>Make the chain visible.</h2>
+    </div>
+    <div class="prose-card">
+      <p>The strongest security writing does not just say “this was vulnerable.” It explains the model, the failed assumption, the primitive, the chain, and the fix. That is the standard this section is being built toward.</p>
+      <a href={`${base}posts/`}>Read NaeesWrites →</a>
+    </div>
+  </section>
+</Layout>

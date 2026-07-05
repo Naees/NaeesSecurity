@@ -1,182 +1,31 @@
 ---
-import { getCollection } from 'astro:content'
-import { getAllTags, getTagCount, slugify } from '../lib/utils'
-import Layout from '../components/Layout.astro'
-import Divider from '../components/Divider.astro'
+import { getCollection } from 'astro:content';
+import Layout from '../components/Layout.astro';
+import { formatDate } from '../lib/utils';
 
-const base = import.meta.env.BASE_URL
+const base = import.meta.env.BASE_URL;
 const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-
-const allTags = getAllTags(posts)
-const tagCounts = getTagCount(posts)
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<Layout
-  title="Posts — NaeesWrites"
-  description="A collection of thoughts, ideas, and writing by Naees."
-  pathname="/posts/"
->
+<Layout title="NaeesWrites — blog archive" description="NaeesWrites: essays, security notes, and technical writing by Naees." pathname="/posts/">
+  <section class="page-hero shell">
+    <p class="eyebrow">NaeesWrites</p>
+    <h1>The blog layer: essays, notes, and research fragments.</h1>
+    <p class="lede">A quieter archive for thoughts that need more room than a console line: security, technology, reading, systems, and field notes in progress.</p>
+  </section>
 
-<div class="container">
-
-  <!-- Hero -->
-  <section id="hero">
-  <div class="hero" style="margin-bottom: 3rem;">
-    <h1 style="margin-top: 0;">NaeesWrites<span class="eye-dot"></span></h1>
-    <p>A collection of thoughts, ideas, and writing.</p>
-  </div>
-
-  <Divider />
-
-  <!-- Terminal prompt: ls -->
-  <div style="margin-bottom: 1.5rem;">
-    <div class="prompt typing-line" style="margin-bottom: 0.5rem;">
-      <span class="dollar">$</span> naees@writes:~/blog$ ls -la posts/<span class="cursor-blink">█</span>
-    </div>
-  </div>
-
-  <!-- Search -->
-  <section id="search">
-  <div style="margin-bottom: 2rem;">
-    <label for="search-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">Search posts</label>
-    <input
-      type="text"
-      id="search-input"
-      aria-label="Search posts"
-      placeholder="grep -r 'search term' posts/"
-      class="search-input"
-    />
-  </div>
-
-  <!-- Tag filter bar -->
-  <section id="tag-filter">
-  <div class="tag-filter-bar" id="tag-filter-bar">
-    <a
-      href={`${base}posts/`}
-      class="tag-pill tag-pill--active"
-      data-tag="all"
-    >
-      show all
-    </a>
-    {allTags.map(tag => (
-      <a
-        href={`${base}posts/?tag=${encodeURIComponent(tag)}`}
-        class="tag-pill"
-        data-tag={slugify(tag)}
-      >
-        {tag}<span class="tag-count">[{tagCounts.get(tag)}]</span>
+  <section class="shell archive-list">
+    {posts.map((post) => (
+      <a class="archive-item" href={`${base}posts/${post.id}/`}>
+        <time>{formatDate(post.data.date)}</time>
+        <div>
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+          <span>{post.data.tags.join(' · ')}</span>
+        </div>
       </a>
     ))}
-  </div>
   </section>
-
-  <Divider />
-
-  <!-- Post list — plain text, no cards -->
-  <section id="posts">
-  <div id="posts-list" role="list" aria-label="Blog posts">
-    {posts.map(post => (
-      <div class="post-item" role="listitem" data-title={post.data.title.toLowerCase()} data-desc={post.data.description.toLowerCase()} data-tags={post.data.tags?.map(t => slugify(t)).join(' ')}>
-        <a href={`${base}posts/${post.id}/`}>
-          <span class="post-date">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-          <div class="post-title">{post.data.title}</div>
-          <p class="post-desc">{post.data.description}</p>
-        </a>
-      </div>
-    ))}
-  </div>
-
-
-  <!-- Terminal prompt: cat -->
-  <div class="prompt" style="margin-bottom: 1.5rem;">
-    <span class="dollar">$</span> naees@writes:~/blog$ cat README.md | head -20
-  </div>
-
-  <!-- About snippet -->
-  <section id="about">
-  <div style="margin-bottom: 2rem;">
-    <p style="color: var(--text-dim);">
-      I'm Naees — a security researcher and writer. This blog is a space for thinking out loud,
-      sharing ideas, and documenting what I learn. Topics span security, technology, design,
-      and philosophy.
-    </p>
-  </div>
-  </section>
-
-</div>
-</section>
-
-<script>
-  const searchInput = document.getElementById('search-input')
-  const tagFilterBar = document.getElementById('tag-filter-bar')
-  const postsList = document.getElementById('posts-list')
-  const items = postsList?.querySelectorAll('.post-item')
-  const pills = tagFilterBar?.querySelectorAll('.tag-pill')
-
-  let activeTag = 'all'
-
-  function filterPosts() {
-    const query = (searchInput?.value || '').toLowerCase()
-    items?.forEach(item => {
-      const title = (item as HTMLElement).dataset.title || ''
-      const desc = (item as HTMLElement).dataset.desc || ''
-      const tags = (item as HTMLElement).dataset.tags || ''
-
-      const tagMatch = activeTag === 'all' || tags.includes(activeTag)
-      const searchMatch = !query || title.includes(query) || desc.includes(query)
-      const visible = tagMatch && searchMatch
-
-      ;(item as HTMLElement).style.display = visible ? '' : 'none'
-    })
-  }
-
-  tagFilterBar?.addEventListener('click', (e) => {
-    const pill = (e.target as HTMLElement).closest('.tag-pill')
-    if (!pill) return
-
-    e.preventDefault()
-    const tag = pill.dataset.tag || 'all'
-    activeTag = tag
-
-    const url = pill.getAttribute('href') || ''
-    history.pushState({ tag }, '', url)
-
-    pills?.forEach(p => p.classList.remove('tag-pill--active'))
-    pill.classList.add('tag-pill--active')
-
-    filterPosts()
-  })
-
-  let debounceTimer
-  searchInput?.addEventListener('input', () => {
-    clearTimeout(debounceTimer)
-    debounceTimer = setTimeout(filterPosts, 150)
-  })
-
-  window.addEventListener('popstate', (e) => {
-    const state = e.state || null
-    activeTag = state?.tag || 'all'
-
-    pills?.forEach(pill => {
-      const pillTag = pill.dataset.tag || ''
-      pill.classList.toggle('tag-pill--active', pillTag === activeTag)
-    })
-
-    filterPosts()
-  })
-
-  const urlParams = new URLSearchParams(window.location.search)
-  const tagParam = urlParams.get('tag')
-  if (tagParam) {
-    activeTag = tagParam
-    pills?.forEach(pill => {
-      const pillTag = pill.dataset.tag || ''
-      pill.classList.toggle('tag-pill--active', pillTag === tagParam)
-    })
-    filterPosts()
-  }
-</script>
-
 </Layout>

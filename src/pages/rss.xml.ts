@@ -1,22 +1,21 @@
-import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
 
-const SITE = 'https://naees.github.io/NaeesWrites';
-
-export async function GET(context) {
-  const posts = [...await getCollection('posts')]
-    .filter(post => !post.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+export async function GET(context: { site?: URL }) {
+  const posts = (await getCollection('posts'))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
   return rss({
-    title: 'Naees Writes',
-    description: 'A collection of thoughts, ideas, and writing by Naees.',
-    site: context.site || SITE,
+    title: site.blogName,
+    description: 'Security research notes and writing by Naees.',
+    site: context.site ?? site.url,
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.date,
-      link: `${context.site || SITE}/posts/${post.id}/`,
+      link: `/posts/${post.id}/`,
     })),
   });
 }
