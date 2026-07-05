@@ -88,6 +88,9 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort()
       for (const post of posts) {
         const matches = postMatches(post, query);
         post.element.hidden = !matches;
+        post.element.classList.toggle('is-hidden', !matches);
+        post.element.setAttribute('aria-hidden', String(!matches));
+        post.element.style.display = matches ? '' : 'none';
         if (matches) visible++;
       }
 
@@ -100,7 +103,11 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort()
         const hasMatches = posts.some((post) => post.tags.has(tag) && postMatches(post, query, tagsWithoutCurrent));
         const isSelected = selectedTags.has(tag);
 
-        button.hidden = !isSelected && !hasMatches;
+        const hideButton = !isSelected && !hasMatches;
+        button.hidden = hideButton;
+        button.classList.toggle('is-hidden', hideButton);
+        button.setAttribute('aria-hidden', String(hideButton));
+        button.style.display = hideButton ? 'none' : '';
         button.setAttribute('aria-pressed', String(isSelected));
         button.classList.toggle('is-selected', isSelected);
       }

@@ -137,9 +137,11 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 .tag-filter { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1rem; }
 .tag-filter__button { border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.035); color: var(--paper-2); padding: .5rem .7rem; font: 800 .68rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; cursor: pointer; }
 .tag-filter__button:hover, .tag-filter__button.is-selected { border-color: var(--phosphor); color: var(--ink); background: var(--phosphor); }
+.tag-filter__button.is-hidden { display: none !important; }
 .archive-count { margin: 1rem 0 0; color: var(--muted); font: 700 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .12em; }
 .archive-list { padding-bottom: 5rem; }
 .archive-item { display: grid; grid-template-columns: 180px 1fr; gap: 2rem; padding: 1.6rem 0; border-top: 1px solid var(--line); text-decoration: none; }
+.archive-item.is-hidden { display: none !important; }
 .archive-item h2 { font-size: clamp(1.7rem, 3vw, 3rem); margin-bottom: .5rem; }
 .archive-item p { color: var(--paper-2); max-width: 72ch; line-height: 1.6; }
 .archive-item span { color: var(--phosphor); font: 700 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .12em; }
