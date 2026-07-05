@@ -19,6 +19,7 @@ export const navLinks = [
   // Research is intentionally hidden from the header until the section has real case files.
   // { href: '/research/', label: 'research' },
   { href: '/posts/', label: site.blogName },
+  { href: '/engagements/', label: 'engagements' },
   { href: '/about/', label: 'about' },
   { href: '/contact/', label: 'contact' },
 ];

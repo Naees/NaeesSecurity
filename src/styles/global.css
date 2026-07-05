@@ -110,6 +110,14 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 .skill-list { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.5rem; }
 .skill-list span { border: 1px solid var(--line); border-radius: 999px; color: var(--paper-2); padding: .45rem .65rem; font: 800 .68rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
 
+.engagement-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-bottom: 4rem; }
+.engagement-card { min-height: 520px; display: flex; flex-direction: column; justify-content: space-between; gap: 1.25rem; border: 1px solid var(--line); border-radius: 24px; background: rgba(255,255,255,.035); padding: clamp(1.2rem, 3vw, 2rem); }
+.engagement-card__meta { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font: 800 .68rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .13em; }
+.engagement-card h2 { font-size: clamp(2.5rem, 6vw, 5rem); }
+.engagement-card p { color: var(--paper-2); line-height: 1.7; margin: 0; }
+.engagement-card:hover { border-color: rgba(125,211,252,.58); }
+.engagement-cta { border: 1px solid var(--line); border-radius: 24px; padding: clamp(1.2rem, 3vw, 2rem); background: rgba(255,255,255,.035); }
+
 .case-ledger { display: grid; gap: 1rem; padding-bottom: 4rem; }
 .case-file { border-radius: 0; border-left: 4px solid var(--phosphor); }
 .case-file__meta { display: flex; justify-content: space-between; margin-bottom: 2rem; }
@@ -174,7 +182,7 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 
 @media (max-width: 900px) {
   .site-header, .site-footer, .contact-block { align-items: flex-start; flex-direction: column; }
-  .hero, .split-section, .dossier, .haku-card, .team-grid, .contact-form-section { grid-template-columns: 1fr; }
+  .hero, .split-section, .dossier, .haku-card, .team-grid, .contact-form-section, .engagement-grid { grid-template-columns: 1fr; }
   .strip, .card-grid, .contact-grid { grid-template-columns: 1fr; }
   .archive-item { grid-template-columns: 1fr; gap: .6rem; }
   .site-nav { justify-content: flex-start; }

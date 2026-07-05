@@ -1,0 +1,69 @@
+---
+import Layout from '../../components/Layout.astro';
+const base = import.meta.env.BASE_URL;
+
+const engagements = [
+  {
+    type: 'Whitebox',
+    access: 'Full context · source access · architecture notes',
+    summary: 'Best when the goal is depth, assurance, and fast signal. I review the system with internal context so findings can be tied directly to code paths, design assumptions, and practical fixes.',
+    usefulFor: ['Pre-release security review', 'High-assurance application testing', 'Architecture or access-control validation'],
+  },
+  {
+    type: 'Greybox',
+    access: 'Partial context · scoped accounts · selected documentation',
+    summary: 'Best when you want realistic testing with enough context to avoid wasting time. I work with limited privileges, defined roles, and selected system knowledge to test how controls behave in practice.',
+    usefulFor: ['Role and permission testing', 'Authenticated web application review', 'Cloud or identity exposure checks'],
+  },
+  {
+    type: 'Blackbox',
+    access: 'External view · minimal assumptions · attacker perspective',
+    summary: 'Best when you want to understand what is exposed from the outside. I start with the public surface and test what can be discovered, chained, and validated within the agreed scope.',
+    usefulFor: ['External attack surface review', 'Public web application testing', 'Reconnaissance-led security assessment'],
+  },
+];
+---
+
+<Layout title="Engagements — NaeesSecurity" description="Whitebox, greybox, and blackbox security engagement options from NaeesSecurity." pathname="/engagements/">
+  <section class="page-hero shell">
+    <p class="eyebrow">security engagements</p>
+    <h1>Three ways to test the assumptions your systems rely on.</h1>
+    <p class="lede">I am available for whitebox, greybox, and blackbox security engagements. Each model can be scoped around web applications, identity and access-control boundaries, cloud exposure, and practical exploitation paths.</p>
+  </section>
+
+  <section class="shell engagement-grid" aria-label="Engagement types">
+    {engagements.map((item, index) => (
+      <article class="engagement-card">
+        <div class="engagement-card__meta">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <span>{item.access}</span>
+        </div>
+        <h2>{item.type}</h2>
+        <p>{item.summary}</p>
+        <div class="skill-list" aria-label={`${item.type} useful for`}>
+          {item.usefulFor.map((entry) => <span>{entry}</span>)}
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="shell split-section">
+    <div>
+      <p class="eyebrow">scope first</p>
+      <h2>Clear boundaries, useful findings, and responsible communication.</h2>
+    </div>
+    <div class="prose-card">
+      <p>Before testing starts, we define the authorized scope, target systems, time window, reporting expectations, and safe-contact path. The goal is not noise; the goal is evidence-backed findings that explain impact, reproduction, and remediation.</p>
+      <p>If the work is sensitive, use the contact page to verify the fingerprint and choose the right channel before sharing details.</p>
+    </div>
+  </section>
+
+  <section class="shell contact-block engagement-cta">
+    <div>
+      <p class="eyebrow">ready to talk?</p>
+      <h2>Start with the engagement type and the systems you want reviewed.</h2>
+      <p>Send a short note with the preferred model, rough scope, timeline, and whether you need encrypted follow-up.</p>
+    </div>
+    <a class="button button--primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Request an engagement</a>
+  </section>
+</Layout>
