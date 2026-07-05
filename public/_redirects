@@ -1,9 +1,9 @@
 /tags/                    /posts/                   301
-/tags/introduction/       /NaeesWrites/posts/?tag=introduction    301
-/tags/meta/               /NaeesWrites/posts/?tag=meta    301
-/tags/design/             /NaeesWrites/posts/?tag=design    301
-/tags/philosophy/         /NaeesWrites/posts/?tag=philosophy    301
-/tags/security/           /NaeesWrites/posts/?tag=security    301
-/tags/technology/         /NaeesWrites/posts/?tag=technology    301
-/tags/webdev/             /NaeesWrites/posts/?tag=webdev    301
-/tags/writing/            /NaeesWrites/posts/?tag=writing    301
+/tags/introduction/       /NaeesSecurity/posts/?tag=introduction    301
+/tags/meta/               /NaeesSecurity/posts/?tag=meta    301
+/tags/design/             /NaeesSecurity/posts/?tag=design    301
+/tags/philosophy/         /NaeesSecurity/posts/?tag=philosophy    301
+/tags/security/           /NaeesSecurity/posts/?tag=security    301
+/tags/technology/         /NaeesSecurity/posts/?tag=technology    301
+/tags/webdev/             /NaeesSecurity/posts/?tag=webdev    301
+/tags/writing/            /NaeesSecurity/posts/?tag=writing    301

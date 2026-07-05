@@ -14,10 +14,10 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout title={`${post.data.title} — NaeesWrites`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page">
+<Layout title={`${post.data.title} — NaeesSecurity`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page">
   <article class="article shell-narrow">
     <header class="article__header">
-      <a class="back-link" href={`${base}posts/`}>← NaeesWrites</a>
+      <a class="back-link" href={`${base}posts/`}>← NaeesSecurity</a>
       <p class="eyebrow">{formatDate(post.data.date)} · {getReadingTime(post.body)} min read</p>
       <h1>{post.data.title}</h1>
       <p>{post.data.description}</p>

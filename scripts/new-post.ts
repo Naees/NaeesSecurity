@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Create a new draft blog post for NaeesWrites.
+ * Create a new draft blog post for NaeesSecurity.
  * 
  * Usage:
  *   npm run new-post "My Post Title"

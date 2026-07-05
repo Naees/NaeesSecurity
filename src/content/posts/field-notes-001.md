@@ -1,6 +1,6 @@
 ---
 title: "Field notes 001: make the assumption visible"
-description: "A short opening note for the rebuilt NaeesWrites archive: security work starts by naming the assumption that failed."
+description: "A short opening note for the rebuilt NaeesSecurity archive: security work starts by naming the assumption that failed."
 date: 2026-07-05
 tags: ["security", "field-notes", "method"]
 draft: false
@@ -17,4 +17,4 @@ This archive is being rebuilt around that idea. Each future note should try to p
 3. the primitive that proved the failure,
 4. the fix that would have removed the class, not just the symptom.
 
-That is the standard I want NaeesWrites to grow into: less noise, clearer chains, and notes that remain useful after the novelty fades.
+That is the standard I want NaeesSecurity to grow into: less noise, clearer chains, and notes that remain useful after the novelty fades.
