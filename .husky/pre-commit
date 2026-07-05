@@ -1,0 +1,2 @@
+npm run check-assets
+npx lint-staged

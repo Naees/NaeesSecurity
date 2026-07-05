@@ -15,7 +15,10 @@
     "test:e2e:ui": "playwright test --ui",
     "screenshots": "playwright test tests/design-screenshots.spec.ts --project=chromium",
     "playwright:install": "playwright install chromium",
-    "new-post": "node --import tsx scripts/new-post.ts"
+    "new-post": "node --import tsx scripts/new-post.ts",
+    "optimize-webp": "node --import tsx scripts/optimize-webp.ts",
+    "check-assets": "node --import tsx scripts/check-webp-assets.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.14",
@@ -24,6 +27,17 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "sharp": "^0.35.3",
     "tsx": "^4.19.0"
+  },
+  "lint-staged": {
+    "public/assets/*.webp": [
+      "node --import tsx scripts/optimize-webp.ts"
+    ],
+    "public/assets/*": [
+      "node --import tsx scripts/check-webp-assets.ts"
+    ]
   }
 }
