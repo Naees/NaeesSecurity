@@ -17,6 +17,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { background: var(--ink); color: var(--paper); font-family: var(--sans); scroll-behavior: smooth; }
 body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 70% 0%, rgba(215,255,115,.11), transparent 28rem), linear-gradient(180deg, #070808 0%, #0b0c0b 45%, #11100d 100%); }
 a { color: inherit; text-underline-offset: .22em; }
