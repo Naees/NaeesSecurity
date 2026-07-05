@@ -1,0 +1,62 @@
+name: Optimize images
+
+on:
+  pull_request:
+    paths:
+      - 'public/assets/**'
+  push:
+    branches: [main]
+    paths:
+      - 'public/assets/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  optimize:
+    name: Optimize WebP assets
+    runs-on: ubuntu-latest
+    if: |
+      github.repository == 'Naees/NaeesWrites' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+
+      - name: Enforce WebP-only public assets
+        run: |
+          non_webp_assets="$({ find public/assets -type f ! -name '*.webp' -print || true; } | sed '/^$/d')"
+          if [ -n "$non_webp_assets" ]; then
+            echo "Only .webp files are allowed in public/assets." >&2
+            echo "$non_webp_assets" >&2
+            exit 1
+          fi
+
+      - name: Compress WebP images
+        id: calibre
+        uses: calibreapp/image-actions@main
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          webpQuality: '82'
+          minPctChange: '2.5'
+          minAbsChange: '1024'
+          ignorePaths: 'node_modules/**,dist/**,.astro/**,.playwright-screenshots/**,test-results/**,playwright-report/**'
+          # On PRs, Image Actions commits optimized files directly to the PR branch.
+          # On pushes/manual runs, keep the run non-mutating and open a follow-up PR below.
+          compressOnly: ${{ github.event_name != 'pull_request' }}
+
+      - name: Open image optimization PR
+        if: github.event_name != 'pull_request' && steps.calibre.outputs.markdown != ''
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: Optimize WebP assets
+          commit-message: Optimize WebP assets
+          branch: automation/optimize-webp-assets
+          delete-branch: true
+          body: ${{ steps.calibre.outputs.markdown }}
