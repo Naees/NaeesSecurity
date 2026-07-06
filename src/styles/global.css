@@ -42,7 +42,8 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { background: var(--ink); color: var(--paper); font-family: var(--sans); scroll-behavior: smooth; }
+html { background: var(--ink); color: var(--paper); font-family: var(--sans); scroll-behavior: smooth; scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 body { margin: 0; min-height: 100vh; background: var(--ink); }
 body.blog-page {
   --ink: #0d1116;
@@ -243,10 +244,10 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 .tag-row span { border: 1px solid var(--line); border-radius: 999px; padding: .35rem .55rem; color: var(--paper-2); }
 .article__body { font: clamp(1.12rem, .35vw + 1.02rem, 1.28rem)/1.82 var(--serif); color: var(--paper); letter-spacing: .003em; }
 .blog-page .article { width: min(1180px, calc(100% - clamp(1.25rem, 6vw, 5rem))); }
-.blog-page .article__header { width: min(92ch, 100%); border-bottom-color: var(--line); }
-.blog-page .article__header h1 { line-height: .98; max-width: 13ch; }
+.blog-page .article__header { width: 100%; border-bottom-color: var(--line); }
+.blog-page .article__header h1 { line-height: .98; max-width: 100%; }
 .blog-page .article__header p:not(.eyebrow) { color: var(--paper-2); max-width: 100%; }
-.blog-page .article__body { width: min(92ch, 100%); background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+.blog-page .article__body { width: 100%; background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
 .blog-page .article__body > * { max-width: 100%; }
 .blog-page .article__body > :is(pre, table, figure, img, blockquote) { max-width: 100%; }
 .article__body :is(h2,h3) { font-family: var(--serif); line-height: 1.05; margin: 2.2rem 0 1rem; color: var(--paper); }
