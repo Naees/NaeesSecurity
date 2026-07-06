@@ -15,7 +15,8 @@ const issueUrl = 'https://github.com/Naees/NaeesSecurity/issues/new?title=Site%2
     <p>{isBlog ? 'Security essays, notes, and longer-form writing' : site.tagline}</p>
     {!isBlog && <p class="site-footer__fingerprint">PGP {site.pgpFingerprint}</p>}
     {isBlog && <p class="site-footer__fingerprint">Brought to you by NaeesSecurity.</p>}
-    <p class="site-footer__notice">Report site bugs publicly on GitHub. Send sensitive security reports through PGP or Signal instead.</p>
+    <p class="site-footer__notice">Report site bugs publicly on GitHub. </p>
+    <p class="site-footer__notice">Send sensitive information through encrypted channels, check in contact for more information. </p>
   </div>
   <nav class="site-footer__links" aria-label="Footer links">
     {isBlog ? (
