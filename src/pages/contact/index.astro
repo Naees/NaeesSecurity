@@ -16,8 +16,16 @@ const base = import.meta.env.BASE_URL;
     <code>{site.pgpFingerprint}</code>
     <div class="actions">
       <a class="button button--primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
-      <a class="button" href={site.signal} target="_blank" rel="noopener noreferrer">Message on Signal</a>
     </div>
+  </section>
+
+  <section class="shell contact-block contact-block--signal" aria-labelledby="signal-title">
+    <div>
+      <p class="eyebrow">Signal</p>
+      <h2 id="signal-title">Use Signal for quick secure contact.</h2>
+      <p>For sensitive conversations, verify identity and context before sharing details. Signal is useful for coordination, but PGP remains listed above for encrypted email and key verification.</p>
+    </div>
+    <a class="button button--primary" href={site.signal} target="_blank" rel="noopener noreferrer">Message on Signal</a>
   </section>
 
   <section class="shell contact-form-section" aria-labelledby="contact-title">

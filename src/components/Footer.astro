@@ -6,14 +6,19 @@ interface Props { pathname: string }
 const { pathname } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const isBlog = pathname.startsWith('/posts/');
+const issueUrl = 'https://github.com/Naees/NaeesSecurity/issues/new?title=Site%20issue%3A%20&body=Page%3A%0A%0AIssue%3A%0A%0AExpected%20behavior%3A%0A%0ABrowser%2Fdevice%3A';
 ---
 
 <footer class:list={['site-footer', isBlog && 'site-footer--blog']}>
   <div class="site-footer__intro">
     <strong>{isBlog ? site.blogName : site.name}</strong>
-    <p>{isBlog ? 'Essays, notes, and longer-form writing by Sean E.' : site.tagline}</p>
-    {!isBlog && <p class="site-footer__fingerprint">PGP {site.pgpFingerprint}</p>}
-    {isBlog && <p class="site-footer__fingerprint">The writing layer of NaeesSecurity.</p>}
+    <p>{isBlog ? 'Vulnerability disclosures, bug bounty write-ups, technique deep-dives, tool drops, and custom automations.' : site.tagline}</p>
+    {isBlog ? (
+      <p class="site-footer__fingerprint">Brought to you by the NaeesSecurity team.</p>
+    ) : (
+      <p class="site-footer__fingerprint">PGP {site.pgpFingerprint}</p>
+    )}
+    <p class="site-footer__notice">Report site bugs publicly on GitHub. Send sensitive security reports through PGP or Signal instead.</p>
   </div>
   <nav class="site-footer__links" aria-label="Footer links">
     {isBlog ? (
@@ -22,18 +27,19 @@ const isBlog = pathname.startsWith('/posts/');
           <span>Read</span>
           <a href={`${base}posts/`}>All posts</a>
           <a href={`${base}rss.xml`}>RSS</a>
+          <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report issue</a>
         </div>
         <div>
           <span>Elsewhere</span>
           <a href={base}>NaeesSecurity</a>
           <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={site.x} target="_blank" rel="noopener noreferrer">X</a>
+          <a href={site.x} target="_blank" rel="noopener noreferrer">X / Twitter</a>
         </div>
         <div>
           <span>Contact</span>
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.signal} target="_blank" rel="noopener noreferrer">Signal</a>
-          <a href={`${base}keys/publickey.naees.asc`}>PGP</a>
+          <a href={`${base}keys/publickey.naees.asc`}>PGP key</a>
         </div>
       </>
     ) : (
@@ -47,14 +53,15 @@ const isBlog = pathname.startsWith('/posts/');
         <div>
           <span>Follow</span>
           <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={site.x} target="_blank" rel="noopener noreferrer">X</a>
+          <a href={site.x} target="_blank" rel="noopener noreferrer">X / Twitter</a>
+          <a href={`${base}posts/`}>{site.blogName}</a>
           <a href={`${base}rss.xml`}>RSS</a>
         </div>
         <div>
           <span>Contact</span>
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.signal} target="_blank" rel="noopener noreferrer">Signal</a>
-          <a href={`${base}posts/`}>{site.blogName}</a>
+          <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report issue</a>
         </div>
       </>
     )}

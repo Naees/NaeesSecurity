@@ -11,7 +11,7 @@ const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.st
 <header class:list={['site-header', isBlog && 'site-header--blog']}>
   <a class="brand" href={isBlog ? `${base}posts/` : base} aria-label={isBlog ? `${site.blogName} home` : 'Naees home'}>
     <img src={`${base}assets/kittenwiz_logo.webp`} alt="" width="34" height="34" />
-    <span class="brand__text"><strong>{isBlog ? site.blogName : site.headerName}</strong><em>by sean e.</em></span>
+    <span class="brand__text"><strong>{isBlog ? site.blogName : site.headerName}</strong><em>{site.tagline}</em></span>
   </a>
   <nav class="site-nav" aria-label="Primary navigation">
     {isBlog ? (

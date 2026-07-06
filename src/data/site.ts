@@ -3,7 +3,7 @@ export const site = {
   author: 'Naees',
   headerName: 'NaeesSecurity',
   blogName: 'NaeesWrites',
-  tagline: 'Security research, writing, and notes from the edge cases.',
+  tagline: 'We exploit the unseen.',
   description: 'Security research, field notes, and technical writing by Naees.',
   url: 'https://naees.github.io/NaeesSecurity',
   email: 'naees@protonmail.com',

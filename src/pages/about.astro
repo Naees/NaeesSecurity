@@ -17,6 +17,9 @@ const base = import.meta.env.BASE_URL;
         <span>01 / operator</span>
         <span>security research · writing</span>
       </div>
+      <div class="team-card__image-wrap">
+        <img src={`${base}assets/goobers.webp`} alt="Naees and Haku" loading="eager" decoding="async" />
+      </div>
       <h2>Naees</h2>
       <p>I study how systems fail at the edges: web authorization, identity boundaries, cloud exposure, AI-assisted attack surfaces, and the small assumptions that grow into practical attack paths.</p>
       <div class="skill-list" aria-label="Naees skills and research interests">
@@ -52,6 +55,37 @@ const base = import.meta.env.BASE_URL;
         <span>Threat sniffing</span>
       </div>
     </article>
+  </section>
+
+  <section class="shell credential-section" aria-labelledby="certification-focus-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">certification focus</p>
+        <h2 id="certification-focus-title">A learning map across web, infrastructure, AD, wireless, and AI security.</h2>
+      </div>
+    </div>
+    <div class="credential-grid">
+      <article class="credential-card">
+        <span>CPTS · OSCP</span>
+        <p>Infrastructure penetration testing, enumeration discipline, exploitation chains, privilege escalation, and report-ready findings.</p>
+      </article>
+      <article class="credential-card">
+        <span>CWES · CWEE</span>
+        <p>Web and API exploitation depth: authorization flaws, backend logic, custom techniques, and modern application attack surfaces.</p>
+      </article>
+      <article class="credential-card">
+        <span>CAPE</span>
+        <p>Active Directory attack paths, identity abuse, Kerberos/NTLM tradecraft, and enterprise post-exploitation thinking.</p>
+      </article>
+      <article class="credential-card">
+        <span>CWPE</span>
+        <p>Wireless assessment fundamentals, Wi-Fi attack methodology, and network-adjacent exposure review.</p>
+      </article>
+      <article class="credential-card">
+        <span>COAE</span>
+        <p>Offensive AI and LLM security: prompt abuse, agent workflows, adversarial testing, automation, and model-adjacent risk.</p>
+      </article>
+    </div>
   </section>
 
   <section class="shell contact-block">
