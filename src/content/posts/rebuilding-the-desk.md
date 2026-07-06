@@ -3,6 +3,7 @@ title: "Rebuilding the desk"
 description: "Why this site was reset into a cleaner research desk: fewer decorations, stronger structure, better writing surfaces."
 date: 2026-07-04
 tags: ["site", "writing", "design"]
+coverImage: "/assets/haku.webp"
 draft: false
 ---
 
