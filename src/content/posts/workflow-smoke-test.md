@@ -2,7 +2,7 @@
 title: "Workflow smoke test"
 description: "A temporary publishing note used to verify the NaeesWrites post workflow, cover image handling, build, and GitHub Pages deployment."
 date: 2026-07-06
-tags: ["site", "site-notes", "writing"]
+tags: ["site", "site-notes", "pink"]
 coverImage: "/assets/posts/workflow-smoke-test.webp"
 draft: false
 ---

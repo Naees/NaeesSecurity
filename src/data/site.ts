@@ -40,6 +40,7 @@ export const tagTaxonomy = [
   'site-notes',
   'design',
   'writing',
+  'pink'
 ] as const;
 
 export const tagGuidelines = {
