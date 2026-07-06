@@ -1,0 +1,22 @@
+{
+  "public/assets/goobers.webp": {
+    "hash": "2e5b29e84c0a50269ca054ce1a3a1e29a3048f2a6351232fcb600f6fa4057ce9",
+    "size": 44186,
+    "optimizedAt": "2026-07-06T10:30:04.944Z"
+  },
+  "public/assets/haku.webp": {
+    "hash": "9439b06ff860a61670d78cbc57b5f26c15c6d6adc0f8b33be0155aa215cb69ef",
+    "size": 101356,
+    "optimizedAt": "2026-07-06T10:30:04.996Z"
+  },
+  "public/assets/kittenwiz_logo.webp": {
+    "hash": "b1517e48050f1068a7b804bc6bf13b7379efc8f9792a1e3e7992f091c222dab8",
+    "size": 148466,
+    "optimizedAt": "2026-07-06T10:30:05.249Z"
+  },
+  "public/assets/posts/workflow-smoke-test.webp": {
+    "hash": "dd427bb387768a6b170f77e389d06f89fc66a0517b1990a7e174312f076cf8d8",
+    "size": 3586,
+    "optimizedAt": "2026-07-06T10:30:05.270Z"
+  }
+}

@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new-post": "node --import tsx scripts/new-post.ts"
+    "new-post": "node --import tsx scripts/new-post.ts",
+    "optimize-images": "node --import tsx scripts/optimize-images.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
