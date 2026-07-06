@@ -16,7 +16,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout title={`${post.data.title} — ${site.blogName}`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page">
+<Layout title={`${post.data.title} — ${site.blogName}`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page blog-page" showScrollProgress>
   <article class="article shell-narrow">
     <header class="article__header">
       <a class="back-link" href={`${base}posts/`}>← {site.blogName}</a>

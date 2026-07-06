@@ -11,6 +11,7 @@ interface Props {
   type?: 'website' | 'article';
   publishedTime?: string;
   pageClass?: string;
+  showScrollProgress?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   type = 'website',
   publishedTime,
   pageClass = '',
+  showScrollProgress = false,
 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 ---
@@ -37,10 +39,33 @@ const base = import.meta.env.BASE_URL;
   </head>
   <body class={pageClass}>
     <a class="skip-link" href="#content">Skip to content</a>
+    {showScrollProgress && <div class="scroll-progress" aria-hidden="true"><span></span></div>}
     <Header pathname={pathname} />
     <main id="content">
       <slot />
     </main>
     <Footer />
+    {showScrollProgress && (
+      <script>
+        const root = document.documentElement;
+        let scrollFrame = 0;
+
+        function updateScrollProgress() {
+          const scrollable = root.scrollHeight - window.innerHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          root.style.setProperty('--scroll-progress', String(Math.min(1, Math.max(0, progress))));
+          scrollFrame = 0;
+        }
+
+        function requestScrollProgress() {
+          if (scrollFrame) return;
+          scrollFrame = requestAnimationFrame(updateScrollProgress);
+        }
+
+        updateScrollProgress();
+        window.addEventListener('scroll', requestScrollProgress, { passive: true });
+        window.addEventListener('resize', requestScrollProgress, { passive: true });
+      </script>
+    )}
   </body>
 </html>

@@ -66,6 +66,8 @@ title: "${title}"
 description: ""
 date: ${today}
 tags: []
+# Optional: place optimized images in public/assets/posts/ and reference them like:
+# coverImage: "/assets/posts/${slug}.webp"
 draft: true
 ---
 
