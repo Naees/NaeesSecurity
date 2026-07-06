@@ -2,30 +2,25 @@
 import { getCollection } from 'astro:content';
 import Layout from '../components/Layout.astro';
 import { site } from '../data/site';
-import { formatDate, getReadingTime } from '../lib/utils';
+import { formatDate, getBaseUrl, getReadingTime, resolveAssetPath } from '../lib/utils';
 
-const base = import.meta.env.BASE_URL;
+const base = getBaseUrl(import.meta.env.BASE_URL);
 const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort();
-const assetPath = (path?: string) => {
-  if (!path) return '';
-  if (/^https?:\/\//.test(path)) return path;
-  return `${base}${path.replace(/^\//, '')}`;
-};
 ---
 
 <Layout title={`${site.blogName} — notes archive`} description={`${site.blogName}: essays, security notes, and technical writing by Naees.`} pathname="/posts/" pageClass="blog-page" showScrollProgress>
   <section class="page-hero shell">
     <p class="eyebrow">{site.blogName}</p>
-    <h1>The blog layer: essays, notes, and research fragments.</h1>
-    <p class="lede">A quieter archive for thoughts that need more room than a console line: security, technology, reading, systems, and field notes in progress.</p>
+    <h1>Exposing the <span class="unseen-word">unseen</span>.</h1>
+    <p class="lede">Security research, technical findings, and field notes from the NaeesSecurity desk.</p>
   </section>
 
   <section class="shell archive-controls" aria-label="Post search and filters">
     <label class="archive-search">
-      <span>Search posts</span>
+    <span>Search posts</span>
       <input data-post-search type="search" placeholder="Search title, description, or tag…" autocomplete="off" />
     </label>
 
@@ -49,7 +44,7 @@ const assetPath = (path?: string) => {
       >
         <div class="archive-item__media" aria-hidden={!post.data.coverImage}>
           {post.data.coverImage ? (
-            <img src={assetPath(post.data.coverImage)} alt="" loading="lazy" decoding="async" />
+            <img src={resolveAssetPath(post.data.coverImage, base)} alt="" loading="lazy" decoding="async" />
           ) : (
             <span>{site.blogName}</span>
           )}

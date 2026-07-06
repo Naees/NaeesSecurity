@@ -13,3 +13,13 @@ export function getReadingTime(text: string): number {
   return Math.max(1, minutes)
 }
 
+export function getBaseUrl(base: string | undefined): string {
+  return base || '/'
+}
+
+export function resolveAssetPath(path: string | undefined, base: string): string {
+  if (!path) return ''
+  if (/^https?:\/\//.test(path)) return path
+  return `${base}${path.replace(/^\//, '')}`
+}
+

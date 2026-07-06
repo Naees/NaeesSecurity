@@ -53,7 +53,9 @@ const base = import.meta.env.BASE_URL;
         function updateScrollProgress() {
           const scrollable = root.scrollHeight - window.innerHeight;
           const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-          root.style.setProperty('--scroll-progress', String(Math.min(1, Math.max(0, progress))));
+          const clampedProgress = Math.min(1, Math.max(0, progress));
+          root.style.setProperty('--scroll-progress', String(clampedProgress));
+          root.classList.toggle('is-scroll-complete', clampedProgress > 0.985);
           scrollFrame = 0;
         }
 

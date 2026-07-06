@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "new-post": "node --import tsx scripts/new-post.ts",
-    "optimize-images": "node --import tsx scripts/optimize-images.ts"
+    "optimize-images": "node --import tsx scripts/optimize-images.ts",
+    "validate": "npm run optimize-images && npm run build"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

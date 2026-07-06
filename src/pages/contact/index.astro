@@ -20,13 +20,13 @@ const base = import.meta.env.BASE_URL;
     </div>
     <div class="pgp-terminal__screen">
       <p class="eyebrow" id="pgp-title">PGP fingerprint</p>
-      <pre><code><span class="prompt">$</span> gpg --fingerprint naees
-pub   ed25519 2026-07-06 [SC]
-      <mark>{site.pgpFingerprint}</mark>
-uid           [ unknown] Naees &lt;{site.email}&gt;
-sub   cv25519 2026-07-06 [E]
-
-<span class="prompt">$</span> curl -O {site.url}/keys/publickey.naees.asc</code></pre>
+      <pre><code><span class="terminal-line"><span class="prompt">$</span> gpg --fingerprint naees</span>
+<span class="terminal-line">pub   ed25519 2026-07-06 [SC]</span>
+<span class="terminal-line">      <mark>{site.pgpFingerprint}</mark></span>
+<span class="terminal-line">uid           [ unknown] Naees &lt;{site.email}&gt;</span>
+<span class="terminal-line">sub   cv25519 2026-07-06 [E]</span>
+<span class="terminal-line terminal-line--spacer"></span>
+<span class="terminal-line"><span class="prompt">$</span> curl -O {site.url}/keys/publickey.naees.asc</span></code></pre>
       <div class="actions">
         <a class="button button--primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
       </div>
