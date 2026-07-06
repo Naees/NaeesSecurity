@@ -26,17 +26,17 @@ const issueUrl = 'https://github.com/Naees/NaeesSecurity/issues/new?title=Site%2
           <a href={`${base}rss.xml`}>RSS</a>
         </div>
         <div>
-          <span>Elsewhere</span>
+          <span>Socials & Main Site</span>
           <a href={base}>NaeesSecurity</a>
-          <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report issue</a>
           <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={site.x} target="_blank" rel="noopener noreferrer">X</a>
+          <a href={site.x} target="_blank" rel="noopener noreferrer">X / Twitter</a>
         </div>
         <div>
           <span>Contact</span>
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.signal} target="_blank" rel="noopener noreferrer">Signal</a>
           <a href={`${base}keys/publickey.naees.asc`}>PGP</a>
+          <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report issue</a>
         </div>
       </>
     ) : (
@@ -44,21 +44,19 @@ const issueUrl = 'https://github.com/Naees/NaeesSecurity/issues/new?title=Site%2
         <div>
           <span>Verify</span>
           <a href={`${base}keys/`}>Fingerprint</a>
-          <a href={`${base}keys/publickey.naees.asc`}>PGP key</a>
-          <a href={`${base}contact/`}>Secure contact</a>
         </div>
         <div>
-          <span>Follow</span>
+          <span>Socials & Blog</span>
+          <a href={`${base}posts/`}>{site.blogName}</a>
           <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={site.x} target="_blank" rel="noopener noreferrer">X</a>
-          <a href={`${base}rss.xml`}>RSS</a>
-          <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report issue</a>
+          <a href={site.x} target="_blank" rel="noopener noreferrer">X / Twitter</a>
         </div>
         <div>
           <span>Contact</span>
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.signal} target="_blank" rel="noopener noreferrer">Signal</a>
-          <a href={`${base}posts/`}>{site.blogName}</a>
+          <a href={`${base}keys/publickey.naees.asc`}>PGP key</a>
+          <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report issue</a>
         </div>
       </>
     )}
