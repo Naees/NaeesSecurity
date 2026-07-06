@@ -129,7 +129,8 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 .console__screen { min-height: 330px; padding: 1.3rem; font: .92rem/1.8 var(--mono); color: var(--paper-2); background: repeating-linear-gradient(0deg, rgba(255,255,255,.018), rgba(255,255,255,.018) 1px, transparent 1px, transparent 7px); }
 .console__screen b { color: var(--phosphor); font-weight: 800; }
 .console__prompt { margin-top: 2rem; color: var(--phosphor); }
-.console__prompt span { animation: blink 1s steps(1) infinite; }
+.console__prompt span, .terminal-cursor::after { animation: blink 1s steps(1) infinite; }
+.terminal-cursor::after { content: "█"; display: inline-block; margin-left: .35ch; color: var(--phosphor); }
 @keyframes blink { 50% { opacity: 0; } }
 
 .strip { border-block: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -201,6 +202,19 @@ h3 { margin: 0; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05
 .case-file p { max-width: 78ch; }
 .key-panel { margin-block: 1rem 2rem; }
 .key-panel code { display: block; overflow-x: auto; color: var(--phosphor); font: clamp(1.05rem, 2.2vw, 1.7rem)/1.6 var(--mono); padding: 1rem 0; }
+.pgp-terminal { margin-block: 1rem 2rem; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #070808; box-shadow: 0 28px 80px rgba(0,0,0,.32), inset 0 0 0 1px rgba(255,255,255,.03); }
+.pgp-terminal__bar { min-height: 42px; display: flex; align-items: center; gap: .5rem; padding: 0 1rem; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.035); color: var(--muted); font: 700 .72rem/1 var(--mono); letter-spacing: .08em; }
+.pgp-terminal__bar span { width: 10px; height: 10px; border-radius: 50%; background: #f36f45; opacity: .85; }
+.pgp-terminal__bar span:nth-child(2) { background: #e1b06e; }
+.pgp-terminal__bar span:nth-child(3) { background: #7dd3fc; }
+.pgp-terminal__bar strong { margin-left: auto; font-weight: 700; text-transform: uppercase; }
+.pgp-terminal__screen { padding: clamp(1.1rem, 3vw, 1.6rem); background: radial-gradient(circle at 0 0, rgba(125,211,252,.08), transparent 26rem), repeating-linear-gradient(0deg, rgba(255,255,255,.018), rgba(255,255,255,.018) 1px, transparent 1px, transparent 8px); }
+.pgp-terminal pre { margin: 0; overflow-x: auto; color: var(--paper-2); font: clamp(.82rem, 1.7vw, 1rem)/1.75 var(--mono); white-space: pre; }
+.pgp-terminal code { font: inherit; }
+.pgp-terminal .prompt { color: var(--phosphor); font-weight: 800; }
+.pgp-terminal pre::after { content: "█"; display: inline-block; margin-left: .35ch; color: var(--phosphor); animation: blink 1s steps(1) infinite; }
+.pgp-terminal mark { display: inline-block; background: rgba(243,111,69,.18); color: #ffb08f; border: 1px solid rgba(243,111,69,.35); padding: .08rem .35rem; }
+.pgp-terminal .actions { margin-top: 1.4rem; }
 .contact-form-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: start; margin-block: 1rem 2rem; border: 1px solid var(--line); border-radius: 22px; padding: clamp(1.2rem, 3vw, 2rem); background: rgba(255,255,255,.035); }
 .contact-form-section p { color: var(--paper-2); line-height: 1.7; }
 .contact-form { display: grid; gap: 1rem; }

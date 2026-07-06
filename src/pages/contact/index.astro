@@ -11,11 +11,25 @@ const base = import.meta.env.BASE_URL;
     <p class="lede">Use the public key for encrypted mail. If the context is sensitive, prefer a verified secure channel and check the fingerprint below.</p>
   </section>
 
-  <section class="shell key-panel">
-    <p class="eyebrow">PGP fingerprint</p>
-    <code>{site.pgpFingerprint}</code>
-    <div class="actions">
-      <a class="button button--primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+  <section class="shell pgp-terminal" aria-labelledby="pgp-title">
+    <div class="pgp-terminal__bar" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <strong>naees@security:~/keys</strong>
+    </div>
+    <div class="pgp-terminal__screen">
+      <p class="eyebrow" id="pgp-title">PGP fingerprint</p>
+      <pre><code><span class="prompt">$</span> gpg --fingerprint naees
+pub   ed25519 2026-07-06 [SC]
+      <mark>{site.pgpFingerprint}</mark>
+uid           [ unknown] Naees &lt;{site.email}&gt;
+sub   cv25519 2026-07-06 [E]
+
+<span class="prompt">$</span> curl -O {site.url}/keys/publickey.naees.asc</code></pre>
+      <div class="actions">
+        <a class="button button--primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+      </div>
     </div>
   </section>
 
