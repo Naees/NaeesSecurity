@@ -3,110 +3,173 @@ import Layout from '../../components/Layout.astro';
 import { site } from '../../data/site';
 const base = import.meta.env.BASE_URL;
 
-const engagements = [
-  { type: 'Web security review', icon: '◎', deliverables: ['Findings report', 'Technical brief', 'Risk summary'], duration: '1–3 weeks', status: 'Scoped', summary: 'Application assessments, attack surface review, and exploitability analysis.' },
-  { type: 'Identity and access review', icon: '♙', deliverables: ['Design review', 'Gap analysis', 'Recommendations'], duration: '1–3 weeks', status: 'Scoped', summary: 'IAM design review, privilege analysis, and access-control validation.' },
-  { type: 'Cloud exposure review', icon: '☁', deliverables: ['Exposure map', 'Issue report', 'Remediation guide'], duration: '1–3 weeks', status: 'Scoped', summary: 'Cloud configuration review, exposure mapping, and misconfiguration analysis.' },
-  { type: 'Research partnership', icon: '▧', deliverables: ['Research notes', 'PoC / validation', 'Co-authored write-up'], duration: 'Ongoing', status: 'Open', summary: 'Joint research, vulnerability analysis, and validation of emerging issues.' },
+const engagementTypes = [
+  {
+    key: 'black',
+    number: '01',
+    title: 'Black-box test',
+    access: 'External view / no internal knowledge',
+    summary: 'Tests what an attacker can learn and validate from the outside, using only the agreed scope and rules of engagement.',
+    deliverables: ['Final report', 'Validated findings', 'Retest notes'],
+    bestFor: 'Public attack surface, internet-facing apps, pre-launch checks, and unknown exposure.',
+    detail: 'Black-box testing starts with minimal context. The work emphasizes discovery, attack-surface mapping, safe validation, evidence capture, and clear remediation guidance.',
+    inputs: ['Scope and rules of engagement', 'Test window and contact path', 'No source or architecture required'],
+    outputs: ['Executive and technical summary', 'Finding evidence and severity', 'Fix guidance and retest status'],
+  },
+  {
+    key: 'grey',
+    number: '02',
+    title: 'Grey-box test',
+    access: 'Limited knowledge / authenticated access',
+    summary: 'Combines attacker-style testing with selected internal context such as test accounts, roles, architecture notes, or API documentation.',
+    deliverables: ['Findings report', 'Access-control review', 'Retest notes'],
+    bestFor: 'Authenticated applications, role boundaries, APIs, multi-tenant flows, and business-logic testing.',
+    detail: 'Grey-box testing is often the highest-signal model for product teams because it uses enough context to reach sensitive paths without losing adversarial thinking.',
+    inputs: ['Test accounts and role matrix', 'Architecture or API notes', 'Representative workflows'],
+    outputs: ['Abuse-case findings', 'Authorization and logic gaps', 'Prioritized remediation plan'],
+  },
+  {
+    key: 'white',
+    number: '03',
+    title: 'White-box review',
+    access: 'Full context / source-aware testing',
+    summary: 'Uses source, configuration, architecture, and implementation detail to trace issues deeply and reduce false positives.',
+    deliverables: ['Code-aware findings', 'Root-cause notes', 'Remediation review'],
+    bestFor: 'Critical systems, pre-release review, complex auth flows, source-assisted vulnerability research, and hard-to-reproduce issues.',
+    detail: 'White-box review is best when the goal is depth: understanding why a weakness exists, where else it may appear, and how to fix it without creating regressions.',
+    inputs: ['Source or repository access', 'Configuration and deployment notes', 'Security assumptions and design goals'],
+    outputs: ['Root-cause analysis', 'Affected code paths', 'Patch and verification guidance'],
+  },
 ];
 
 const process = [
-  ['01', 'Intake', 'Scope discussion and requirements capture.'],
-  ['02', 'Scope & Access', 'Define scope, goals, and secure access.'],
-  ['03', 'Research & Analysis', 'Investigation, validation, and impact assessment.'],
-  ['04', 'Report & Review', 'Deliver findings, review with your team.'],
-  ['05', 'Handoff', 'Knowledge transfer and next steps.'],
+  ['01', 'Scope', 'Confirm assets, objectives, test window, rules of engagement, and emergency contacts.'],
+  ['02', 'Map', 'Build an attack-surface view: entry points, roles, trust boundaries, and high-risk workflows.'],
+  ['03', 'Test', 'Validate weaknesses safely, capture evidence, and avoid destructive actions unless explicitly approved.'],
+  ['04', 'Report', 'Deliver executive and technical findings with severity, impact, evidence, and remediation guidance.'],
+  ['05', 'Retest', 'Review fixes, update status, and close the loop with a concise validation note.'],
+];
+
+const terminalLines = [
+  '$ ns-engage run --mode greybox --scope approved',
+  '[00:01] scope: 3 apps · 2 roles · window confirmed',
+  '[00:04] recon: routes, headers, metadata mapped',
+  '[00:08] auth: user → manager → admin boundary loaded',
+  '[00:13] probes: session, object access, workflow guards',
+  '[00:19] signal: authorization drift in report export',
+  '[00:24] impact: evidence captured · no destructive action',
+  '[00:31] report: finding + remediation queued',
 ];
 ---
 
-<Layout title="Engagements — NaeesSecurity" description="Security-focused collaboration, research support, and practical review from NaeesSecurity." pathname="/engagements/">
-  <section class="ns-shell ns-page-header">
+<Layout title="Engagements — NaeesSecurity" description="Scoped security testing, review, and advisory engagements from NaeesSecurity." pathname="/engagements/">
+  <section class="ns-shell ns-page-header ns-engagement-hero">
     <div>
       <p class="ns-kicker">engagements</p>
       <h1 class="ns-page-title">Engagements</h1>
-      <p class="ns-subtitle">Security-focused collaboration, research support, and practical review.</p>
-      <p class="ns-lede">I work with teams and organizations on focused problems where security rigor, clear thinking, and confidentiality matter. The work is scoped, documented, and time-boxed.</p>
+      <p class="ns-subtitle">Scoped security testing and review for teams that need clear findings, not noise.</p>
+      <p class="ns-lede">I work on bounded assessments where scope, permission, evidence, and remediation matter. Choose the access model that matches what you need to learn.</p>
+      <div class="ns-actions">
+        <a class="ns-button ns-button-primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Request scope discussion</a>
+        <a class="ns-button" href="#engagement-types">Compare models</a>
+      </div>
     </div>
-    <aside class="ns-console" aria-label="Operator availability">
-      <div class="ns-console-header"><span>Operator availability</span><span class="ns-console-status"><span class="ns-status-dot"></span> online</span></div>
-      <dl class="ns-console-body">
-        <div class="ns-ledger-row"><dt>availability</dt><dd>open to collaboration</dd></div>
-        <div class="ns-ledger-row"><dt>model</dt><dd>project-based / retainer / research partnerships</dd></div>
-        <div class="ns-ledger-row"><dt>location</dt><dd>{site.location}</dd></div>
-        <div class="ns-ledger-row"><dt>response</dt><dd>usually within 24–72 hours</dd></div>
-        <div class="ns-ledger-row"><dt>intake</dt><dd>selective, scoped, and confidentiality-first</dd></div>
-      </dl>
+    <aside class="ns-attack-terminal" aria-label="Simulated authorized test chain">
+      <div class="ns-attack-terminal__bar">
+        <span>authorized test chain</span>
+        <b>dry-run</b>
+      </div>
+      <pre><code>{terminalLines.map((line) => <span class="ns-attack-line">{line}</span>)}</code></pre>
     </aside>
   </section>
 
-  <section class="ns-section-tight">
-    <div class="ns-shell ns-grid ns-grid-sidebar-wide ns-align-start">
-      <div>
-        <div class="ns-table-wrap">
-          <div class="ns-table-header"><h2>Engagement types</h2><span class="ns-meta">Deliverables · typical duration</span></div>
-          <table class="ns-table">
-            <thead><tr><th>Type</th><th>Deliverables</th><th>Typical duration</th></tr></thead>
-            <tbody>
-              {engagements.map((item) => (
-                <tr>
-                  <td><span class="ns-contact-icon" aria-hidden="true">{item.icon}</span><strong>{item.type}</strong><br /><span class="ns-text-muted">{item.summary}</span></td>
-                  <td>{item.deliverables.map((entry) => <>{entry}<br /></>)}</td>
-                  <td><span class:list={['ns-status', `ns-status-${item.status.toLowerCase()}`]}>{item.status}</span><br />{item.duration}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <section class="ns-section-tight" style="border-bottom: 0;">
-          <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;"><h2>Engagement process</h2></div>
-          <div class="ns-process">
-            {process.map(([number, title, text]) => (
-              <article class="ns-process-step">
-                <b>{number}</b>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
+  <section class="ns-section-tight" id="engagement-types">
+    <div class="ns-shell">
+      <div class="ns-table-wrap ns-engagement-overview">
+        <div class="ns-table-header"><h2>Engagement types</h2><span class="ns-meta">Access model · deliverables</span></div>
+        <table class="ns-table">
+          <thead><tr><th>Type</th><th>Best fit</th><th>Typical deliverables</th></tr></thead>
+          <tbody>
+            {engagementTypes.map((item) => (
+              <tr>
+                <td>
+                  <div class="ns-engagement-type-cell">
+                    <span class:list={['ns-engagement-type-icon', `ns-engagement-type-icon-${item.key}`]} aria-hidden="true">{item.number}</span>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <span>{item.access}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{item.summary}</td>
+                <td><ul class="ns-chip-list">{item.deliverables.map((entry) => <li class="ns-chip">{entry}</li>)}</ul></td>
+              </tr>
             ))}
-          </div>
-        </section>
-
-        <div class="ns-alert">
-          <span aria-hidden="true">▣</span>
-          <p>Confidentiality is the default. NDAs are available on request. All engagement work is scoped, documented, and time-boxed.</p>
-          <a class="ns-link-arrow" href={`${base}contact/`}>Contact securely</a>
-        </div>
+          </tbody>
+        </table>
       </div>
+    </div>
+  </section>
 
-      <aside class="ns-sidebar" aria-label="Engagement sidebar">
-        <section class="ns-panel ns-panel-pad">
-          <h2>Best fit</h2>
-          <ul class="ns-mini-list">
-            <li><span>01</span><span><b>Bounded problems</b><br />Clear scope, owner, and decision path.</span></li>
-            <li><span>02</span><span><b>High-signal reviews</b><br />Architecture, exploitability, and validation over generic checklists.</span></li>
-            <li><span>03</span><span><b>Research support</b><br />Reproduction, root cause analysis, and write-up assistance.</span></li>
-          </ul>
-        </section>
-        <section class="ns-panel ns-panel-pad">
-          <h2>Secure contact</h2>
-          <dl>
-            <div class="ns-stat-row"><dt>Email</dt><dd>{site.email}</dd></div>
-            <div class="ns-stat-row"><dt>Signal</dt><dd>{site.signalHandle}</dd></div>
-            <div class="ns-stat-row"><dt>PGP fp</dt><dd>{site.pgpFingerprint}</dd></div>
-          </dl>
-          <div class="ns-actions"><a class="ns-button ns-button-primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Request an engagement</a></div>
-        </section>
-        <section class="ns-card">
-          <div class="ns-fingerprint-card">
-            <div class="ns-fingerprint-art" aria-hidden="true">⌁</div>
-            <div>
-              <h2 class="ns-card-title">Verified operator</h2>
-              <p>Trust through transparency. Verify identity and contact details before sharing sensitive context.</p>
-              <a class="ns-link-arrow" href={`${base}contact/`}>View verification</a>
+  <section class="ns-section-tight">
+    <div class="ns-shell">
+      <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;">
+        <h2>Model details</h2>
+        <span class="ns-meta">What each access level changes</span>
+      </div>
+      <div class="ns-engagement-detail-grid">
+        {engagementTypes.map((item) => (
+          <article class:list={['ns-engagement-detail-card', `ns-engagement-detail-card-${item.key}`]}>
+            <div class="ns-engagement-art" aria-hidden="true">
+              <span></span><span></span><span></span><i></i>
             </div>
-          </div>
-        </section>
-      </aside>
+            <p class="ns-meta">{item.number} · {item.access}</p>
+            <h3>{item.title}</h3>
+            <p>{item.detail}</p>
+            <div class="ns-engagement-detail-columns">
+              <div>
+                <h4>Inputs</h4>
+                <ul class="ns-mini-list">{item.inputs.map((entry) => <li><span>→</span><span>{entry}</span></li>)}</ul>
+              </div>
+              <div>
+                <h4>Outputs</h4>
+                <ul class="ns-mini-list">{item.outputs.map((entry) => <li><span>✓</span><span>{entry}</span></li>)}</ul>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ns-section-tight">
+    <div class="ns-shell">
+      <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;"><h2>Engagement process</h2><span class="ns-meta">NIST / OWASP-aligned flow</span></div>
+      <div class="ns-process ns-process-linear">
+        {process.map(([number, title, text]) => (
+          <article class="ns-process-step">
+            <b>{number}</b>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ns-section-tight">
+    <div class="ns-shell ns-secure-contact-band">
+      <div>
+        <p class="ns-kicker">secure contact</p>
+        <h2>Start with scope, permission, and a verified channel.</h2>
+        <p>Send the target type, preferred access model, timeline, and any constraints. Do not include sensitive artifacts until we have confirmed the channel.</p>
+      </div>
+      <dl>
+        <div class="ns-stat-row"><dt>Email</dt><dd>{site.email}</dd></div>
+        <div class="ns-stat-row"><dt>Signal</dt><dd>{site.signalHandle}</dd></div>
+        <div class="ns-stat-row"><dt>Response</dt><dd>Usually within 24–72 hours</dd></div>
+      </dl>
+      <div class="ns-actions"><a class="ns-button ns-button-primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Contact securely</a></div>
     </div>
   </section>
 </Layout>
