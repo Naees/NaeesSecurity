@@ -10,13 +10,28 @@
     "optimizedAt": "2026-07-06T10:30:04.996Z"
   },
   "public/assets/kittenwiz_logo.webp": {
-    "hash": "b1517e48050f1068a7b804bc6bf13b7379efc8f9792a1e3e7992f091c222dab8",
-    "size": 148466,
-    "optimizedAt": "2026-07-06T10:30:05.249Z"
+    "hash": "c589a453dd052c751d2af5d32113d295d9b26b09c5ed891a502415090de4ae68",
+    "size": 147036,
+    "optimizedAt": "2026-07-07T12:56:53.416Z"
   },
   "public/assets/posts/workflow-smoke-test.webp": {
     "hash": "dd427bb387768a6b170f77e389d06f89fc66a0517b1990a7e174312f076cf8d8",
     "size": 3586,
     "optimizedAt": "2026-07-06T10:30:05.270Z"
+  },
+  "public/assets/engagements/black-box-attack-path.webp": {
+    "hash": "51cbc838eb83d5f0d4683358d0c037e0ab6d35a520f0a060493654e9b0f5dc31",
+    "size": 35998,
+    "optimizedAt": "2026-07-07T12:56:53.059Z"
+  },
+  "public/assets/engagements/grey-box-scope-map.webp": {
+    "hash": "1454f3fbd84ab3d3fa20cf90ea481f0c3368d9bcf6c041d510df24582ae5efc6",
+    "size": 27892,
+    "optimizedAt": "2026-07-07T12:56:53.105Z"
+  },
+  "public/assets/engagements/white-box-code-review.webp": {
+    "hash": "fe908680df9f59040d150166cbd974f81d40ddc514d89768cda7327b4b48779d",
+    "size": 65676,
+    "optimizedAt": "2026-07-07T12:56:53.162Z"
   }
 }

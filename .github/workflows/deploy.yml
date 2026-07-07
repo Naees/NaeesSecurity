@@ -1,6 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
@@ -10,10 +12,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-  actions: read
-  security-events: write
 
 concurrency:
   group: pages
@@ -27,12 +25,12 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 2
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: '22'
           cache: npm
@@ -43,14 +41,26 @@ jobs:
       - name: Check npm advisories
         run: npm audit --audit-level=moderate
 
+      - name: Verify npm registry signatures
+        run: npm audit signatures
+
+      - name: Install WebP hygiene tools
+        run: sudo apt-get update && sudo apt-get install -y webp
+
+      - name: Enforce normalized public assets
+        run: |
+          npm run optimize-images
+          git diff --exit-code -- public/assets .image-optimization-cache.json
+
       - name: Semgrep static security review
         run: |
-          python3 -m pip install --upgrade pip semgrep
+          python3 -m pip install --upgrade pip
+          python3 -m pip install semgrep==1.136.0
           semgrep scan --config p/security-audit --config p/secrets --error
 
       - name: Repository hygiene review
         run: |
-          forbidden_paths='^(\.agents/|\.opencode/|\.vscode/|\.husky/|tests/|playwright\.config\.ts|skills-lock\.json)'
+          forbidden_paths='(^|/)(\.agents/|\.opencode/|\.vscode/|\.husky/|tests/|dist/|\.astro/|node_modules/|playwright\.config\.ts|skills-lock\.json|DESIGN\.md|\.env(\.|$)|\.DS_Store$|.*\.pem$|.*\.p12$|.*\.pfx$|.*\.key$|.*id_rsa$|.*id_ed25519$)'
           if git ls-files | grep -E "$forbidden_paths"; then
             echo "Forbidden local/development files are tracked." >&2
             exit 1
@@ -63,6 +73,11 @@ jobs:
             exit 1
           fi
 
+          if git grep -n -I -E '([A]KIA[0-9A-Z]{16}|[A]SIA[0-9A-Z]{16}|[A]Iza[0-9A-Za-z_-]{35}|gh[pousr]_[A-Za-z0-9_]{36,}|github_pat_[A-Za-z0-9_]+|[x]ox[baprs]-[A-Za-z0-9-]+|[s]k-[A-Za-z0-9]{20,}|BEGIN (RSA|DSA|EC|OPENSSH|PRIVATE) KEY|[P]RIVATE KEY|[p]assword[[:space:]]*=|[p]asswd[[:space:]]*=|[s]ecret[[:space:]]*=|[a]pi[_-]?key[[:space:]]*=|[t]oken[[:space:]]*=|[a]ccess[_-]?token[[:space:]]*=|[c]lient[_-]?secret)' -- . ':(exclude)package-lock.json' ':(exclude)public/keys/publickey.naees.asc'; then
+            echo "Potential secret material found in tracked files." >&2
+            exit 1
+          fi
+
           echo "Reviewed commit range:"
           git log --oneline -2
           echo "Changed files:"
@@ -70,7 +85,7 @@ jobs:
 
   osv_scan:
     name: OSV vulnerability scan
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.3.8
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@9a498708959aeaef5ef730655706c5a1df1edbc2 # v2.3.8
     with:
       scan-args: |-
         --lockfile=package-lock.json
@@ -82,14 +97,16 @@ jobs:
   build:
     needs: [security_review, osv_scan]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: '22'
           cache: npm
@@ -101,22 +118,25 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: dist/
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    # Scheduled runs audit the current site/dependencies but do not redeploy unchanged output.
-    if: github.event_name != 'schedule'
+    permissions:
+      pages: write
+      id-token: write
+    # PR and scheduled runs audit/build only; deploy only after merge/push or manual dispatch.
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
         continue-on-error: true
 
       - name: Wait before retrying Pages deploy
@@ -126,7 +146,7 @@ jobs:
       - name: Retry deploy to GitHub Pages
         if: steps.deployment.outcome == 'failure'
         id: deployment_retry
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
 
       - name: Fail if Pages deploy did not complete
         if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome != 'success'
