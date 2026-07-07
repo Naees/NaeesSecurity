@@ -13,15 +13,30 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const titleHeading = { depth: 1, slug: 'article-title', text: post.data.title };
+const tocHeadings = [titleHeading, ...headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4)];
 ---
 
 <Layout title={`${post.data.title} — ${site.blogName}`} description={post.data.description} pathname={`/posts/${post.id}/`} type="article" publishedTime={post.data.date.toISOString()} pageClass="article-page blog-page" showScrollProgress>
+  {tocHeadings.length > 0 && (
+    <aside class="article-toc" aria-labelledby="article-toc-title" data-article-toc>
+      <p class="article-toc__title" id="article-toc-title">Contents</p>
+      <nav aria-label="Table of contents">
+        {tocHeadings.map((heading) => (
+          <a class:list={['article-toc__link', `article-toc__link--depth-${heading.depth}`]} href={`#${heading.slug}`} data-toc-link={heading.slug}>
+            {heading.text}
+          </a>
+        ))}
+      </nav>
+    </aside>
+  )}
+
   <article class="article shell-narrow">
     <header class="article__header">
       <a class="back-link" href={`${base}posts/`}>← {site.blogName}</a>
       <p class="eyebrow">{formatDate(post.data.date)} · {getReadingTime(post.body)} min read</p>
-      <h1>{post.data.title}</h1>
+      <h1 id="article-title">{post.data.title}</h1>
       <p>{post.data.description}</p>
       <div class="tag-row">
         {post.data.tags.map((tag) => <span>{tag}</span>)}
@@ -32,4 +47,46 @@ const { Content } = await render(post);
     </div>
     <GiscusComments />
   </article>
+
+  {tocHeadings.length > 0 && (
+    <script>
+      const tocLinks = Array.from(document.querySelectorAll('[data-toc-link]'));
+      const tocEntries = tocLinks
+        .map((link) => {
+          const id = link.getAttribute('data-toc-link');
+          const heading = id ? document.getElementById(id) : null;
+          return heading ? { link, heading } : null;
+        })
+        .filter(Boolean);
+
+      function setActiveTocLink(activeLink) {
+        for (const link of tocLinks) {
+          link.classList.toggle('is-active', link === activeLink);
+        }
+      }
+
+      for (const entry of tocEntries) {
+        entry.link.addEventListener('click', (event) => {
+          event.preventDefault();
+          entry.heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', `#${entry.heading.id}`);
+          setActiveTocLink(entry.link);
+          entry.heading.classList.remove('is-toc-target');
+          window.requestAnimationFrame(() => entry.heading.classList.add('is-toc-target'));
+        });
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+
+        if (!visible) return;
+        const activeEntry = tocEntries.find((entry) => entry.heading === visible.target);
+        if (activeEntry) setActiveTocLink(activeEntry.link);
+      }, { rootMargin: '-22% 0px -62% 0px', threshold: [0, 1] });
+
+      for (const entry of tocEntries) observer.observe(entry.heading);
+    </script>
+  )}
 </Layout>

@@ -10,6 +10,6 @@ Secure contact should be treated as a process, not a decoration in the footer.
 
 A public key is only useful if the fingerprint is checked. A Signal link is only useful if the identity is verified in the right context. Email is convenient, but convenience is not the same thing as confidentiality.
 
-For this site, the current PGP fingerprint is listed on the keys page and repeated in the research console. If you need to send something sensitive, verify the fingerprint before trusting the channel.
+For this site, the current PGP fingerprint is listed on the contact page and repeated in the footer. If you need to send something sensitive, verify the fingerprint before trusting the channel and avoid public issue trackers.
 
 Small habits matter. They are not dramatic, but they are the difference between "encrypted" as an aesthetic and encryption as an actual control.

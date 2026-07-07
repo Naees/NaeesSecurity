@@ -3,11 +3,19 @@ import Layout from '../components/Layout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="404 — Naees" description="Page not found." pathname="/404/">
-  <section class="page-hero shell">
-    <p class="eyebrow">404</p>
-    <h1>This path does not resolve.</h1>
-    <p class="lede">The file may have moved, never existed, or failed quietly in the archive.</p>
-    <a class="button button--primary" href={base}>Return home</a>
+<Layout title="404 — NaeesSecurity" description="Page not found." pathname="/404/">
+  <section class="ns-shell ns-page-header">
+    <div>
+      <p class="ns-kicker">404</p>
+      <h1 class="ns-page-title">This path does not resolve.</h1>
+      <p class="ns-lede">The file may have moved, never existed, or failed quietly in the archive.</p>
+      <div class="ns-actions"><a class="ns-button ns-button-primary" href={base}>Return home</a></div>
+    </div>
+    <aside class="ns-console" aria-label="Not found console">
+      <div class="ns-console-header"><span>resolver</span><span class="ns-console-status"><span class="ns-status-dot"></span> no match</span></div>
+      <pre class="ns-command" style="margin: 0; border-top: 0;">$ resolve --path current
+&gt; route not found
+&gt; return to index</pre>
+    </aside>
   </section>
 </Layout>

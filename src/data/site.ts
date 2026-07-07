@@ -10,19 +10,11 @@ export const site = {
   github: 'https://github.com/Naees',
   x: 'https://x.com/NaeesSecurity',
   signal: 'https://signal.me/#eu/1Fkdlvu4vmAqdT-5QwGdGFH1b4uOrLlpyMlK8Fyr5aw_eu6XMJ1PEYOH18jG1nMY',
+  signalHandle: '@naeessec',
+  location: 'Singapore (SGT +08:00)',
   pgpFingerprint: 'EE03 DCB4 E594 D725 C528 83E0 4BCC B80F BFB5 EE54',
   focus: ['web security', 'identity', 'cloud exposure', 'practical exploitation'],
 };
-
-export const navLinks = [
-  { href: '/', label: 'home' },
-  // Research is intentionally hidden from the header until the section has real case files.
-  // { href: '/research/', label: 'research' },
-  { href: '/posts/', label: site.blogName },
-  { href: '/engagements/', label: 'engagements' },
-  { href: '/about/', label: 'about' },
-  { href: '/contact/', label: 'contact' },
-];
 
 export interface FooterLink {
   href: string;
@@ -64,7 +56,7 @@ export function getFooterGroups(base: string, isBlog: boolean): FooterGroup[] {
           internal(`mailto:${site.email}`, site.email),
           external(site.signal, 'Signal'),
           internal(`${base}keys/publickey.naees.asc`, 'PGP'),
-          external(issueUrl, 'Report issue'),
+          external(issueUrl, 'Report site issue'),
         ],
       },
     ];
@@ -89,7 +81,7 @@ export function getFooterGroups(base: string, isBlog: boolean): FooterGroup[] {
         internal(`mailto:${site.email}`, site.email),
         external(site.signal, 'Signal'),
         internal(`${base}keys/publickey.naees.asc`, 'PGP key'),
-        external(issueUrl, 'Report issue'),
+        external(issueUrl, 'Report site issue'),
       ],
     },
   ];

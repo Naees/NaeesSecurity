@@ -1,84 +1,115 @@
 ---
 import Layout from '../../components/Layout.astro';
-import { site } from '../../data/site';
+import { issueUrl, site } from '../../data/site';
 const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="Contact — Naees" description="PGP fingerprint, public key, Signal, and contact details for Naees." pathname="/contact/">
-  <section class="page-hero shell">
-    <p class="eyebrow">contact / keys</p>
-    <h1>Verify before you trust the channel.</h1>
-    <p class="lede">Use the public key for encrypted mail. If the context is sensitive, prefer a verified secure channel and check the fingerprint below.</p>
-  </section>
+<Layout title="Contact — NaeesSecurity" description="Secure contact, PGP fingerprint, public key, Signal, and verification details for NaeesSecurity." pathname="/contact/">
+  <section class="ns-section ns-section-top">
+    <div class="ns-shell ns-grid ns-grid-sidebar-contact ns-align-start">
+      <div>
+        <header style="padding-block: 1rem 1rem; border-bottom: var(--hairline);">
+          <p class="ns-kicker">contact & verification</p>
+          <h1 class="ns-page-title">Contact</h1>
+          <p class="ns-subtitle">Verify before you trust.</p>
+          <p class="ns-lede">I use a minimal set of communication channels. Always verify identity before sharing sensitive information. When in doubt, use PGP.</p>
+        </header>
 
-  <section class="shell pgp-terminal" aria-labelledby="pgp-title">
-    <div class="pgp-terminal__bar" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-      <strong>naees@security:~/keys</strong>
-    </div>
-    <div class="pgp-terminal__screen">
-      <p class="eyebrow" id="pgp-title">PGP fingerprint</p>
-      <pre><code><span class="terminal-line"><span class="prompt">$</span> gpg --fingerprint naees</span>
-<span class="terminal-line">pub   ed25519 2026-07-06 [SC]</span>
-<span class="terminal-line">      <mark>{site.pgpFingerprint}</mark></span>
-<span class="terminal-line">uid           [ unknown] Naees &lt;{site.email}&gt;</span>
-<span class="terminal-line">sub   cv25519 2026-07-06 [E]</span>
-<span class="terminal-line terminal-line--spacer"></span>
-<span class="terminal-line"><span class="prompt">$</span> curl -O {site.url}/keys/publickey.naees.asc</span></code></pre>
-      <div class="actions">
-        <a class="button button--primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+        <section class="ns-contact-list" aria-labelledby="secure-contact-title" style="margin-top: 1rem;">
+          <div class="ns-table-header"><h2 id="secure-contact-title">Secure contact</h2></div>
+          <div class="ns-contact-row">
+            <span class="ns-meta">01</span>
+            <span class="ns-contact-icon" aria-hidden="true">✉</span>
+            <div><h3>Email</h3><code>{site.email}</code></div>
+            <button class="ns-button" type="button" data-copy={site.email}>Copy email</button>
+          </div>
+          <div class="ns-contact-row">
+            <span class="ns-meta">02</span>
+            <span class="ns-contact-icon" aria-hidden="true">☏</span>
+            <div><h3>Signal</h3><code>{site.signalHandle}</code></div>
+            <a class="ns-button" href={site.signal} target="_blank" rel="noopener noreferrer">Open Signal</a>
+          </div>
+          <div class="ns-contact-row">
+            <span class="ns-meta">03</span>
+            <span class="ns-contact-icon" aria-hidden="true">⚿</span>
+            <div>
+              <h3>PGP public key</h3>
+              <p>Use to verify email and sensitive messages.</p>
+              <p class="ns-fingerprint">{site.pgpFingerprint}</p>
+              <div class="ns-actions" style="margin-top: 1rem;">
+                <button class="ns-button" type="button" data-copy={site.pgpFingerprint}>Copy fingerprint</button>
+                <a class="ns-button" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+              </div>
+            </div>
+          </div>
+          <div class="ns-contact-row">
+            <span class="ns-meta">04</span>
+            <span class="ns-contact-icon" aria-hidden="true">⌬</span>
+            <div><h3>Report a site issue</h3><p>Use GitHub Issues for broken links, typos, or site bugs. Do not post sensitive vulnerability details publicly.</p></div>
+            <a class="ns-button" href={issueUrl} target="_blank" rel="noopener noreferrer">Open site issue</a>
+          </div>
+        </section>
+
+        <div class="ns-alert" style="margin-top: 1.5rem;">
+          <span aria-hidden="true">⚠</span>
+          <p>Always verify before you trust. Confirm fingerprints via multiple trusted channels. For sensitive reports, use encrypted email or Signal rather than a public issue.</p>
+          <a class="ns-link-arrow" href={`mailto:${site.email}`}>Email with PGP</a>
+        </div>
       </div>
+
+      <aside class="ns-sidebar" aria-label="Contact verification sidebar">
+        <section class="ns-panel ns-panel-pad" aria-labelledby="identity-fingerprint-title">
+          <h2 id="identity-fingerprint-title">Identity fingerprint <span class="ns-status ns-status-active" style="float: right;">Verified</span></h2>
+          <div class="ns-fingerprint-card">
+            <div class="ns-fingerprint-art" aria-hidden="true">⌁</div>
+            <dl>
+              <div class="ns-stat-row"><dt>operator</dt><dd>Naees</dd></div>
+              <div class="ns-stat-row"><dt>handle</dt><dd>naees</dd></div>
+              <div class="ns-stat-row"><dt>key id</dt><dd>0x48CCB80F</dd></div>
+              <div class="ns-stat-row"><dt>algo</dt><dd>ed25519</dd></div>
+              <div class="ns-stat-row"><dt>expires</dt><dd>never</dd></div>
+            </dl>
+          </div>
+          <p class="ns-fingerprint" style="margin-top: 1rem;">{site.pgpFingerprint}</p>
+          <button class="ns-button" type="button" data-copy={site.pgpFingerprint}>Copy fingerprint</button>
+        </section>
+        <section class="ns-panel ns-panel-pad">
+          <h2>Verification checklist</h2>
+          <ul class="ns-mini-list">
+            <li><span>✓</span><span>Confirm fingerprint matches exactly</span></li>
+            <li><span>✓</span><span>Verify via at least two trusted channels</span></li>
+            <li><span>✓</span><span>Check key ID when importing PGP key</span></li>
+            <li><span>✓</span><span>Use Signal or encrypted email for sensitive conversations</span></li>
+            <li><span>✓</span><span>Use GitHub Issues only for non-sensitive site problems</span></li>
+          </ul>
+        </section>
+        <section class="ns-panel ns-panel-pad">
+          <h2>Operator availability</h2>
+          <dl>
+            <div class="ns-stat-row"><dt>Time zone</dt><dd>SGT (UTC+08:00)</dd></div>
+            <div class="ns-stat-row"><dt>Typical response</dt><dd>24–72 hours</dd></div>
+            <div class="ns-stat-row"><dt>Best effort</dt><dd>Mon – Fri business hours</dd></div>
+            <div class="ns-stat-row"><dt>Low activity</dt><dd>Weekends / public holidays</dd></div>
+          </dl>
+          <p class="ns-meta">Emergencies involving active exploitation or public harm may be prioritized.</p>
+        </section>
+      </aside>
     </div>
   </section>
 
-  <section class="shell contact-block contact-block--signal" aria-labelledby="signal-title">
-    <div>
-      <p class="eyebrow">Signal</p>
-      <h2 id="signal-title">Use Signal for quick secure contact.</h2>
-      <p>For sensitive conversations, verify identity and context before sharing details. Signal is useful for coordination, but PGP remains listed above for encrypted email and key verification.</p>
-    </div>
-    <a class="button button--primary" href={site.signal} target="_blank" rel="noopener noreferrer">Message on Signal</a>
-  </section>
-
-  <section class="shell contact-form-section" aria-labelledby="contact-title">
-    <div>
-      <p class="eyebrow">contact</p>
-      <h2 id="contact-title">Send an email</h2>
-      <p>Share a subject and a short description. The form opens a pre-filled email draft addressed to Naees; it does not send anything until you review and send it from your mail client.</p>
-    </div>
-    <form class="contact-form" data-mailto-form>
-      <label>
-        <span>Subject</span>
-        <input name="subject" type="text" placeholder="Security collaboration / disclosure / question" required />
-      </label>
-      <label>
-        <span>Description</span>
-        <textarea name="body" rows="8" placeholder="Hi Naees,&#10;&#10;I’m reaching out about...&#10;&#10;Context:&#10;Scope:&#10;Timeline:&#10;Preferred reply channel:" required></textarea>
-      </label>
-      <button class="button button--primary" type="submit">Open email draft</button>
-    </form>
-  </section>
-
-  <section class="shell contact-grid">
-    <a href={`mailto:${site.email}`}><span>Email</span> {site.email}</a>
-    <a href={site.github} target="_blank" rel="noopener noreferrer"><span>GitHub</span> github.com/Naees</a>
-    <a href={site.x} target="_blank" rel="noopener noreferrer"><span>X</span> x.com/NaeesSecurity</a>
-  </section>
-
-  <script define:vars={{ email: site.email }}>
-    const form = document.querySelector('[data-mailto-form]');
-    const subjectInput = form?.querySelector('input[name="subject"]');
-    const requestedSubject = new URLSearchParams(window.location.search).get('subject');
-    if (subjectInput && requestedSubject) subjectInput.value = requestedSubject;
-
-    form?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const data = new FormData(form);
-      const subject = String(data.get('subject') || 'Contact from NaeesSecurity');
-      const body = String(data.get('body') || '');
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  <script>
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const value = button.getAttribute('data-copy') || '';
+        try {
+          await navigator.clipboard.writeText(value);
+          const oldText = button.textContent;
+          button.textContent = 'Copied';
+          window.setTimeout(() => { button.textContent = oldText; }, 1400);
+        } catch {
+          window.prompt('Copy fingerprint', value);
+        }
+      });
     });
   </script>
 </Layout>

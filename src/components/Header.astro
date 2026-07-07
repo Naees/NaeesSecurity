@@ -1,26 +1,48 @@
 ---
-import { navLinks, site } from '../data/site';
+import BrandMark from './BrandMark.astro';
+import { site } from '../data/site';
 
 interface Props { pathname: string }
 const { pathname } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const isBlog = pathname.startsWith('/posts/');
+const mainNav = [
+  { href: '/', label: 'Home' },
+  { href: '/posts/', label: site.blogName },
+  { href: '/research/', label: 'Research' },
+  { href: '/engagements/', label: 'Engagements' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
 const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href);
 ---
 
-<header class:list={['site-header', isBlog && 'site-header--blog']}>
-  <a class="brand" href={isBlog ? `${base}posts/` : base} aria-label={isBlog ? `${site.blogName} home` : 'Naees home'}>
-    <img src={`${base}assets/kittenwiz_logo.webp`} alt="" width="34" height="34" />
-    <span class="brand__text"><strong>{isBlog ? site.blogName : site.headerName}</strong><em>{site.tagline}</em></span>
-  </a>
-  <nav class="site-nav" aria-label="Primary navigation">
-    {isBlog ? (
-      <>
-        <a class:list={[pathname === '/posts/' && 'is-active']} href={`${base}posts/`}>all posts</a>
-        <a href={base}>← {site.name}</a>
-      </>
-    ) : navLinks.map((link) => (
-      <a class:list={[isActive(link.href) && 'is-active']} href={`${base}${link.href.replace(/^\//, '')}`}>{link.label}</a>
-    ))}
-  </nav>
-</header>
+{isBlog ? (
+  <header class="site-header site-header--blog">
+    <a class="brand" href={`${base}posts/`} aria-label={`${site.blogName} home`}>
+      <img src={`${base}assets/kittenwiz_logo.webp`} alt="" width="34" height="34" />
+      <span class="brand__text"><strong>{site.blogName}</strong><em>We exploit the <span class="ns-footer-brand__unseen">unseen.</span></em></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class:list={[pathname === '/posts/' && 'is-active']} href={`${base}posts/`}>all posts</a>
+      <a href={base}>← {site.name}</a>
+    </nav>
+  </header>
+) : (
+  <header class="ns-site-header">
+    <nav class="ns-shell ns-nav" aria-label="Primary navigation">
+      <a class="ns-brand" href={base} aria-label="NaeesSecurity home">
+        <span class="ns-brand-mark" aria-hidden="true"><BrandMark /></span>
+        <span class="ns-brand-text">
+          <strong class="ns-brand-name">{site.headerName}</strong>
+          <em class="ns-brand-tagline">We exploit the <span class="ns-footer-brand__unseen">unseen.</span></em>
+        </span>
+      </a>
+      <ul class="ns-nav-links">
+        {mainNav.map((link) => (
+          <li><a aria-current={isActive(link.href) ? 'page' : undefined} href={`${base}${link.href.replace(/^\//, '')}`}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </header>
+)}

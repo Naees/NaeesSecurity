@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../components/Layout.astro';
-import Console from '../components/Console.astro';
+import { featuredCases } from '../data/research';
 import { site } from '../data/site';
 import { formatDate } from '../lib/utils';
 
@@ -10,52 +10,91 @@ const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+
+const cases = featuredCases;
 ---
 
 <Layout title="NaeesSecurity — security research by Naees" description={site.description} pathname="/" pageClass="home-page">
-  <section class="hero shell">
-    <div class="hero__copy">
-      <p class="eyebrow">security research · writing archive · field notes</p>
-      <h1>I study how systems fail at the edges.</h1>
-      <p class="lede">I’m Naees. This site collects my security research practice, technical writing, and notes on web systems, identity, cloud exposure, and the strange failure modes that hide between assumptions.</p>
-      <div class="actions">
-        <a class="button button--primary" href={`${base}research/`}>Open case files</a>
-        <a class="button" href={`${base}contact/`}>Contact securely</a>
-      </div>
-    </div>
-    <Console />
-  </section>
-
-  <section class="strip" aria-label="Site sections">
-    <a href={`${base}research/`}><span>01</span> Research placeholders and future writeups</a>
-    <a href={`${base}posts/`}><span>02</span> NaeesWrites essays and notes</a>
-    <a href={`${base}about/`}><span>03</span> About Naees and Haku</a>
-  </section>
-
-  <section class="shell split-section">
+  <section class="ns-shell ns-hero">
     <div>
-      <p class="eyebrow">current posture</p>
-      <h2>Balanced between personal archive and professional signal.</h2>
+      <p class="ns-kicker">security research · writing archive · field notes</p>
+      <h1 class="ns-title">I study how systems fail at the edges.</h1>
+      <p class="ns-lede">I’m Naees. This site collects my security research practice, technical writing, and notes on web systems, identity, cloud exposure, and the strange failure modes that hide between assumptions.</p>
+      <div class="ns-actions">
+        <a class="ns-button ns-button-primary" href={`${base}research/`}>Browse case notes →</a>
+        <a class="ns-button" href={`${base}contact/`}>Contact securely</a>
+      </div>
+      <dl class="ns-focus-row" aria-label="Research focus">
+        <dt>Focus</dt>
+        <dd>{site.focus.join(' · ')}</dd>
+      </dl>
     </div>
-    <div class="prose-card">
-      <p>I’m open to collaboration and security-focused engagement. The public archive is intentionally early: a place for clean notes, reproducible thinking, and future case files rather than inflated claims.</p>
-      <p>NaeesWrites is the blog layer of the site — slower writing, reading notes, technical essays, and research fragments worth keeping.</p>
+
+    <aside class="ns-console" aria-label="Operator status">
+      <div class="ns-console-header">
+        <span>Operator status</span>
+        <span class="ns-console-status"><span class="ns-status-dot"></span> operator.naees</span>
+      </div>
+      <dl class="ns-console-body">
+        <div class="ns-ledger-row"><dt>status</dt><dd>open to collaboration</dd></div>
+        <div class="ns-ledger-row"><dt>role</dt><dd>security researcher</dd></div>
+        <div class="ns-ledger-row"><dt>focus</dt><dd>{site.focus.join(' · ')}</dd></div>
+        <div class="ns-ledger-row"><dt>location</dt><dd>{site.location}</dd></div>
+        <div class="ns-ledger-row"><dt>latest</dt><dd>{cases[0].id} · {cases[0].surface.toLowerCase()}</dd></div>
+        <div class="ns-ledger-row"><dt>verify</dt><dd>PGP fingerprint and secure channels are on the contact page.</dd></div>
+        <dd class="ns-command">$ ./read-latest --signal-noise low{`\n>`} connecting to archive index... ok{`\n>`} loading latest entries... ok{`\n>`} {cases.length} featured notes, 1 active case</dd>
+      </dl>
+      <div class="ns-console-footer" aria-label="Console telemetry">
+        <span>archive live</span><span>sync <b>ok</b></span><span>{cases.length} featured</span><span>noise <b>low</b></span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="ns-section-tight">
+    <div class="ns-shell ns-table-wrap">
+      <div class="ns-table-header">
+        <h2>Case note index</h2>
+        <a class="ns-link-arrow" href={`${base}research/`}>View all case notes</a>
+      </div>
+      <table class="ns-table">
+        <thead>
+          <tr><th>ID</th><th>Case ID</th><th>Subject</th><th>Tags</th><th>Updated</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {cases.map((item, index) => (
+            <tr>
+              <td>{String(index + 1).padStart(2, '0')}</td>
+              <td><a class="ns-case-id" href={`${base}research/${item.slug}/`}>{item.id}</a></td>
+              <td>{item.subject}</td>
+              <td><ul class="ns-chip-list">{item.tags.map((tag) => <li class="ns-chip">{tag}</li>)}</ul></td>
+              <td class="ns-nowrap">{item.updated}</td>
+              <td><span class:list={['ns-status', `ns-status-${item.status.toLowerCase()}`]}>{item.status}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <section class="shell">
-    <div class="section-heading">
-      <p class="eyebrow">latest from NaeesWrites</p>
-      <a href={`${base}posts/`}>View archive →</a>
-    </div>
-    <div class="card-grid">
-      {posts.map((post) => (
-        <a class="case-card" href={`${base}posts/${post.id}/`}>
-          <span>{formatDate(post.data.date)}</span>
-          <h3>{post.data.title}</h3>
-          <p>{post.data.description}</p>
-        </a>
-      ))}
+  <section class="ns-section-tight">
+    <div class="ns-shell">
+      <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;">
+        <h2>Latest from NaeesWrites</h2>
+        <a class="ns-link-arrow" href={`${base}posts/`}>View all writing</a>
+      </div>
+      <div class="ns-grid ns-grid-3">
+        {posts.map((post) => (
+          <a class="ns-card" href={`${base}posts/${post.id}/`}>
+            <div class="ns-card-header">
+              <span class="ns-meta">{formatDate(post.data.date)} · field note</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+            <h3 class="ns-card-title">{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <ul class="ns-chip-list">{post.data.tags.slice(0, 3).map((tag) => <li class="ns-chip">{tag}</li>)}</ul>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 </Layout>

@@ -1,5 +1,6 @@
 ---
-import { getFooterGroups, site } from '../data/site';
+import BrandMark from './BrandMark.astro';
+import { getFooterGroups, issueUrl, site } from '../data/site';
 
 interface Props { pathname: string }
 
@@ -7,22 +8,60 @@ const { pathname } = Astro.props;
 const base = import.meta.env.BASE_URL || '/';
 const isBlog = pathname.startsWith('/posts/');
 const footerGroups = getFooterGroups(base, isBlog);
+const copyrightYear = new Date().getFullYear();
 ---
 
-<footer class:list={['site-footer', isBlog && 'site-footer--blog']}>
-  <div class="site-footer__intro">
-    <strong>{isBlog ? site.blogName : site.name}</strong>
-    <p>{isBlog ? 'Security essays, notes, and longer-form writing' : site.tagline}</p>
-    {isBlog && <p class="site-footer__fingerprint">Brought to you by NaeesSecurity.</p>}
-  </div>
-  <nav class="site-footer__links" aria-label="Footer links">
-    {footerGroups.map((group) => (
-      <div>
-        <span>{group.label}</span>
-        {group.links.map((link) => (
-          <a href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined}>{link.label}</a>
-        ))}
+{isBlog ? (
+  <footer class="site-footer site-footer--blog">
+    <div class="site-footer__intro">
+      <strong>{site.blogName}</strong>
+      <p>Security essays, notes, and longer-form writing</p>
+      <p class="site-footer__fingerprint">Brought to you by NaeesSecurity.</p>
+    </div>
+    <nav class="site-footer__links" aria-label="Footer links">
+      {footerGroups.map((group) => (
+        <div>
+          <span>{group.label}</span>
+          {group.links.map((link) => (
+            <a href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined}>{link.label}</a>
+          ))}
+        </div>
+      ))}
+    </nav>
+    <p class="site-footer__copyright">
+      © {copyrightYear} Sean E. / NaeesSecurity. All rights reserved unless otherwise stated. Security research, technical notes, and related materials are published for educational, defensive, and authorized testing purposes only. Do not use this material to access systems without explicit permission.
+    </p>
+  </footer>
+) : (
+  <footer class="ns-footer">
+    <div class="ns-shell ns-footer-grid">
+      <div class="ns-footer-brand" aria-label={`${site.name} footer identity`}>
+        <a class="ns-footer-brand__lockup" href={base}>
+          <span class="ns-footer-brand__mark" aria-hidden="true"><BrandMark /></span>
+          <span>
+            <strong>{site.name}</strong>
+            <em>We exploit the <span class="ns-footer-brand__unseen">unseen.</span></em>
+          </span>
+        </a>
+        <p>Security research, findings, and engagements.</p>
       </div>
-    ))}
-  </nav>
-</footer>
+      <nav class="ns-footer-links" aria-label="Social and publication links">
+        <h2>Socials & blog</h2>
+        <a href={`${base}posts/`}>{site.blogName}</a>
+        <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href={site.x} target="_blank" rel="noopener noreferrer">X / Twitter</a>
+        <a href={`${base}rss.xml`}>RSS feed</a>
+      </nav>
+      <nav class="ns-footer-links" aria-label="Contact links">
+        <h2>Contact</h2>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={site.signal} target="_blank" rel="noopener noreferrer">Signal</a>
+        <a href={`${base}keys/publickey.naees.asc`}>PGP key</a>
+        <a href={issueUrl} target="_blank" rel="noopener noreferrer">Report site issue</a>
+      </nav>
+      <p class="ns-footer-bottom">
+        © {copyrightYear} Sean E. / NaeesSecurity. Educational, defensive, and authorized testing purposes only. Do not use this material to access systems without explicit permission.
+      </p>
+    </div>
+  </footer>
+)}

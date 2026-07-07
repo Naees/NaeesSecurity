@@ -1,0 +1,90 @@
+---
+import Layout from '../../components/Layout.astro';
+import { researchCases, type ResearchCase } from '../../data/research';
+import { site } from '../../data/site';
+
+const base = import.meta.env.BASE_URL;
+
+export function getStaticPaths() {
+  return researchCases.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props as { item: ResearchCase };
+const related = researchCases.filter((entry) => entry.slug !== item.slug && entry.surface === item.surface).slice(0, 3);
+---
+
+<Layout title={`${item.id}: ${item.subject} — NaeesSecurity`} description={item.summary} pathname={`/research/${item.slug}/`}>
+  <section class="ns-section ns-section-top">
+    <div class="ns-shell ns-grid ns-grid-sidebar-wide ns-align-start">
+      <div>
+        <p><a class="ns-back-link" href={`${base}research/`}>← Research index</a></p>
+        <header class="ns-page-header ns-page-header-inline ns-page-header-single">
+          <div>
+            <p class="ns-kicker">research archive › case note</p>
+            <h1 class="ns-page-title ns-page-title-statement">{item.subject}</h1>
+            <p class="ns-lede">{item.summary}</p>
+            <ul class="ns-chip-list" style="margin-top: 1rem;">{item.tags.map((tag) => <li class="ns-chip">{tag}</li>)}</ul>
+          </div>
+
+        </header>
+
+        <div class="ns-grid ns-grid-2" style="padding-top: 1rem;">
+          <section class="ns-panel ns-panel-pad">
+            <h2>Key takeaway</h2>
+            <p>{item.takeaway}</p>
+          </section>
+          <section class="ns-panel ns-panel-pad">
+            <h2>Disclosure note</h2>
+            <p>{item.disclosure}</p>
+          </section>
+        </div>
+
+        <div class="ns-grid ns-grid-2" style="padding-top: 1rem;">
+          <section class="ns-panel ns-panel-pad">
+            <h2>Signals observed</h2>
+            <ul class="ns-mini-list">
+              {item.signals.map((signal) => <li><span>◎</span><span>{signal}</span></li>)}
+            </ul>
+          </section>
+          <section class="ns-panel ns-panel-pad">
+            <h2>Remediation direction</h2>
+            <ul class="ns-mini-list">
+              {item.remediation.map((step) => <li><span>→</span><span>{step}</span></li>)}
+            </ul>
+          </section>
+        </div>
+
+        <div class="ns-alert" style="margin-top: 1.5rem;">
+          <span aria-hidden="true">▣</span>
+          <p>Need deeper context on this note? Share scope and constraints over a verified channel. Public notes intentionally avoid exploit-ready detail.</p>
+          <a class="ns-link-arrow" href={`${base}contact/?subject=${encodeURIComponent(`Question about ${item.id}`)}`}>Contact securely</a>
+        </div>
+      </div>
+
+      <aside class="ns-sidebar" aria-label="Case sidebar">
+        <section class="ns-panel ns-panel-pad">
+          <h2>Case file</h2>
+          <dl>
+            <div class="ns-stat-row"><dt>ID</dt><dd>{item.id}</dd></div>
+            <div class="ns-stat-row"><dt>Surface</dt><dd>{item.surface}</dd></div>
+            <div class="ns-stat-row"><dt>Status</dt><dd><span class:list={['ns-status', `ns-status-${item.status.toLowerCase()}`]}>{item.status}</span></dd></div>
+            <div class="ns-stat-row"><dt>Updated</dt><dd>{item.updated}</dd></div>
+          </dl>
+        </section>
+        <section class="ns-panel ns-panel-pad">
+          <h2>Verify channel</h2>
+          <p class="ns-fingerprint">{site.pgpFingerprint}</p>
+          <div class="ns-actions"><a class="ns-button" href={`${base}contact/`}>Contact & verification</a></div>
+        </section>
+        {related.length > 0 && (
+          <section class="ns-panel ns-panel-pad">
+            <h2>Related notes</h2>
+            <ul class="ns-mini-list">
+              {related.map((entry) => <li><span>{entry.id.replace('CASE-NS-', '')}</span><span><a href={`${base}research/${entry.slug}/`}>{entry.subject}</a></span></li>)}
+            </ul>
+          </section>
+        )}
+      </aside>
+    </div>
+  </section>
+</Layout>

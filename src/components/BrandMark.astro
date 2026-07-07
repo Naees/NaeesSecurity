@@ -1,0 +1,17 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+const ariaHidden = title ? undefined : 'true';
+---
+
+<svg viewBox="0 0 64 64" focusable="false" aria-hidden={ariaHidden} role={title ? 'img' : undefined}>
+  {title && <title>{title}</title>}
+  <path d="M32 5 49 18v19c0 10-7 18-17 22-10-4-17-12-17-22V18L32 5Z" />
+  <path d="M32 11 44 20v15c0 7-5 13-12 17-7-4-12-10-12-17V20l12-9Z" />
+  <path d="M32 16c7 7 10 13 10 20 0 6-4 11-10 14-6-3-10-8-10-14 0-7 3-13 10-20Z" />
+  <path d="M22 34c5-5 15-5 20 0M25 40c4 3 10 3 14 0M32 22v25M26 27l12 12M38 27 26 39" />
+  <circle cx="32" cy="34" r="3" />
+</svg>

@@ -1,99 +1,143 @@
 ---
 import Layout from '../components/Layout.astro';
+import { site } from '../data/site';
 const base = import.meta.env.BASE_URL;
+
+const principles = ['Make the assumption visible', 'Document the edge cases', 'Verify before amplification', 'Share with context, not hype'];
+const timeline = [
+  ['2026-07-07', 'Desk launched. Research archive initialized and public case-note index opened.', 'Field note'],
+  ['2026-07-05', 'Initial case notes published: misconfigured storage, SSRF via metadata, OAuth misuse.', 'Case notes'],
+  ['2026-06-28', 'Repro lab v0.2 standardized for cloud metadata and identity flows.', 'Research log'],
+  ['2026-06-14', 'Note: slow writing, deep verification, fewer claims.', 'Field note'],
+  ['2026-04-01', 'Private research phase and tool development.', 'Private'],
+];
 ---
 
-<Layout title="Meet the team — NaeesSecurity" description="Meet the small team behind NaeesSecurity: Naees and Haku." pathname="/about/">
-  <section class="page-hero shell page-hero--with-mark">
-    <p class="eyebrow">meet the team</p>
-    <h1>A small research desk with one operator and one very strict morale officer.</h1>
-    <p class="lede">NaeesSecurity is maintained by Naees as a public home for security notes, technical writing, and useful edge cases. Haku handles operational resilience, walk enforcement, and keyboard-adjacent supervision.</p>
-    <img class="ghost-mark" src={`${base}assets/kittenwiz_logo.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-  </section>
-
-  <section class="shell team-grid" aria-label="Team members">
-    <article class="team-card team-card--lead">
-      <div class="team-card__meta">
-        <span>01 / operator</span>
-        <span>security research · writing</span>
-      </div>
-      <div class="team-card__image-wrap">
-        <img src={`${base}assets/goobers.webp`} alt="Naees and Haku" loading="eager" decoding="async" />
-      </div>
-      <h2>Naees</h2>
-      <p>I study how systems fail at the edges: web authorization, identity boundaries, cloud exposure, AI-assisted attack surfaces, and the small assumptions that grow into practical attack paths.</p>
-      <div class="skill-list" aria-label="Naees skills and research interests">
-        <span>Web exploitation</span>
-        <span>API security</span>
-        <span>Identity & access control</span>
-        <span>Active Directory tradecraft</span>
-        <span>Network penetration testing</span>
-        <span>Wireless security</span>
-        <span>Cloud exposure review</span>
-        <span>AI / LLM security</span>
-        <span>Adversarial AI testing</span>
-        <span>Security automation</span>
-        <span>Technical reporting</span>
-      </div>
-    </article>
-
-    <article class="team-card team-card--haku">
-      <div class="team-card__meta">
-        <span>02 / canine division</span>
-        <span>morale · incident response</span>
-      </div>
-      <div class="team-card__image-wrap">
-        <img src={`${base}assets/haku.webp`} alt="Haku" loading="eager" decoding="async" />
-      </div>
-      <h2>Haku</h2>
-      <p>Haku keeps the desk grounded: interrupts tunnel vision, enforces breaks, and performs suspicious-package inspection with admirable seriousness.</p>
-      <div class="skill-list" aria-label="Haku skills">
-        <span>Morale operations</span>
-        <span>Walk scheduling</span>
-        <span>Snack-driven triage</span>
-        <span>Keyboard interruption</span>
-        <span>Threat sniffing</span>
-      </div>
-    </article>
-  </section>
-
-  <section class="shell credential-section" aria-labelledby="certification-focus-title">
-    <div class="section-heading">
+<Layout title="About — NaeesSecurity" description="About the NaeesSecurity research desk, focus areas, principles, and operator profile." pathname="/about/">
+  <section class="ns-section ns-section-top">
+    <div class="ns-shell ns-grid ns-grid-sidebar ns-align-start">
       <div>
-        <p class="eyebrow">certification focus</p>
-        <h2 id="certification-focus-title">A learning map across web, infrastructure, AD, wireless, and AI security.</h2>
-      </div>
-    </div>
-    <div class="credential-grid">
-      <article class="credential-card">
-        <span>CPTS · OSCP</span>
-        <p>Infrastructure penetration testing, enumeration discipline, exploitation chains, privilege escalation, and report-ready findings.</p>
-      </article>
-      <article class="credential-card">
-        <span>CWES · CWEE</span>
-        <p>Web and API exploitation depth: authorization flaws, backend logic, custom techniques, and modern application attack surfaces.</p>
-      </article>
-      <article class="credential-card">
-        <span>CAPE</span>
-        <p>Active Directory attack paths, identity abuse, Kerberos/NTLM tradecraft, and enterprise post-exploitation thinking.</p>
-      </article>
-      <article class="credential-card">
-        <span>CWPE</span>
-        <p>Wireless assessment fundamentals, Wi-Fi attack methodology, and network-adjacent exposure review.</p>
-      </article>
-      <article class="credential-card">
-        <span>COAE</span>
-        <p>Offensive AI and LLM security: prompt abuse, agent workflows, adversarial testing, automation, and model-adjacent risk.</p>
-      </article>
-    </div>
-  </section>
+        <header class="ns-page-header ns-page-header-inline ns-page-header-about">
+          <div>
+            <p class="ns-kicker">about</p>
+            <h1 class="ns-page-title ns-page-title-statement">NaeesSecurity is a personal security research desk.</h1>
+            <p class="ns-lede">I’m Naees. I study how systems fail at the edges—across web, identity, and cloud. This desk is where I document what I find, build what I need, and share what’s useful. Haku keeps me honest, grounded, and reminds me the best assumptions are testable.</p>
+          </div>
+          <div class="ns-schematic" aria-hidden="true">
+            <span class="ns-node ns-node-user">edge</span>
+            <span class="ns-node ns-node-app">assumption</span>
+            <span class="ns-node ns-node-api">system</span>
+            <span class="ns-node ns-node-idp">observation</span>
+            <i class="ns-wire ns-wire-1"></i><i class="ns-wire ns-wire-2"></i><i class="ns-wire ns-wire-5"></i>
+          </div>
+        </header>
 
-  <section class="shell contact-block">
-    <div>
-      <p class="eyebrow">secure contact</p>
-      <h2>Open to collaboration and security engagement.</h2>
-      <p>For sensitive correspondence, use the PGP key. For quick contact, email is listed in the footer and the contact page includes the current fingerprint.</p>
+        <div class="ns-grid ns-grid-2" style="padding-top: 1rem;">
+          <section class="ns-panel ns-panel-pad">
+            <h2>Focus areas</h2>
+            <ul class="ns-chip-list">
+              {site.focus.map((focus) => <li class="ns-chip">{focus}</li>)}
+              <li class="ns-chip">AI / LLM security</li>
+              <li class="ns-chip">security automation</li>
+              <li class="ns-chip">technical reporting</li>
+            </ul>
+          </section>
+          <section class="ns-panel ns-panel-pad">
+            <h2>Current posture</h2>
+            <p><span class="ns-status ns-status-open">Open</span> to collaboration and security-focused engagement.</p>
+            <p>Archive is intentionally early: concise notes, reproducible thinking, and sanitized case notes over inflated claims.</p>
+          </section>
+        </div>
+
+        <div class="ns-grid ns-grid-2" style="margin-top: 1rem;">
+          <section class="ns-panel ns-panel-pad">
+            <h2>What I do</h2>
+            <ul class="ns-mini-list">
+              <li><span>→</span><span>Research edge-case failures</span></li>
+              <li><span>→</span><span>Validate through repeatable tests</span></li>
+              <li><span>→</span><span>Document with clarity</span></li>
+              <li><span>→</span><span>Share what helps others build stronger systems</span></li>
+            </ul>
+          </section>
+          <section class="ns-panel ns-panel-pad">
+            <h2>Core principles</h2>
+            <ul class="ns-mini-list">
+              {principles.map((principle) => <li><span>⌖</span><span>{principle}</span></li>)}
+            </ul>
+          </section>
+        </div>
+
+        <section style="padding-top: 1.6rem;">
+          <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;"><h2>The desk</h2><span class="ns-meta">Small team · clear roles</span></div>
+          <div class="ns-desk-grid">
+            <article class="ns-card ns-desk-card">
+              <img src={`${base}assets/goobers.webp`} alt="Naees and Haku" loading="lazy" decoding="async" />
+              <div>
+                <h3>Naees</h3>
+                <p class="ns-meta">Operator / Researcher</p>
+                <p>Security researcher focused on web, identity, cloud, and practical exploitation. I build, break, and document.</p>
+                <ul class="ns-chip-list"><li class="ns-chip">curious</li><li class="ns-chip">methodical</li><li class="ns-chip">skeptical</li></ul>
+              </div>
+            </article>
+            <article class="ns-card ns-desk-card">
+              <img src={`${base}assets/haku.webp`} alt="Haku" loading="lazy" decoding="async" />
+              <div>
+                <h3>Haku</h3>
+                <p class="ns-meta">Chief Distraction Officer</p>
+                <p>Explores the perimeter, tests physical assumptions, and ensures regular breaks. He finds the weird stuff.</p>
+                <ul class="ns-chip-list"><li class="ns-chip">loyal</li><li class="ns-chip">observant</li><li class="ns-chip">calm</li></ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section style="padding-top: 1.6rem;">
+          <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;"><h2>Timeline (field notes)</h2></div>
+          <div class="ns-timeline">
+            <ol>
+              {timeline.map(([date, text, type]) => (
+                <li><time>{date}</time><span>{text}</span><b>{type}</b></li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      </div>
+
+      <aside class="ns-sidebar" aria-label="About sidebar">
+        <section class="ns-panel ns-panel-pad">
+          <h2>Fingerprint</h2>
+          <div class="ns-fingerprint-card">
+            <div class="ns-fingerprint-art" aria-hidden="true">⌁</div>
+            <div>
+              <p class="ns-fingerprint">{site.pgpFingerprint}</p>
+              <p class="ns-meta">Key ID: 0x48CCB80F</p>
+            </div>
+          </div>
+        </section>
+        <section class="ns-panel ns-panel-pad">
+          <h2>Operator profile <span class="ns-status ns-status-active" style="float: right;">Online</span></h2>
+          <dl>
+            <div class="ns-stat-row"><dt>handle</dt><dd>naees</dd></div>
+            <div class="ns-stat-row"><dt>role</dt><dd>security researcher</dd></div>
+            <div class="ns-stat-row"><dt>location</dt><dd>{site.location}</dd></div>
+            <div class="ns-stat-row"><dt>email</dt><dd>{site.email}</dd></div>
+            <div class="ns-stat-row"><dt>signal</dt><dd>{site.signalHandle}</dd></div>
+          </dl>
+        </section>
+        <section class="ns-panel ns-panel-pad">
+          <h2>Proof surfaces</h2>
+          <ul class="ns-mini-list">
+            <li><span>01</span><span><a href={`${base}research/`}>Sanitized case notes</a></span></li>
+            <li><span>02</span><span><a href={`${base}posts/`}>Longer-form writing</a></span></li>
+            <li><span>03</span><span><a href={`${base}contact/`}>Verifiable contact details</a></span></li>
+          </ul>
+        </section>
+        <section class="ns-card">
+          <h2 class="ns-card-title">Pledge</h2>
+          <p>This archive exists to raise the cost of insecurity and lower the barrier to secure design.</p>
+          <p>Signal over theatre. Evidence over claims.</p>
+        </section>
+      </aside>
     </div>
-    <a class="button button--primary" href={`${base}contact/`}>View contact details</a>
   </section>
 </Layout>
