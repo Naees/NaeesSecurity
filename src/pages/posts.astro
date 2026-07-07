@@ -61,21 +61,23 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort()
   </section>
 
   <script>
-    const searchInput = document.querySelector('[data-post-search]');
-    const postItems = Array.from(document.querySelectorAll('[data-post-item]'));
-    const tagButtons = Array.from(document.querySelectorAll('[data-tag-filter]'));
-    const count = document.querySelector('[data-post-count]');
-    const empty = document.querySelector('[data-post-empty]');
-    const selectedTags = new Set();
+    const searchInput = document.querySelector<HTMLInputElement>('[data-post-search]');
+    const postItems = Array.from(document.querySelectorAll<HTMLElement>('[data-post-item]'));
+    const tagButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-tag-filter]'));
+    const count = document.querySelector<HTMLElement>('[data-post-count]');
+    const empty = document.querySelector<HTMLElement>('[data-post-empty]');
+    const selectedTags = new Set<string>();
     let frame = 0;
 
     const posts = postItems.map((element) => ({
       element,
       search: element.getAttribute('data-search') || '',
-      tags: new Set((element.getAttribute('data-tags') || '').split(',').filter(Boolean)),
+      tags: new Set<string>((element.getAttribute('data-tags') || '').split(',').filter(Boolean)),
     }));
 
-    function postMatches(post, query, tags = selectedTags) {
+    type PostFilterItem = (typeof posts)[number];
+
+    function postMatches(post: PostFilterItem, query: string, tags: Set<string> = selectedTags) {
       if (query && !post.search.includes(query)) return false;
       for (const tag of tags) {
         if (!post.tags.has(tag)) return false;

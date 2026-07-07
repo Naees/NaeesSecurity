@@ -14,9 +14,11 @@ const copyrightYear = new Date().getFullYear();
 {isBlog ? (
   <footer class="site-footer site-footer--blog">
     <div class="site-footer__intro">
-      <strong>{site.blogName}</strong>
-      <p>Security essays, notes, and longer-form writing</p>
-      <p class="site-footer__fingerprint">Brought to you by NaeesSecurity.</p>
+      <a class="site-footer__brand" href={`${base}posts/`} aria-label={`${site.blogName} home`}>
+        <span class="site-footer__brand-mark" aria-hidden="true"><BrandMark /></span>
+        <span><strong>{site.blogName}</strong><em>Security research & field notes</em></span>
+      </a>
+      <p>Security research, findings, and field notes.</p>
     </div>
     <nav class="site-footer__links" aria-label="Footer links">
       {footerGroups.map((group) => (

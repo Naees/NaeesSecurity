@@ -8,9 +8,10 @@ const engagementTypes = [
     key: 'black',
     number: '01',
     title: 'Black-box test',
-    access: 'External view / no internal knowledge',
+    access: 'External view',
+    art: 'assets/engagements/black-box-attack-path.webp',
     summary: 'Tests what an attacker can learn and validate from the outside, using only the agreed scope and rules of engagement.',
-    deliverables: ['Final report', 'Validated findings', 'Retest notes'],
+    deliverables: ['Executive summary', 'Technical findings', 'Retest notes'],
     bestFor: 'Public attack surface, internet-facing apps, pre-launch checks, and unknown exposure.',
     detail: 'Black-box testing starts with minimal context. The work emphasizes discovery, attack-surface mapping, safe validation, evidence capture, and clear remediation guidance.',
     inputs: ['Scope and rules of engagement', 'Test window and contact path', 'No source or architecture required'],
@@ -20,7 +21,8 @@ const engagementTypes = [
     key: 'grey',
     number: '02',
     title: 'Grey-box test',
-    access: 'Limited knowledge / authenticated access',
+    access: 'Limited context',
+    art: 'assets/engagements/grey-box-scope-map.webp',
     summary: 'Combines attacker-style testing with selected internal context such as test accounts, roles, architecture notes, or API documentation.',
     deliverables: ['Findings report', 'Access-control review', 'Retest notes'],
     bestFor: 'Authenticated applications, role boundaries, APIs, multi-tenant flows, and business-logic testing.',
@@ -32,7 +34,8 @@ const engagementTypes = [
     key: 'white',
     number: '03',
     title: 'White-box review',
-    access: 'Full context / source-aware testing',
+    access: 'Full context',
+    art: 'assets/engagements/white-box-code-review.webp',
     summary: 'Uses source, configuration, architecture, and implementation detail to trace issues deeply and reduce false positives.',
     deliverables: ['Code-aware findings', 'Root-cause notes', 'Remediation review'],
     bestFor: 'Critical systems, pre-release review, complex auth flows, source-assisted vulnerability research, and hard-to-reproduce issues.',
@@ -50,16 +53,6 @@ const process = [
   ['05', 'Retest', 'Review fixes, update status, and close the loop with a concise validation note.'],
 ];
 
-const terminalLines = [
-  '$ ns-engage run --mode greybox --scope approved',
-  '[00:01] scope: 3 apps · 2 roles · window confirmed',
-  '[00:04] recon: routes, headers, metadata mapped',
-  '[00:08] auth: user → manager → admin boundary loaded',
-  '[00:13] probes: session, object access, workflow guards',
-  '[00:19] signal: authorization drift in report export',
-  '[00:24] impact: evidence captured · no destructive action',
-  '[00:31] report: finding + remediation queued',
-];
 ---
 
 <Layout title="Engagements — NaeesSecurity" description="Scoped security testing, review, and advisory engagements from NaeesSecurity." pathname="/engagements/">
@@ -67,20 +60,151 @@ const terminalLines = [
     <div>
       <p class="ns-kicker">engagements</p>
       <h1 class="ns-page-title">Engagements</h1>
-      <p class="ns-subtitle">Scoped security testing and review for teams that need clear findings, not noise.</p>
-      <p class="ns-lede">I work on bounded assessments where scope, permission, evidence, and remediation matter. Choose the access model that matches what you need to learn.</p>
+      <p class="ns-subtitle">Scoped security testing and review for teams that need clear findings</p>
+      <p class="ns-lede">Our team will engage in bounded assessments where scope, permission, evidence, and remediation matter. Choose the access model and deliverables that matches your needs.</p>
       <div class="ns-actions">
         <a class="ns-button ns-button-primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Request scope discussion</a>
         <a class="ns-button" href="#engagement-types">Compare models</a>
       </div>
     </div>
-    <aside class="ns-attack-terminal" aria-label="Simulated authorized test chain">
-      <div class="ns-attack-terminal__bar">
-        <span>authorized test chain</span>
-        <b>dry-run</b>
+    <aside class="ns-attack-terminal" aria-label="Simulated Linux terminal for an authorized engagement" data-attack-terminal>
+      <div class="ns-attack-terminal__chrome">
+        <span class="ns-attack-terminal__controls" aria-hidden="true">
+          <span class="ns-terminal-dot ns-terminal-dot-close"></span>
+          <span class="ns-terminal-dot ns-terminal-dot-minimize"></span>
+          <span class="ns-terminal-dot ns-terminal-dot-fullscreen"></span>
+        </span>
+        <span class="ns-attack-terminal__title">naees@TargetBox: ~/engagement</span>
+        <span class="ns-attack-terminal__mode">authorized dry-run</span>
       </div>
-      <pre><code>{terminalLines.map((line) => <span class="ns-attack-line">{line}</span>)}</code></pre>
+      <div class="ns-attack-terminal__screen" data-attack-terminal-screen aria-live="polite" aria-label="Authorized test-chain terminal output">
+        <div class="ns-terminal-row ns-terminal-command">
+          <span class="ns-terminal-prompt">naees@TargetBox:~$</span>
+          <span class="ns-terminal-cursor" aria-hidden="true"></span>
+        </div>
+      </div>
     </aside>
+    <script is:inline>
+      (() => {
+        const terminal = document.querySelector('[data-attack-terminal]');
+        const screen = terminal?.querySelector('[data-attack-terminal-screen]');
+        if (!terminal || !screen) return;
+
+        const prompt = 'naees@TargetBox:~$';
+        const steps = [
+          {
+            command: 'ns-engage plan --mode greybox --scope approved',
+            output: [
+              ['scope loaded: 3 apps · 2 roles · safe window confirmed', 'ok'],
+              ['rules: non-destructive validation · emergency contact set', 'muted'],
+            ],
+          },
+          {
+            command: 'ns-map surface --passive --brief',
+            output: [
+              ['routes mapped · auth boundaries noted · metadata reviewed', 'muted'],
+              ['priority paths: session, object access, report export', 'accent'],
+            ],
+          },
+          {
+            command: 'ns-test run --checks authz,session,workflow',
+            output: [
+              ['checks complete: 18 passed · 1 needs review', 'ok'],
+              ['signal: authorization drift in report export path', 'warn'],
+              ['impact: evidence captured · no destructive action taken', 'ok'],
+            ],
+          },
+          {
+            command: 'ns-report queue --format final',
+            output: [
+              ['finding queued · remediation path drafted · retest note pending', 'accent'],
+              ['awaiting operator input...', 'muted'],
+            ],
+          },
+        ];
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+        const scrollToBottom = () => {
+          screen.scrollTo({ top: screen.scrollHeight, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        };
+        const appendRow = (className) => {
+          const row = document.createElement('div');
+          row.className = className;
+          screen.append(row);
+          scrollToBottom();
+          return row;
+        };
+        const appendPrompt = (isWaiting = false) => {
+          const row = appendRow(`ns-terminal-row ns-terminal-command${isWaiting ? ' ns-terminal-awaiting' : ''}`);
+          const promptNode = document.createElement('span');
+          promptNode.className = 'ns-terminal-prompt';
+          promptNode.textContent = prompt;
+          const commandNode = document.createElement('span');
+          commandNode.className = 'ns-terminal-typed';
+          row.append(promptNode, document.createTextNode(' '), commandNode);
+          if (isWaiting) {
+            const cursor = document.createElement('span');
+            cursor.className = 'ns-terminal-cursor';
+            cursor.setAttribute('aria-hidden', 'true');
+            row.append(cursor);
+          }
+          return commandNode;
+        };
+        const appendOutput = (text, tone = 'muted') => {
+          const row = appendRow(`ns-terminal-row ns-terminal-output ns-terminal-output-${tone}`);
+          row.textContent = `› ${text}`;
+        };
+        const typeCommand = async (command) => {
+          const commandNode = appendPrompt(false);
+          if (prefersReducedMotion) {
+            commandNode.textContent = command;
+            return;
+          }
+          for (const character of command) {
+            commandNode.textContent += character;
+            scrollToBottom();
+            await sleep(22);
+          }
+        };
+        const renderStatic = () => {
+          screen.replaceChildren();
+          for (const step of steps) {
+            const commandNode = appendPrompt(false);
+            commandNode.textContent = step.command;
+            for (const [text, tone] of step.output) appendOutput(text, tone);
+          }
+          appendPrompt(true);
+        };
+        const run = async () => {
+          screen.replaceChildren();
+          terminal.classList.add('is-fading-in');
+          sleep(360).then(() => terminal.classList.remove('is-fading-in'));
+
+          for (const step of steps) {
+            await typeCommand(step.command);
+            await sleep(prefersReducedMotion ? 0 : 140);
+            for (const [text, tone] of step.output) appendOutput(text, tone);
+            await sleep(prefersReducedMotion ? 0 : 360);
+          }
+
+          appendPrompt(true);
+          if (prefersReducedMotion) return;
+
+          await sleep(11000);
+          terminal.classList.add('is-fading-out');
+          await sleep(460);
+          screen.replaceChildren();
+          screen.scrollTop = 0;
+          terminal.classList.remove('is-fading-out');
+          await sleep(120);
+          run();
+        };
+
+        if (prefersReducedMotion) renderStatic();
+        else run();
+      })();
+    </script>
   </section>
 
   <section class="ns-section-tight" id="engagement-types">
@@ -107,6 +231,7 @@ const terminalLines = [
             ))}
           </tbody>
         </table>
+        <p class="ns-deliverable-note">Deliverables are flexible and scoped to the engagement. The examples above are a baseline of likely outputs, not a fixed package; final reporting can include executive summaries, technical findings, evidence, remediation guidance, retest notes, or other artifacts that fit the work.</p>
       </div>
     </div>
   </section>
@@ -121,7 +246,7 @@ const terminalLines = [
         {engagementTypes.map((item) => (
           <article class:list={['ns-engagement-detail-card', `ns-engagement-detail-card-${item.key}`]}>
             <div class="ns-engagement-art" aria-hidden="true">
-              <span></span><span></span><span></span><i></i>
+              <img src={`${base}${item.art}`} alt="" loading="lazy" decoding="async" />
             </div>
             <p class="ns-meta">{item.number} · {item.access}</p>
             <h3>{item.title}</h3>
@@ -164,12 +289,7 @@ const terminalLines = [
         <h2>Start with scope, permission, and a verified channel.</h2>
         <p>Send the target type, preferred access model, timeline, and any constraints. Do not include sensitive artifacts until we have confirmed the channel.</p>
       </div>
-      <dl>
-        <div class="ns-stat-row"><dt>Email</dt><dd>{site.email}</dd></div>
-        <div class="ns-stat-row"><dt>Signal</dt><dd>{site.signalHandle}</dd></div>
-        <div class="ns-stat-row"><dt>Response</dt><dd>Usually within 24–72 hours</dd></div>
-      </dl>
-      <div class="ns-actions"><a class="ns-button ns-button-primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Contact securely</a></div>
+      <div class="ns-secure-contact-band__action"><a class="ns-button ns-button-primary" href={`${base}contact/?subject=Security%20engagement%20request`}>Contact securely</a></div>
     </div>
   </section>
 </Layout>

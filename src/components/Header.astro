@@ -20,8 +20,8 @@ const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.st
 {isBlog ? (
   <header class="site-header site-header--blog">
     <a class="brand" href={`${base}posts/`} aria-label={`${site.blogName} home`}>
-      <img src={`${base}assets/kittenwiz_logo.webp`} alt="" width="34" height="34" />
-      <span class="brand__text"><strong>{site.blogName}</strong><em>We exploit the <span class="ns-footer-brand__unseen">unseen.</span></em></span>
+      <span class="brand__mark" aria-hidden="true"><BrandMark /></span>
+      <span class="brand__text"><strong>{site.blogName}</strong><em>Security research & field notes</em></span>
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
       <a class:list={[pathname === '/posts/' && 'is-active']} href={`${base}posts/`}>all posts</a>

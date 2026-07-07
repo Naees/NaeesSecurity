@@ -107,12 +107,12 @@ const cases = researchCases;
   </section>
 
   <script>
-    const filterButtons = Array.from(document.querySelectorAll('[data-case-filter]'));
-    const caseRows = Array.from(document.querySelectorAll('[data-case-row]'));
-    const caseCards = Array.from(document.querySelectorAll('[data-case-card]'));
-    const caseCount = document.querySelector('[data-case-count]');
+    const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-case-filter]'));
+    const caseRows = Array.from(document.querySelectorAll<HTMLTableRowElement>('[data-case-row]'));
+    const caseCards = Array.from(document.querySelectorAll<HTMLElement>('[data-case-card]'));
+    const caseCount = document.querySelector<HTMLElement>('[data-case-count]');
 
-    function matchesCaseFilter(element, filter) {
+    function matchesCaseFilter(element: HTMLElement, filter: string) {
       if (filter === 'all') return true;
       const surface = element.getAttribute('data-surface') || '';
       const tags = (element.getAttribute('data-tags') || '').split(',');
@@ -120,7 +120,7 @@ const cases = researchCases;
       return surface === filter;
     }
 
-    function applyCaseFilter(filter) {
+    function applyCaseFilter(filter: string) {
       let visible = 0;
       for (const row of caseRows) {
         const matches = matchesCaseFilter(row, filter);

@@ -50,16 +50,16 @@ const tocHeadings = [titleHeading, ...headings.filter((heading) => heading.depth
 
   {tocHeadings.length > 0 && (
     <script>
-      const tocLinks = Array.from(document.querySelectorAll('[data-toc-link]'));
+      const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
       const tocEntries = tocLinks
         .map((link) => {
           const id = link.getAttribute('data-toc-link');
           const heading = id ? document.getElementById(id) : null;
-          return heading ? { link, heading } : null;
+          return heading ? { link, heading } : undefined;
         })
-        .filter(Boolean);
+        .filter((entry): entry is { link: HTMLAnchorElement; heading: HTMLElement } => Boolean(entry));
 
-      function setActiveTocLink(activeLink) {
+      function setActiveTocLink(activeLink: HTMLAnchorElement) {
         for (const link of tocLinks) {
           link.classList.toggle('is-active', link === activeLink);
         }
