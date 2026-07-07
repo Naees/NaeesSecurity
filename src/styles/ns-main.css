@@ -618,6 +618,40 @@ body.ns-page button { font: inherit; }
 .ns-link-arrow::after { content: " →"; }
 .ns-back-link { color: var(--ns-blue); font: 0.74rem/1.4 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; }
 
+/* Contact */
+.ns-contact-hero { align-items: stretch; }
+.ns-contact-hero .ns-actions { margin-top: 1.4rem; }
+.ns-contact-fingerprint-terminal { display: grid; grid-template-rows: auto 1fr; overflow: hidden; border: 1px solid rgba(128, 154, 168, 0.34); border-radius: 8px; background: #050707; box-shadow: var(--shadow-panel), 0 0 0 1px rgba(255,255,255,0.02); }
+.ns-contact-fingerprint-terminal__body { display: grid; gap: 1rem; align-content: start; padding: clamp(1rem, 2vw, 1.3rem); background: radial-gradient(circle at 100% 0, rgba(128,194,255,0.09), transparent 16rem), repeating-linear-gradient(0deg, rgba(255,255,255,0.022) 0 1px, transparent 1px 7px), #050707; }
+.ns-contact-fingerprint-terminal__body p { margin: 0; color: var(--ns-blue); font: 0.78rem/1.55 var(--font-mono); }
+.ns-fingerprint-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; }
+.ns-fingerprint-grid span { display: grid; min-height: 2.1rem; place-items: center; border: var(--hairline); background: rgba(128,194,255,0.035); color: var(--ns-ivory); font: clamp(0.76rem, 0.9vw, 0.9rem)/1 var(--font-mono); letter-spacing: 0.06em; }
+.ns-contact-fingerprint-terminal dl { display: grid; gap: 0.2rem; margin: 0; }
+
+.ns-contact-methods { overflow: hidden; }
+.ns-contact-method-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ns-contact-method-card { display: grid; gap: 1rem; align-content: start; min-height: 17rem; padding: clamp(1rem, 1.6vw, 1.35rem); border-right: var(--hairline); background: rgba(7,11,12,0.5); }
+.ns-contact-method-card:last-child { border-right: 0; }
+.ns-contact-method-card__top { display: flex; gap: 0.85rem; align-items: start; }
+.ns-contact-method-card h3 { margin: 0; color: var(--ns-ivory); font-family: var(--font-display); font-size: clamp(1.45rem, 1.8vw, 2rem); font-weight: 440; line-height: 1; }
+.ns-contact-method-card code { display: block; max-width: 100%; margin-top: 0.35rem; overflow-wrap: anywhere; color: var(--ns-blue); font: 0.78rem/1.35 var(--font-mono); }
+.ns-contact-method-card p { margin: 0; color: var(--ns-muted); font: 0.88rem/1.55 var(--font-body); }
+.ns-contact-method-card .ns-button { align-self: end; width: 100%; margin-top: auto; }
+
+.ns-contact-verification-band { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(1rem, 3vw, 2.5rem); align-items: start; border: var(--hairline); border-radius: var(--radius); padding: clamp(1rem, 2.2vw, 1.6rem); background: radial-gradient(circle at 0 0, rgba(128,194,255,0.08), transparent 22rem), rgba(7,11,12,0.86); box-shadow: var(--shadow-panel); }
+.ns-contact-verification-band h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.8rem, 2.8vw, 3rem); font-weight: 420; line-height: 0.98; letter-spacing: -0.035em; }
+.ns-contact-verification-band p { max-width: 62ch; margin: 0.7rem 0 0; color: var(--ns-muted); }
+.ns-contact-verification-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+.ns-contact-verification-steps article { position: relative; min-height: 9rem; padding: 1rem; border: var(--hairline); background: rgba(5,8,9,0.42); }
+.ns-contact-verification-steps b { color: var(--ns-blue); font: 0.76rem/1.2 var(--font-mono); }
+.ns-contact-verification-steps h3 { margin: 0.45rem 0 0; font: 1.1rem/1.1 var(--font-display); }
+.ns-contact-verification-steps p { margin-top: 0.55rem; font: 0.84rem/1.5 var(--font-body); }
+
+.ns-contact-key-panel { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(1rem, 3vw, 2rem); align-items: center; border: var(--hairline); border-radius: var(--radius); padding: clamp(1rem, 2.2vw, 1.6rem); background: rgba(7,11,12,0.72); box-shadow: var(--shadow-panel); }
+.ns-contact-key-panel h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.55rem, 2.4vw, 2.5rem); font-weight: 420; line-height: 1; }
+.ns-contact-key-panel .ns-fingerprint { margin: 0.65rem 0 0; }
+.ns-contact-key-panel .ns-actions { justify-content: end; margin-top: 0; }
+
 /* Footer */
 .ns-footer { padding-block: 1.65rem; border-top: var(--hairline); color: var(--ns-muted); background: rgba(5,7,7,.58); }
 .ns-footer-grid { display: grid; grid-template-columns: minmax(18rem, 1.45fr) minmax(10rem, 1fr) minmax(14rem, 1.15fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
@@ -684,7 +718,14 @@ body.ns-page button { font: inherit; }
   .ns-desk-grid { grid-template-columns: 1fr; }
   .ns-page-header { padding-block: 2.6rem; }
   .ns-engagement-detail-grid,
-  .ns-secure-contact-band { grid-template-columns: 1fr; }
+  .ns-secure-contact-band,
+  .ns-contact-method-grid,
+  .ns-contact-verification-band,
+  .ns-contact-key-panel { grid-template-columns: 1fr; }
+  .ns-contact-method-card { min-height: 0; border-right: 0; border-bottom: var(--hairline); }
+  .ns-contact-method-card:last-child { border-bottom: 0; }
+  .ns-contact-verification-steps { grid-template-columns: 1fr; }
+  .ns-contact-key-panel .ns-actions { justify-content: stretch; }
   .ns-process-linear::before { top: 0; bottom: 0; left: 0.22rem; right: auto; width: 1px; height: auto; background: linear-gradient(180deg, rgba(128,194,255,0.32), rgba(101,190,106,0.42), rgba(128,194,255,0.32)); }
   .ns-process-linear .ns-process-step::before { top: 0.55rem; }
 }
@@ -713,6 +754,8 @@ body.ns-page button { font: inherit; }
   .ns-attack-terminal__mode { display: none; }
   .ns-engagement-type-cell { min-width: 12rem; }
   .ns-secure-contact-band__action,
-  .ns-secure-contact-band .ns-button { width: 100%; }
+  .ns-secure-contact-band .ns-button,
+  .ns-contact-key-panel .ns-actions,
+  .ns-contact-key-panel .ns-button { width: 100%; }
   .ns-secure-contact-band__action { justify-content: stretch; min-width: 0; }
 }

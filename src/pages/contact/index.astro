@@ -2,103 +2,151 @@
 import Layout from '../../components/Layout.astro';
 import { issueUrl, site } from '../../data/site';
 const base = import.meta.env.BASE_URL;
+
+const contactMethods = [
+  {
+    number: '01',
+    title: 'Email',
+    value: site.email,
+    note: 'Best for scoped work, follow-up, and non-urgent coordination.',
+    action: 'Copy email',
+    copy: site.email,
+  },
+  {
+    number: '02',
+    title: 'Signal',
+    value: site.signalHandle,
+    note: 'Use for sensitive coordination after identity has been verified.',
+    action: 'Open Signal',
+    href: site.signal,
+  },
+  {
+    number: '03',
+    title: 'PGP key',
+    value: '0x48CCB80F',
+    note: 'Use for encrypted email and fingerprint verification.',
+    action: 'Download key',
+    href: `${base}keys/publickey.naees.asc`,
+    download: true,
+  },
+  {
+    number: '04',
+    title: 'Site issue',
+    value: 'GitHub Issues',
+    note: 'Only for typos, broken links, or public site bugs. Do not post sensitive details.',
+    action: 'Open issue',
+    href: issueUrl,
+  },
+];
+
+const verificationSteps = [
+  ['01', 'Match', 'Compare the full PGP fingerprint exactly before trusting a key or encrypted message.'],
+  ['02', 'Cross-check', 'Confirm identity through a second known channel before sharing sensitive context.'],
+  ['03', 'Encrypt', 'Use PGP email or Signal for vulnerability details, private artifacts, or engagement material.'],
+  ['04', 'Separate', 'Keep public site issues limited to non-sensitive website problems.'],
+];
+
+const pgpBlocks = site.pgpFingerprint.split(' ');
 ---
 
 <Layout title="Contact — NaeesSecurity" description="Secure contact, PGP fingerprint, public key, Signal, and verification details for NaeesSecurity." pathname="/contact/">
-  <section class="ns-section ns-section-top">
-    <div class="ns-shell ns-grid ns-grid-sidebar-contact ns-align-start">
-      <div>
-        <header style="padding-block: 1rem 1rem; border-bottom: var(--hairline);">
-          <p class="ns-kicker">contact & verification</p>
-          <h1 class="ns-page-title">Contact</h1>
-          <p class="ns-subtitle">Verify before you trust.</p>
-          <p class="ns-lede">I use a minimal set of communication channels. Always verify identity before sharing sensitive information. When in doubt, use PGP.</p>
-        </header>
+  <section class="ns-shell ns-page-header ns-contact-hero">
+    <div>
+      <p class="ns-kicker">contact & verification</p>
+      <h1 class="ns-page-title">Contact</h1>
+      <p class="ns-subtitle">Verify before you trust.</p>
+      <p class="ns-lede">Use a verified channel before sending sensitive material. For vulnerability details or engagement artifacts, prefer encrypted email or Signal after confirming identity.</p>
+      <div class="ns-actions">
+        <a class="ns-button ns-button-primary" href={`mailto:${site.email}`}>Email securely</a>
+        <a class="ns-button" href="#pgp-fingerprint">Verify fingerprint</a>
+      </div>
+    </div>
+    <aside class="ns-contact-fingerprint-terminal" aria-label="PGP verification summary">
+      <div class="ns-attack-terminal__chrome">
+        <span class="ns-attack-terminal__controls" aria-hidden="true">
+          <span class="ns-terminal-dot ns-terminal-dot-close"></span>
+          <span class="ns-terminal-dot ns-terminal-dot-minimize"></span>
+          <span class="ns-terminal-dot ns-terminal-dot-fullscreen"></span>
+        </span>
+        <span class="ns-attack-terminal__title">naees@TargetBox: ~/verify</span>
+        <span class="ns-attack-terminal__mode">identity check</span>
+      </div>
+      <div class="ns-contact-fingerprint-terminal__body">
+        <p><span class="ns-terminal-prompt">naees@TargetBox:~$</span> gpg --fingerprint naees</p>
+        <div class="ns-fingerprint-grid" id="pgp-fingerprint" aria-label="PGP fingerprint">
+          {pgpBlocks.map((block) => <span>{block}</span>)}
+        </div>
+        <dl>
+          <div class="ns-stat-row"><dt>Key ID</dt><dd>0x48CCB80F</dd></div>
+          <div class="ns-stat-row"><dt>Channel</dt><dd>{site.email}</dd></div>
+          <div class="ns-stat-row"><dt>Status</dt><dd><span class="ns-status ns-status-active">Verified</span></dd></div>
+        </dl>
+      </div>
+    </aside>
+  </section>
 
-        <section class="ns-contact-list" aria-labelledby="secure-contact-title" style="margin-top: 1rem;">
-          <div class="ns-table-header"><h2 id="secure-contact-title">Secure contact</h2></div>
-          <div class="ns-contact-row">
-            <span class="ns-meta">01</span>
-            <span class="ns-contact-icon" aria-hidden="true">✉</span>
-            <div><h3>Email</h3><code>{site.email}</code></div>
-            <button class="ns-button" type="button" data-copy={site.email}>Copy email</button>
-          </div>
-          <div class="ns-contact-row">
-            <span class="ns-meta">02</span>
-            <span class="ns-contact-icon" aria-hidden="true">☏</span>
-            <div><h3>Signal</h3><code>{site.signalHandle}</code></div>
-            <a class="ns-button" href={site.signal} target="_blank" rel="noopener noreferrer">Open Signal</a>
-          </div>
-          <div class="ns-contact-row">
-            <span class="ns-meta">03</span>
-            <span class="ns-contact-icon" aria-hidden="true">⚿</span>
-            <div>
-              <h3>PGP public key</h3>
-              <p>Use to verify email and sensitive messages.</p>
-              <p class="ns-fingerprint">{site.pgpFingerprint}</p>
-              <div class="ns-actions" style="margin-top: 1rem;">
-                <button class="ns-button" type="button" data-copy={site.pgpFingerprint}>Copy fingerprint</button>
-                <a class="ns-button" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+  <section class="ns-section-tight">
+    <div class="ns-shell">
+      <div class="ns-table-wrap ns-contact-methods">
+        <div class="ns-table-header"><h2>Secure contact</h2><span class="ns-meta">Channels · handling guidance</span></div>
+        <div class="ns-contact-method-grid">
+          {contactMethods.map((method) => (
+            <article class="ns-contact-method-card">
+              <div class="ns-contact-method-card__top">
+                <span class="ns-engagement-type-icon" aria-hidden="true">{method.number}</span>
+                <div>
+                  <h3>{method.title}</h3>
+                  <code>{method.value}</code>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="ns-contact-row">
-            <span class="ns-meta">04</span>
-            <span class="ns-contact-icon" aria-hidden="true">⌬</span>
-            <div><h3>Report a site issue</h3><p>Use GitHub Issues for broken links, typos, or site bugs. Do not post sensitive vulnerability details publicly.</p></div>
-            <a class="ns-button" href={issueUrl} target="_blank" rel="noopener noreferrer">Open site issue</a>
-          </div>
-        </section>
-
-        <div class="ns-alert" style="margin-top: 1.5rem;">
-          <span aria-hidden="true">⚠</span>
-          <p>Always verify before you trust. Confirm fingerprints via multiple trusted channels. For sensitive reports, use encrypted email or Signal rather than a public issue.</p>
-          <a class="ns-link-arrow" href={`mailto:${site.email}`}>Email with PGP</a>
+              <p>{method.note}</p>
+              {method.copy ? (
+                <button class="ns-button" type="button" data-copy={method.copy}>{method.action}</button>
+              ) : (
+                <a class="ns-button" href={method.href} target={method.href?.startsWith('http') ? '_blank' : undefined} rel={method.href?.startsWith('http') ? 'noopener noreferrer' : undefined} download={method.download ? true : undefined}>{method.action}</a>
+              )}
+            </article>
+          ))}
         </div>
       </div>
+    </div>
+  </section>
 
-      <aside class="ns-sidebar" aria-label="Contact verification sidebar">
-        <section class="ns-panel ns-panel-pad" aria-labelledby="identity-fingerprint-title">
-          <h2 id="identity-fingerprint-title">Identity fingerprint <span class="ns-status ns-status-active" style="float: right;">Verified</span></h2>
-          <div class="ns-fingerprint-card">
-            <div class="ns-fingerprint-art" aria-hidden="true">⌁</div>
-            <dl>
-              <div class="ns-stat-row"><dt>operator</dt><dd>Naees</dd></div>
-              <div class="ns-stat-row"><dt>handle</dt><dd>naees</dd></div>
-              <div class="ns-stat-row"><dt>key id</dt><dd>0x48CCB80F</dd></div>
-              <div class="ns-stat-row"><dt>algo</dt><dd>ed25519</dd></div>
-              <div class="ns-stat-row"><dt>expires</dt><dd>never</dd></div>
-            </dl>
-          </div>
-          <p class="ns-fingerprint" style="margin-top: 1rem;">{site.pgpFingerprint}</p>
-          <button class="ns-button" type="button" data-copy={site.pgpFingerprint}>Copy fingerprint</button>
-        </section>
-        <section class="ns-panel ns-panel-pad">
-          <h2>Verification checklist</h2>
-          <ul class="ns-mini-list">
-            <li><span>✓</span><span>Confirm fingerprint matches exactly</span></li>
-            <li><span>✓</span><span>Verify via at least two trusted channels</span></li>
-            <li><span>✓</span><span>Check key ID when importing PGP key</span></li>
-            <li><span>✓</span><span>Use Signal or encrypted email for sensitive conversations</span></li>
-            <li><span>✓</span><span>Use GitHub Issues only for non-sensitive site problems</span></li>
-          </ul>
-        </section>
-        <section class="ns-panel ns-panel-pad">
-          <h2>Operator availability</h2>
-          <dl>
-            <div class="ns-stat-row"><dt>Time zone</dt><dd>SGT (UTC+08:00)</dd></div>
-            <div class="ns-stat-row"><dt>Typical response</dt><dd>24–72 hours</dd></div>
-            <div class="ns-stat-row"><dt>Best effort</dt><dd>Mon – Fri business hours</dd></div>
-            <div class="ns-stat-row"><dt>Low activity</dt><dd>Weekends / public holidays</dd></div>
-          </dl>
-          <p class="ns-meta">Emergencies involving active exploitation or public harm may be prioritized.</p>
-        </section>
-      </aside>
+  <section class="ns-section-tight">
+    <div class="ns-shell ns-contact-verification-band">
+      <div>
+        <p class="ns-kicker">verification first</p>
+        <h2>Do not send sensitive details until the channel is confirmed.</h2>
+        <p>Include only the minimum context needed to start. Once identity and scope are confirmed, move vulnerability details, artifacts, and reproduction notes to encrypted email or Signal.</p>
+      </div>
+      <div class="ns-contact-verification-steps">
+        {verificationSteps.map(([number, title, text]) => (
+          <article>
+            <b>{number}</b>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ns-section-tight">
+    <div class="ns-shell ns-contact-key-panel">
+      <div>
+        <p class="ns-kicker">public key</p>
+        <h2>PGP fingerprint</h2>
+        <p class="ns-fingerprint">{site.pgpFingerprint}</p>
+      </div>
+      <div class="ns-actions">
+        <button class="ns-button" type="button" data-copy={site.pgpFingerprint}>Copy fingerprint</button>
+        <a class="ns-button ns-button-primary" href={`${base}keys/publickey.naees.asc`} download>Download public key</a>
+      </div>
     </div>
   </section>
 
   <script>
-    document.querySelectorAll('[data-copy]').forEach((button) => {
+    document.querySelectorAll<HTMLElement>('[data-copy]').forEach((button) => {
       button.addEventListener('click', async () => {
         const value = button.getAttribute('data-copy') || '';
         try {
@@ -107,7 +155,7 @@ const base = import.meta.env.BASE_URL;
           button.textContent = 'Copied';
           window.setTimeout(() => { button.textContent = oldText; }, 1400);
         } catch {
-          window.prompt('Copy fingerprint', value);
+          window.prompt('Copy value', value);
         }
       });
     });
