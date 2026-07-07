@@ -27,9 +27,15 @@ skills-lock.json
 DESIGN.md
 
 
-# environment variables
-.env
-.env.production
+# environment variables and local secrets
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
 
 # macOS-specific files
 .DS_Store

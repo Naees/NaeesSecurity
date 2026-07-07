@@ -1,26 +1,50 @@
 ---
 ---
 
-<section class="comments" aria-labelledby="comments-title">
+<section class="comments" aria-labelledby="comments-title" data-giscus-comments>
   <div class="comments__header">
     <p class="eyebrow">discussion</p>
     <h2 id="comments-title">Comments</h2>
-    <p>Comments are powered by GitHub Discussions. A GitHub account is required to participate.</p>
+    <p>Comments are powered by GitHub Discussions. Load them only if you want to contact giscus.app and GitHub.</p>
   </div>
-  <script
-    src="https://giscus.app/client.js"
-    data-repo="Naees/NaeesSecurity"
-    data-repo-id="R_kgDOTAHAGQ"
-    data-category="General"
-    data-category-id="DIC_kwDOTAHAGc4C_itQ"
-    data-mapping="pathname"
-    data-strict="1"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="top"
-    data-theme="transparent_dark"
-    data-lang="en"
-    crossorigin="anonymous"
-    async>
+  <div class="comments__loader" data-giscus-loader>
+    <button class="comments__button" type="button" data-giscus-load>Load comments</button>
+  </div>
+  <div data-giscus-root></div>
+  <script>
+    const comments = document.querySelector<HTMLElement>('[data-giscus-comments]');
+    const loadButton = comments?.querySelector<HTMLButtonElement>('[data-giscus-load]');
+    const loader = comments?.querySelector<HTMLElement>('[data-giscus-loader]');
+    const root = comments?.querySelector<HTMLElement>('[data-giscus-root]');
+
+    loadButton?.addEventListener('click', () => {
+      if (!root || root.dataset.loaded === 'true') return;
+      root.dataset.loaded = 'true';
+      loadButton.disabled = true;
+      loadButton.textContent = 'Loading comments…';
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.setAttribute('data-repo', 'Naees/NaeesSecurity');
+      script.setAttribute('data-repo-id', 'R_kgDOTAHAGQ');
+      script.setAttribute('data-category', 'General');
+      script.setAttribute('data-category-id', 'DIC_kwDOTAHAGc4C_itQ');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '1');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', 'transparent_dark');
+      script.setAttribute('data-lang', 'en');
+      script.addEventListener('load', () => loader?.remove());
+      script.addEventListener('error', () => {
+        root.dataset.loaded = 'false';
+        loadButton.disabled = false;
+        loadButton.textContent = 'Retry comments';
+      });
+      root.append(script);
+    });
   </script>
 </section>

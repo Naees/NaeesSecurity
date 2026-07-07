@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Optimize WebP assets locally and skip files that have already been processed.
+ * Optimize WebP assets locally, strip privacy-sensitive metadata, and skip files that have already been processed.
  *
  * Usage:
  *   npm run optimize-images
@@ -10,8 +10,8 @@
  *   - cwebp installed and available on PATH
  *     macOS: brew install webp
  *
- * The script stores source hashes in .image-optimization-cache.json. If a file's
- * content hash has not changed since the last successful run, it is skipped.
+ * The script strips EXIF/XMP metadata before checking cached hashes. It stores
+ * source hashes in .image-optimization-cache.json; unchanged files are skipped.
  */
 
 import { createHash } from 'crypto'
@@ -64,6 +64,27 @@ function walk(dir: string): string[] {
   return files
 }
 
+function stripWebpMetadata(path: string): { changed: boolean; before: number; after: number } {
+  const before = statSync(path).size
+  let changed = false
+
+  for (const chunk of ['xmp', 'exif']) {
+    const tempPath = `${path}.${chunk}.stripped.tmp.webp`
+    const result = spawnSync('webpmux', ['-strip', chunk, path, '-o', tempPath], {
+      encoding: 'utf8',
+    })
+
+    if (result.status === 0 && existsSync(tempPath)) {
+      renameSync(tempPath, path)
+      changed = true
+    } else {
+      rmSync(tempPath, { force: true })
+    }
+  }
+
+  return { changed, before, after: statSync(path).size }
+}
+
 function optimizeWebp(path: string): { changed: boolean; before: number; after: number } {
   const before = statSync(path).size
   const tempPath = `${path}.optimized.tmp.webp`
@@ -95,9 +116,11 @@ function formatBytes(bytes: number): string {
 }
 
 function main() {
-  if (!hasCommand('cwebp')) {
-    console.error('Missing cwebp. Install it with: brew install webp')
-    process.exit(1)
+  for (const command of ['cwebp', 'webpmux']) {
+    if (!hasCommand(command)) {
+      console.error(`Missing ${command}. Install it with: brew install webp`)
+      process.exit(1)
+    }
   }
 
   mkdirSync(assetsDir, { recursive: true })
@@ -113,16 +136,24 @@ function main() {
   }
 
   let optimized = 0
+  let stripped = 0
   let skipped = 0
   let unchanged = 0
   let totalSaved = 0
 
   for (const file of files) {
     const key = relative(rootDir, file)
+    const metadata = stripWebpMetadata(file)
     const currentHash = sha256(file)
     const currentSize = statSync(file).size
 
-    if (!force && cache[key]?.hash === currentHash) {
+    if (metadata.changed) {
+      stripped++
+      totalSaved += metadata.before - metadata.after
+      console.log(`stripped metadata ${key}: ${formatBytes(metadata.before)} → ${formatBytes(metadata.after)}`)
+    }
+
+    if (!force && !metadata.changed && cache[key]?.hash === currentHash) {
       skipped++
       continue
     }
@@ -152,6 +183,7 @@ function main() {
 
   console.log('\nImage optimization complete')
   console.log(`optimized: ${optimized}`)
+  console.log(`stripped:   ${stripped}`)
   console.log(`unchanged:  ${unchanged}`)
   console.log(`skipped:    ${skipped}`)
   console.log(`saved:      ${formatBytes(totalSaved)}`)
