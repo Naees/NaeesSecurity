@@ -37,7 +37,8 @@ const bodyClass = [!isBlog && 'ns-page', pageClass].filter(Boolean).join(' ');
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#070808" />
-    <link rel="icon" href={`${base}assets/kittenwiz_logo.webp`} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="alternate icon" href={`${base}favicon.ico`} />
     <link rel="alternate" type="application/rss+xml" title="NaeesSecurity RSS" href={`${base}rss.xml`} />
     <SeoHead title={title} description={description} pathname={pathname} type={type} publishedTime={publishedTime} />
   </head>
