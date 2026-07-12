@@ -1,0 +1,248 @@
+---
+import Layout from '../../components/Layout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const values = [
+  ['01', 'Adaptive testing.', 'Not a fixed checklist. Javalin is being built to follow context, test behavior, and connect small weaknesses into meaningful paths.'],
+  ['02', 'Evidence over noise.', 'Every finding should arrive with reproducible evidence, clear impact, and enough context to make a decision.'],
+  ['03', 'Independent verification.', 'Material findings are designed to face a clean second pass before they reach the report.'],
+  ['04', 'Actionable remediation.', 'Root cause. Priority. Fix guidance. Retest status. The report should close the loop.'],
+];
+
+const workflow = [
+  ['01', 'Discover'],
+  ['02', 'Plan'],
+  ['03', 'Test'],
+  ['04', 'Prove'],
+  ['05', 'Verify'],
+  ['06', 'Remediate'],
+  ['07', 'Retest'],
+];
+
+const surfaces = [
+  ['Applications & APIs.', 'Applications, services, authorization boundaries, and the workflows between them.'],
+  ['Source & delivery.', 'Source-informed review and the pipelines that move software into production.'],
+  ['Cloud & infrastructure.', 'Cloud environments, exposed services, identity boundaries, and infrastructure.'],
+  ['Mobile & desktop.', 'Client applications—and the systems and trust relationships behind them.'],
+  ['AI-enabled products.', 'Products built around AI capabilities, agentic behavior, and model-assisted workflows.'],
+];
+
+const controls = [
+  'One isolated environment per client or program',
+  'Explicit human activation and controlled scope',
+  'Restricted, provenance-linked evidence',
+  'Minimized external data exposure',
+  'Human review before any result is delivered',
+  'No automatic remediation or uncontrolled expansion of authority',
+];
+---
+
+<Layout title="Javalin — Autonomous security testing" description="Javalin is a private, consultancy-operated autonomous AI penetration-testing platform under active development." pathname="/javalin/" pageClass="javalin-page">
+  <section class="ns-section ns-section-top javalin-hero">
+    <div class="ns-shell javalin-hero__grid">
+      <div class="javalin-hero__copy">
+        <p class="ns-kicker">Javalin / private AI pentesting / in development</p>
+        <h1 class="ns-page-title javalin-title">Complete tests. Not another pile of alerts.</h1>
+        <p class="ns-lede javalin-lede">Javalin is our private autonomous AI penetration-testing platform—being built to take an authorized test from first discovery to verified retest. A senior security professional sets scope, controls execution, and signs off every result.</p>
+        <div class="ns-actions">
+          <a class="ns-button ns-button-primary" href={`${base}contact/?subject=Javalin%20private%20briefing`}>Request a private briefing</a>
+          <a class="ns-button" href={`${base}contact/?subject=Javalin%20engagement%20discussion`}>Discuss an engagement</a>
+        </div>
+        <p class="javalin-authorization">Private. Under active development. Every test requires explicit authorization.</p>
+      </div>
+
+      <aside class="javalin-system" aria-label="Illustrative vulnerability categories Javalin is being developed to identify">
+        <div class="javalin-system__header">
+          <span>Javalin / finding signals</span>
+          <span class="javalin-status"><i></i> Javalin pentest in progress</span>
+        </div>
+        <div class="javalin-system__body javalin-radar" aria-hidden="true">
+          <div class="javalin-radar__scope">
+            <i class="javalin-radar__ring javalin-radar__ring--one"></i>
+            <i class="javalin-radar__ring javalin-radar__ring--two"></i>
+            <i class="javalin-radar__ring javalin-radar__ring--three"></i>
+            <i class="javalin-radar__axis javalin-radar__axis--x"></i>
+            <i class="javalin-radar__axis javalin-radar__axis--y"></i>
+            <i class="javalin-radar__pulse"></i>
+            <i class="javalin-radar__sweep"></i>
+            <span class="javalin-core">J</span>
+            <span class="javalin-radar__target">auth bypass</span>
+            <span class="javalin-radar__target">IDOR</span>
+            <span class="javalin-radar__target">SSRF</span>
+            <span class="javalin-radar__target">injection</span>
+            <span class="javalin-radar__target">secret leak</span>
+            <span class="javalin-radar__target">priv-esc</span>
+            <span class="javalin-radar__target">logic flaw</span>
+          </div>
+          <span class="javalin-radar__readout">scanning vulnerability classes</span>
+        </div>
+        <div class="javalin-system__statement">
+          <strong>Revealing the unseen.</strong>
+          <p>We deploy Javalin to hunt for weaknesses in your systems—providing your team with actionable solutions.</p>
+        </div>
+      </aside>
+
+      <script>
+        const radar = document.querySelector<HTMLElement>('.javalin-radar__scope');
+        const pulse = radar?.querySelector<HTMLElement>('.javalin-radar__pulse');
+        const targets = radar ? Array.from(radar.querySelectorAll<HTMLElement>('.javalin-radar__target')) : [];
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (radar && pulse && targets.length && !reduceMotion) {
+          const expansionDuration = 4300;
+          const holdDuration = 3200;
+          const fadeDuration = 1300;
+          const idleDuration = 1200;
+          const fadeStart = expansionDuration + holdDuration;
+          const cycleDuration = fadeStart + fadeDuration + idleDuration;
+          let cycleStart = performance.now();
+          let detected = new Set<HTMLElement>();
+          let isClearing = false;
+
+          function getIntersectionRadius(target: HTMLElement) {
+            const radarRect = radar.getBoundingClientRect();
+            const targetRect = target.getBoundingClientRect();
+            const centerX = radarRect.left + radarRect.width / 2;
+            const centerY = radarRect.top + radarRect.height / 2;
+            const targetX = targetRect.left + targetRect.width / 2;
+            const targetY = targetRect.top + targetRect.height / 2;
+            const dx = Math.max(Math.abs(targetX - centerX) - targetRect.width / 2, 0);
+            const dy = Math.max(Math.abs(targetY - centerY) - targetRect.height / 2, 0);
+            return Math.hypot(dx, dy);
+          }
+
+          function animateRadar(now: number) {
+            const elapsed = now - cycleStart;
+
+            if (elapsed >= cycleDuration) {
+              cycleStart = now;
+              detected = new Set();
+              isClearing = false;
+              for (const target of targets) target.classList.remove('is-radar-hit', 'is-radar-clearing');
+            }
+
+            const cycleElapsed = now - cycleStart;
+            const progress = Math.min(cycleElapsed / expansionDuration, 1);
+            const maxRadius = radar.clientWidth / 2;
+            const radius = progress * maxRadius;
+            const fadeIn = Math.min(progress / .06, 1);
+            const fadeOut = progress > .82 ? Math.max(0, 1 - (progress - .82) / .18) : 1;
+
+            pulse.style.width = `${radius * 2}px`;
+            pulse.style.opacity = String(fadeIn * fadeOut * .92);
+
+            if (progress < 1) {
+              for (const target of targets) {
+                if (!detected.has(target) && radius >= getIntersectionRadius(target)) {
+                  detected.add(target);
+                  target.classList.add('is-radar-hit');
+                }
+              }
+            }
+
+            if (!isClearing && cycleElapsed >= fadeStart) {
+              isClearing = true;
+              for (const target of targets) target.classList.add('is-radar-clearing');
+            }
+
+            requestAnimationFrame(animateRadar);
+          }
+
+          requestAnimationFrame(animateRadar);
+        }
+      </script>
+    </div>
+  </section>
+
+  <section class="ns-section-tight" aria-labelledby="javalin-value-title">
+    <div class="ns-shell">
+      <header class="javalin-section-heading">
+        <div>
+          <p class="ns-kicker">What Javalin is being built to deliver</p>
+          <h2 id="javalin-value-title">The outcome—not the alert feed.</h2>
+        </div>
+        <p>One coherent penetration test. Attack paths investigated, impact proved, material findings checked, and fixes ready to retest.</p>
+      </header>
+      <div class="javalin-value-grid">
+        {values.map(([number, title, text]) => (
+          <article class="javalin-value-card">
+            <span>{number}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ns-section-tight" aria-labelledby="javalin-workflow-title">
+    <div class="ns-shell">
+      <header class="javalin-section-heading">
+        <div>
+          <p class="ns-kicker">Planned workflow</p>
+          <h2 id="javalin-workflow-title">The test, in 7 stages.</h2>
+        </div>
+        <p>Javalin carries evidence forward at every stage. The security professional keeps authority, safety oversight, and final judgment.</p>
+      </header>
+      <ol class="javalin-workflow">
+        {workflow.map(([number, label]) => (
+          <li><span>{number}</span><strong>{label}</strong></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="ns-section-tight" aria-labelledby="javalin-surfaces-title">
+    <div class="ns-shell">
+      <header class="javalin-section-heading">
+        <div>
+          <p class="ns-kicker">Planned product coverage</p>
+          <h2 id="javalin-surfaces-title">Five surfaces. One connected test.</h2>
+        </div>
+        <p>Applications do not fail in isolation. Javalin is being developed to test the boundaries between products, identities, infrastructure, and delivery systems.</p>
+      </header>
+      <div class="javalin-surface-grid">
+        {surfaces.map(([title, text], index) => (
+          <article class="javalin-surface-card">
+            <span>0{index + 1}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ns-section-tight" aria-labelledby="javalin-controls-title">
+    <div class="ns-shell javalin-control-grid">
+      <div class="javalin-control-copy">
+        <p class="ns-kicker">Private and controlled by design</p>
+        <h2 id="javalin-controls-title">Autonomy—with a hard boundary.</h2>
+        <p>Javalin is being built for private consultancy operation. A human defines the engagement, activates the test, reviews material findings, and decides what leaves the environment.</p>
+        <p class="javalin-control-note">Still under active development. The product direction will evolve as safety, usefulness, and review requirements are tested.</p>
+      </div>
+      <ul class="javalin-control-list">
+        {controls.map((control, index) => (
+          <li><span>0{index + 1}</span><strong>{control}</strong></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="ns-section-tight">
+    <div class="ns-shell">
+      <div class="javalin-closing">
+        <div>
+          <p class="ns-kicker">Private briefing</p>
+          <h2>Start with the boundary.</h2>
+          <p>Send the rough scope, the problem you need tested, and the constraints that matter. We can discuss Javalin’s direction—or whether a private, authorized engagement makes sense.</p>
+        </div>
+        <div class="javalin-closing__actions">
+          <a class="ns-button ns-button-primary" href={`${base}contact/?subject=Javalin%20private%20briefing`}>Request a private briefing</a>
+          <a class="ns-button" href={`${base}contact/?subject=Javalin%20engagement%20discussion`}>Discuss an engagement</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

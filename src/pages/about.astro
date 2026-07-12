@@ -1,143 +1,96 @@
 ---
 import Layout from '../components/Layout.astro';
-import { site } from '../data/site';
+
 const base = import.meta.env.BASE_URL;
 
-const principles = ['Make the assumption visible', 'Document the edge cases', 'Verify before amplification', 'Share with context, not hype'];
-const timeline = [
-  ['2026-07-07', 'Desk launched. Research archive initialized and public case-note index opened.', 'Field note'],
-  ['2026-07-05', 'Initial case notes published: misconfigured storage, SSRF via metadata, OAuth misuse.', 'Case notes'],
-  ['2026-06-28', 'Repro lab v0.2 standardized for cloud metadata and identity flows.', 'Research log'],
-  ['2026-06-14', 'Note: slow writing, deep verification, fewer claims.', 'Field note'],
-  ['2026-04-01', 'Private research phase and tool development.', 'Private'],
+const workingNotes = ['Verify before publishing', 'Keep public notes sanitized', 'Prefer useful evidence over loud claims'];
+
+const deskMembers = [
+  {
+    name: 'Sean Er',
+    role: 'Founder · security researcher · writer',
+    image: `${base}assets/goobers.webp`,
+    alt: 'Sean Er and Haku',
+    text: 'Security researcher focused on web, identity, cloud, and practical exploitation. I build, test, document, and reduce findings to useful lessons.',
+    links: [
+      { label: 'github', href: 'https://github.com/Naees' },
+      { label: 'x', href: 'https://x.com/NaeesSecurity' },
+      { label: 'signal', href: 'https://signal.me/#eu/1Fkdlvu4vmAqdT-5QwGdGFH1b4uOrLlpyMlK8Fyr5aw_eu6XMJ1PEYOH18jG1nMY' },
+    ],
+  },
+  {
+    name: 'Haku',
+    role: 'Co-author',
+    image: `${base}assets/haku.webp`,
+    alt: 'Haku',
+    text: 'A suspiciously fluffy security researcher operating under deep cover as a dog. Haku specializes in sniffing packets, escalating privileges to the snack drawer, and approving drafts only after a proper walk.',
+    links: [],
+  },
 ];
 ---
 
-<Layout title="About — NaeesSecurity" description="About the NaeesSecurity research desk, focus areas, principles, and operator profile." pathname="/about/">
+<Layout title="About — NaeesSecurity" description="About Sean Er, Haku, and the NaeesSecurity research desk." pathname="/about/">
   <section class="ns-section ns-section-top">
-    <div class="ns-shell ns-grid ns-grid-sidebar ns-align-start">
-      <div>
-        <header class="ns-page-header ns-page-header-inline ns-page-header-about">
+    <div class="ns-shell">
+        <header class="ns-page-header ns-page-header-inline ns-page-header-single">
           <div>
             <p class="ns-kicker">about</p>
-            <h1 class="ns-page-title ns-page-title-statement">NaeesSecurity is a personal security research desk.</h1>
-            <p class="ns-lede">I’m Naees. I study how systems fail at the edges—across web, identity, and cloud. This desk is where I document what I find, build what I need, and share what’s useful. Haku keeps me honest, grounded, and reminds me the best assumptions are testable.</p>
-          </div>
-          <div class="ns-schematic" aria-hidden="true">
-            <span class="ns-node ns-node-user">edge</span>
-            <span class="ns-node ns-node-app">assumption</span>
-            <span class="ns-node ns-node-api">system</span>
-            <span class="ns-node ns-node-idp">observation</span>
-            <i class="ns-wire ns-wire-1"></i><i class="ns-wire ns-wire-2"></i><i class="ns-wire ns-wire-5"></i>
+            <h1 class="ns-page-title ns-page-title-statement">A small security research desk for verified, useful findings.</h1>
+            <p class="ns-lede">I’m Sean Er. I study how systems fail at trust boundaries across web, identity, and cloud. This site is the public layer: sanitized case notes, field writing, contact details, and scoped engagement information.</p>
           </div>
         </header>
 
-        <div class="ns-grid ns-grid-2" style="padding-top: 1rem;">
-          <section class="ns-panel ns-panel-pad">
-            <h2>Focus areas</h2>
-            <ul class="ns-chip-list">
-              {site.focus.map((focus) => <li class="ns-chip">{focus}</li>)}
-              <li class="ns-chip">AI / LLM security</li>
-              <li class="ns-chip">security automation</li>
-              <li class="ns-chip">technical reporting</li>
-            </ul>
-          </section>
-          <section class="ns-panel ns-panel-pad">
-            <h2>Current posture</h2>
-            <p><span class="ns-status ns-status-open">Open</span> to collaboration and security-focused engagement.</p>
-            <p>Archive is intentionally early: concise notes, reproducible thinking, and sanitized case notes over inflated claims.</p>
-          </section>
-        </div>
+        <section class="ns-section-tight ns-about-section-stack">
+          <div class="ns-about-intro-grid">
+            <article class="ns-panel ns-panel-pad ns-about-intro-card">
+              <p class="ns-kicker">about us</p>
+              <h2>Independent research, clear notes, no theatre.</h2>
+              <p>NaeesSecurity is an independent security research desk run by Sean Er, with Haku as unofficial co-author and morale officer. The desk focuses on careful research, clear writing, and scoped security work without turning findings into performance.</p>
+            </article>
+            <article class="ns-panel ns-panel-pad ns-about-principles-card">
+              <p class="ns-kicker">how we work</p>
+              <ul class="ns-mini-list">
+                {workingNotes.map((note) => <li><span>→</span><span>{note}</span></li>)}
+              </ul>
+            </article>
+          </div>
+        </section>
 
-        <div class="ns-grid ns-grid-2" style="margin-top: 1rem;">
-          <section class="ns-panel ns-panel-pad">
-            <h2>What I do</h2>
-            <ul class="ns-mini-list">
-              <li><span>→</span><span>Research edge-case failures</span></li>
-              <li><span>→</span><span>Validate through repeatable tests</span></li>
-              <li><span>→</span><span>Document with clarity</span></li>
-              <li><span>→</span><span>Share what helps others build stronger systems</span></li>
-            </ul>
-          </section>
-          <section class="ns-panel ns-panel-pad">
-            <h2>Core principles</h2>
-            <ul class="ns-mini-list">
-              {principles.map((principle) => <li><span>⌖</span><span>{principle}</span></li>)}
-            </ul>
-          </section>
-        </div>
-
-        <section style="padding-top: 1.6rem;">
-          <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;"><h2>The desk</h2><span class="ns-meta">Small team · clear roles</span></div>
+        <section class="ns-section-tight ns-about-section-stack">
+          <div class="ns-table-header ns-about-section-heading"><h2>Meet the team</h2><span class="ns-meta">Small team · clear roles</span></div>
           <div class="ns-desk-grid">
-            <article class="ns-card ns-desk-card">
-              <img src={`${base}assets/goobers.webp`} alt="Naees and Haku" loading="lazy" decoding="async" />
-              <div>
-                <h3>Naees</h3>
-                <p class="ns-meta">Operator / Researcher</p>
-                <p>Security researcher focused on web, identity, cloud, and practical exploitation. I build, break, and document.</p>
-                <ul class="ns-chip-list"><li class="ns-chip">curious</li><li class="ns-chip">methodical</li><li class="ns-chip">skeptical</li></ul>
-              </div>
-            </article>
-            <article class="ns-card ns-desk-card">
-              <img src={`${base}assets/haku.webp`} alt="Haku" loading="lazy" decoding="async" />
-              <div>
-                <h3>Haku</h3>
-                <p class="ns-meta">Chief Distraction Officer</p>
-                <p>Explores the perimeter, tests physical assumptions, and ensures regular breaks. He finds the weird stuff.</p>
-                <ul class="ns-chip-list"><li class="ns-chip">loyal</li><li class="ns-chip">observant</li><li class="ns-chip">calm</li></ul>
-              </div>
-            </article>
+            {deskMembers.map((member) => (
+              <article class="ns-card ns-desk-card">
+                <img src={member.image} alt={member.alt} loading="lazy" decoding="async" />
+                <div>
+                  <h3>{member.name}</h3>
+                  <p class="ns-meta">{member.role}</p>
+                  <p>{member.text}</p>
+                  {member.links.length > 0 && (
+                    <ul class="ns-chip-list">
+                      {member.links.map((link) => (
+                        <li><a class="ns-chip" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section style="padding-top: 1.6rem;">
-          <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;"><h2>Timeline (field notes)</h2></div>
-          <div class="ns-timeline">
-            <ol>
-              {timeline.map(([date, text, type]) => (
-                <li><time>{date}</time><span>{text}</span><b>{type}</b></li>
-              ))}
-            </ol>
-          </div>
-        </section>
-      </div>
-
-      <aside class="ns-sidebar" aria-label="About sidebar">
-        <section class="ns-panel ns-panel-pad">
-          <h2>Fingerprint</h2>
-          <div class="ns-fingerprint-card">
-            <div class="ns-fingerprint-art" aria-hidden="true">⌁</div>
+        <section class="ns-section-tight ns-about-section-stack" aria-labelledby="about-contact-title">
+          <div class="ns-secure-contact-band ns-about-contact-band">
             <div>
-              <p class="ns-fingerprint">{site.pgpFingerprint}</p>
-              <p class="ns-meta">Key ID: 0x48CCB80F</p>
+              <p class="ns-kicker">contact</p>
+              <h2 id="about-contact-title">Need to verify identity, send a report, or discuss scoped work?</h2>
+              <p>The contact page keeps the practical details in one place: email, Signal, GitHub, PGP fingerprint, public key download, and reporting guidance.</p>
+            </div>
+            <div class="ns-secure-contact-band__action">
+              <a class="ns-button ns-button-primary" href={`${base}contact/`}>Open contact page</a>
             </div>
           </div>
         </section>
-        <section class="ns-panel ns-panel-pad">
-          <h2>Operator profile <span class="ns-status ns-status-active" style="float: right;">Online</span></h2>
-          <dl>
-            <div class="ns-stat-row"><dt>handle</dt><dd>naees</dd></div>
-            <div class="ns-stat-row"><dt>role</dt><dd>security researcher</dd></div>
-            <div class="ns-stat-row"><dt>location</dt><dd>{site.location}</dd></div>
-            <div class="ns-stat-row"><dt>email</dt><dd>{site.email}</dd></div>
-            <div class="ns-stat-row"><dt>signal</dt><dd>{site.signalHandle}</dd></div>
-          </dl>
-        </section>
-        <section class="ns-panel ns-panel-pad">
-          <h2>Proof surfaces</h2>
-          <ul class="ns-mini-list">
-            <li><span>01</span><span><a href={`${base}research/`}>Sanitized case notes</a></span></li>
-            <li><span>02</span><span><a href={`${base}posts/`}>Longer-form writing</a></span></li>
-            <li><span>03</span><span><a href={`${base}contact/`}>Verifiable contact details</a></span></li>
-          </ul>
-        </section>
-        <section class="ns-card">
-          <h2 class="ns-card-title">Pledge</h2>
-          <p>This archive exists to raise the cost of insecurity and lower the barrier to secure design.</p>
-          <p>Signal over theatre. Evidence over claims.</p>
-        </section>
-      </aside>
     </div>
   </section>
 </Layout>

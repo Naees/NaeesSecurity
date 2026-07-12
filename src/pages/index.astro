@@ -12,6 +12,34 @@ const posts = (await getCollection('posts'))
   .slice(0, 3);
 
 const cases = featuredCases;
+
+const engagementFlow = [
+  {
+    label: 'Scope',
+    title: 'Confirm the boundaries',
+    text: 'Define assets, objectives, test window, rules of engagement, and emergency contact paths before work begins.',
+  },
+  {
+    label: 'Map',
+    title: 'Build the attack-surface view',
+    text: 'Identify entry points, roles, trust boundaries, exposed services, and high-risk workflows inside the agreed scope.',
+  },
+  {
+    label: 'Test',
+    title: 'Validate safely',
+    text: 'Reproduce weaknesses with non-destructive checks, capture evidence, and avoid actions outside authorization.',
+  },
+  {
+    label: 'Report',
+    title: 'Write what matters',
+    text: 'Deliver concise executive and technical findings with severity, impact, evidence, and remediation guidance.',
+  },
+  {
+    label: 'Retest',
+    title: 'Close the loop',
+    text: 'Review fixes, update finding status, and provide validation notes that show what changed.',
+  },
+];
 ---
 
 <Layout title="NaeesSecurity — security research by Naees" description={site.description} pathname="/" pageClass="home-page">
@@ -48,6 +76,37 @@ const cases = featuredCases;
         <span>archive live</span><span>sync <b>ok</b></span><span>{cases.length} featured</span><span>noise <b>low</b></span>
       </div>
     </aside>
+  </section>
+
+  <section class="ns-section-tight" aria-labelledby="engagement-loop-title">
+    <div class="ns-shell">
+      <div class="ns-table-header" style="padding-inline: 0; border: 0; box-shadow: none; background: transparent;">
+        <h2 id="engagement-loop-title">Engagement loop</h2>
+        <span class="ns-meta">How scoped work moves from permission to validation</span>
+      </div>
+      <div class="ns-engagement-topic">
+        <div class="ns-process ns-process-linear ns-engagement-loop-process">
+          {engagementFlow.map((step) => (
+            <article class="ns-process-step">
+              <span class="ns-process-label">{step.label}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))}
+        </div>
+        <div class="ns-engagement-loop-cta">
+          <div>
+            <p class="ns-kicker">engagements</p>
+            <h3>Need the full scope, access models, and deliverables?</h3>
+            <p>Compare black-box, grey-box, and white-box testing models, review the expected inputs and outputs, then start with a scoped request.</p>
+          </div>
+          <div class="ns-engagement-loop-cta__actions">
+            <a class="ns-button ns-button-primary" href={`${base}engagements/`}>View engagement details</a>
+            <a class="ns-button" href={`${base}contact/?subject=Security%20engagement%20request`}>Request scope discussion</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="ns-section-tight">
